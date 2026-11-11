@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant">
+<html lang="zh-Hant" data-build="pta-donation-v2">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -15,104 +15,163 @@
     --rule:#CDC3B2; --wine:#7B2335; --wine-l:#EFE1DF; --tan:#B9A98F; --error:#A3261E;
     --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
     --sans:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
-    --nav-h:56px;
+    --nav-h:0px;
+    /* 底部三個浮動控件的尺寸與保留空間 */
+    --safe-b:env(safe-area-inset-bottom, 0px);
+    --tri-h:48px;          /* 三角形按鈕熱區高度 */
+    --float-h:44px;        /* skip／捐款項目介紹 高度 */
+    --float-gap:14px;      /* 浮動按鈕與三角形間距 */
+    --bottom-reserve:calc(var(--safe-b) + var(--tri-h) + var(--float-gap) + var(--float-h) + 18px);
+    --fade:.32s;
   }
   *{box-sizing:border-box}
   [hidden]{display:none !important}
-  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+  html{-webkit-text-size-adjust:100%}
   body{margin:0; background:var(--ivory); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.85; -webkit-tap-highlight-color:transparent}
   .wrap{max-width:560px; margin:0 auto; padding:0 22px}
   :focus-visible{outline:2px solid var(--wine); outline-offset:3px}
   a{color:inherit}
   .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
-  .skip{position:absolute; left:12px; top:-60px; z-index:50; padding:10px 14px; background:var(--ink); color:var(--paper); font-size:14px; text-decoration:none}
-  .skip:focus{top:12px}
 
   /* 待填標記 */
   .tbd{display:inline-block; margin-left:6px; padding:0 6px; border:1px solid var(--wine); font-family:var(--sans); font-size:11px; font-weight:500; font-style:normal; letter-spacing:.12em; line-height:1.7; color:var(--wine); vertical-align:.15em; white-space:nowrap}
   .tbd.solid{background:var(--wine); color:var(--paper)}
 
-  /* 刊頭 */
-  .mast{padding-top:18px}
-  .mast-top{display:flex; justify-content:space-between; align-items:center; gap:10px; padding-bottom:8px; border-bottom:1px solid var(--ink); font-size:12px; letter-spacing:.14em}
+  /* 刊頭（共用） */
+  .mast-top{display:flex; justify-content:space-between; align-items:center; gap:10px; padding-bottom:8px; border-bottom:1px solid var(--ink); font-size:12px; letter-spacing:.14em; line-height:1.6}
   .mast-top .status{color:var(--wine); white-space:nowrap}
   .mast-top .status::before{content:""; display:inline-block; width:7px; height:7px; margin-right:6px; border:1px solid var(--wine); border-radius:50%; vertical-align:.08em}
-  .mast-word{margin:10px 0 0; font-family:var(--serif); font-weight:400; font-size:clamp(40px,13vw,76px); line-height:.95; letter-spacing:.04em; color:var(--ink)}
-  .mast-word i{font-style:normal; color:var(--wine)}
-  .mast-sub{display:flex; justify-content:space-between; margin-top:8px; padding:6px 0; border-top:1px solid var(--rule); border-bottom:3px double var(--ink); font-size:11px; letter-spacing:.24em; color:var(--ink-2)}
+  .mast-sub{display:flex; justify-content:space-between; gap:8px; margin-top:8px; padding:6px 0; border-top:1px solid var(--rule); border-bottom:3px double var(--ink); font-size:11px; letter-spacing:.24em; color:var(--ink-2); line-height:1.6}
 
-  /* 目錄導覽 */
-  .toc{position:sticky; top:0; z-index:20; margin:0 -22px; padding:0 22px; background:rgba(243,238,228,.94); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule)}
-  .toc ol{display:grid; grid-template-columns:repeat(5,1fr); margin:0; padding:0; list-style:none}
-  .toc a{display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:var(--nav-h); padding:4px 0; text-decoration:none; font-size:13px; letter-spacing:.12em; line-height:1.25; color:var(--ink-2)}
-  .toc a b{font-family:var(--serif); font-weight:400; font-size:12px; letter-spacing:.06em; color:var(--wine)}
-  .toc li + li a{border-left:1px solid var(--rule)}
-  .toc a:hover, .toc a.is-here{color:var(--ink); background:rgba(123,35,53,.05)}
-  .toc a:focus-visible{outline-offset:-3px}
+  /* =========================================================
+   * 區塊 1：滿版投影片
+   * ========================================================= */
+  .stage{position:fixed; top:0; left:0; right:0; z-index:1; display:flex; flex-direction:column; height:100vh; height:100dvh;
+    padding-left:env(safe-area-inset-left); padding-right:env(safe-area-inset-right);
+    background:var(--ivory); overflow:hidden; touch-action:pan-y pinch-zoom; transition:opacity var(--fade) ease}
+  .stage.is-fading, .report.is-fading{opacity:0}
+  .report{transition:opacity var(--fade) ease}
 
-  /* Hero */
-  .cover{display:grid; grid-template-columns:1fr auto; gap:16px; margin-top:24px; align-items:start}
-  .plate{margin:0}
-  .plate svg{display:block; width:100%; height:auto; background:#2A2623}
-  .plate figcaption{margin-top:8px; font-size:11.5px; color:var(--ink-3); letter-spacing:.06em; line-height:1.6}
-  .vtitle{margin:0; writing-mode:vertical-rl; text-orientation:upright; font-family:var(--serif); font-weight:900; font-size:40px; line-height:1.1; letter-spacing:.14em}
-  .vtitle small{display:block; margin-right:10px; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.3em; color:var(--wine)}
-  .dateline{margin:22px 0 0; padding:8px 0; border-top:1px solid var(--ink); border-bottom:1px solid var(--rule); font-size:12.5px; letter-spacing:.16em; color:var(--ink-2); line-height:1.6}
-  .dateline b{font-family:var(--serif); font-weight:600; color:var(--ink)}
-  .dek{margin:22px 0 0; font-family:var(--serif); font-size:23px; font-weight:600; line-height:1.55; letter-spacing:.03em}
-  .standfirst{margin:12px 0 0; padding-left:14px; border-left:2px solid var(--wine); color:var(--ink-2); font-size:15px}
-  .hero-cta{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:22px}
-  .hero-cta .btn{font-size:15px; letter-spacing:.1em; padding:12px 14px; text-decoration:none}
+  .stage-top{flex:none; width:100%; max-width:1120px; margin:0 auto; padding:calc(env(safe-area-inset-top, 0px) + 14px) 22px 0}
+  .stage-bar{display:flex; justify-content:space-between; align-items:center; gap:12px; border-bottom:3px double var(--ink)}
+  .stage-h{margin:0; padding:6px 0; font-family:var(--serif); font-size:15px; font-weight:600; letter-spacing:.12em; line-height:1.35}
+  .stage-h span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.3em; color:var(--ink-3)}
+  .pager{display:flex; align-items:center}
+  .pager button{position:relative; min-width:44px; min-height:44px; padding:0 4px; font-family:var(--serif); font-size:15px; letter-spacing:.06em; color:var(--ink-3); background:none; border:0; cursor:pointer}
+  .pager button + button::before{content:"/"; position:absolute; left:-4px; top:50%; transform:translateY(-50%); color:var(--rule); font-weight:400}
+  .pager button:hover{color:var(--ink)}
+  .pager button[aria-current="true"]{color:var(--wine); font-weight:600}
+  .pager button[aria-current="true"]::after{content:""; position:absolute; left:12px; right:12px; bottom:9px; height:2px; background:var(--wine)}
+  .pager button:focus-visible{outline-offset:-4px}
 
-  /* 本頁狀態 */
-  .notice{margin-top:26px; padding:16px 16px 14px; background:var(--paper); border:1px solid var(--wine); border-left-width:4px; font-size:14px; color:var(--ink-2); line-height:1.75}
-  .notice b{display:block; margin-bottom:4px; font-family:var(--serif); font-size:15.5px; letter-spacing:.1em; color:var(--wine)}
+  .slides{position:relative; flex:1 1 auto; min-height:0}
+  .slide{position:absolute; top:0; bottom:0; left:0; right:0; max-width:1120px; margin:0 auto;
+    display:flex; flex-direction:column; gap:14px; padding:16px 22px var(--bottom-reserve);
+    overflow-y:auto; overscroll-behavior:contain;
+    opacity:0; visibility:hidden; transition:opacity .45s ease, visibility 0s linear .45s}
+  .slide.is-active{opacity:1; visibility:visible; transition:opacity .45s ease}
+  .slide:focus{outline:none}
+  .s-fig{flex:1 1 0; min-height:150px; margin:0; display:flex; flex-direction:column; align-items:center; justify-content:center}
+  .s-plate{position:relative; flex:1 1 0; min-height:0; width:100%; max-height:540px}
+  .s-plate svg{position:absolute; top:0; left:0; width:100%; height:100%; display:block}
+  .s-fig figcaption{flex:none; margin-top:6px; font-size:11px; color:var(--ink-3); letter-spacing:.06em; line-height:1.5}
+  .s-text{flex:none; transform:translateX(calc(var(--dir, 1) * 18px)); transition:transform .5s ease}
+  .slide.is-active .s-text{transform:none}
+  .s-kicker{display:flex; align-items:baseline; gap:12px; margin:0; padding-bottom:6px; border-bottom:1px solid var(--ink); font-size:11px; letter-spacing:.28em; color:var(--ink-3); line-height:1.4}
+  .s-kicker b{font-family:var(--serif); font-size:34px; font-weight:400; line-height:.9; letter-spacing:.02em; color:var(--wine)}
+  .s-title{margin:12px 0 0; font-family:var(--serif); font-size:clamp(28px,8vw,54px); font-weight:900; line-height:1.2; letter-spacing:.05em; text-wrap:balance}
+  .s-title small{display:block; margin-top:4px; font-size:.42em; font-weight:600; letter-spacing:.12em; color:var(--ink-2)}
+  .s-copy{margin:10px 0 0; padding-left:14px; border-left:2px solid var(--wine); font-size:15.5px; color:var(--ink-2); line-height:1.8}
+  .s-meta{margin:8px 0 0; font-size:12.5px; color:var(--ink-3); line-height:1.6}
+  .s-meta .tbd{margin-left:0; margin-right:6px}
+  .s-cta{margin-top:14px; max-width:340px}
+
+  .edge{position:absolute; top:50%; z-index:2; display:flex; align-items:center; justify-content:center; width:44px; height:44px; margin-top:-22px;
+    font-family:var(--serif); font-size:26px; line-height:1; color:var(--ink); background:rgba(250,247,240,.8); border:1px solid var(--rule);
+    opacity:0; pointer-events:none; transition:opacity .2s}
+  .edge-prev{left:calc(env(safe-area-inset-left, 0px) + 18px)}
+  .edge-next{right:calc(env(safe-area-inset-right, 0px) + 18px)}
+  @media (hover:hover) and (pointer:fine){
+    .stage[data-hover="prev"]:not(.at-first), .stage[data-hover="next"]:not(.at-last){cursor:pointer}
+    .stage[data-hover="prev"]:not(.at-first) .edge-prev, .stage[data-hover="next"]:not(.at-last) .edge-next{opacity:.85}
+  }
+
+  /* 寬螢幕：主視覺與文案左右並排 */
+  @media (min-width:860px) and (min-height:540px){
+    .slide{flex-direction:row; align-items:center; gap:64px; padding:20px 96px var(--bottom-reserve)}
+    .s-fig{height:100%; min-height:0}
+    .s-text{flex:1 1 0; max-width:460px}
+    .s-copy{font-size:16.5px}
+  }
+  /* 手機橫放等矮視窗 */
+  @media (max-height:539px) and (orientation:landscape){
+    .stage-top{padding-top:calc(env(safe-area-inset-top, 0px) + 6px)}
+    .slide{flex-direction:row; align-items:flex-start; gap:24px; padding:10px 22px var(--bottom-reserve)}
+    .s-fig{flex:0 0 34%; height:100%; min-height:0}
+    .s-text{flex:1 1 0}
+    .s-title{font-size:26px}
+    .s-kicker b{font-size:26px}
+  }
+
+  /* =========================================================
+   * 底部浮動控件
+   * ========================================================= */
+  .float{position:fixed; left:50%; bottom:calc(var(--safe-b) + var(--tri-h) + var(--float-gap)); z-index:30; transform:translateX(-50%);
+    display:inline-flex; align-items:center; justify-content:center; gap:10px; height:var(--float-h); padding:0 22px;
+    font:inherit; font-family:var(--serif); font-size:15px; letter-spacing:.16em; line-height:1; white-space:nowrap;
+    color:var(--paper); background:var(--ink); border:1px solid var(--ink); border-radius:0; cursor:pointer;
+    box-shadow:0 6px 18px rgba(29,27,25,.16); transition:background .2s, color .2s}
+  .float:hover{background:#000}
+  .float .arrow{font-size:16px; letter-spacing:0}
+  .float-line{color:var(--ink); background:var(--paper)}
+  .float-line:hover{color:var(--paper); background:var(--ink)}
+
+  .tri{position:fixed; left:50%; bottom:var(--safe-b); z-index:30; transform:translateX(-50%);
+    width:176px; height:var(--tri-h); margin:0; padding:0; background:none; border:0; cursor:pointer;
+    touch-action:none; -webkit-user-select:none; user-select:none}
+  .tri svg{display:block; width:100%; height:100%; overflow:visible}
+  .tri .tri-shape{transition:transform .2s; transform-origin:88px 46px}
+  .tri:hover .tri-shape{transform:scaleY(1.08)}
+  .tri:focus-visible{outline-offset:-2px}
+
+  /* 捐款資訊抽屜 */
+  .scrim{position:fixed; inset:0; z-index:40; background:rgba(29,27,25,.5); opacity:0; transition:opacity .3s}
+  .scrim.is-open{opacity:1}
+  .drawer{position:fixed; left:0; right:0; bottom:0; z-index:50; display:flex; flex-direction:column; max-width:600px; margin:0 auto;
+    max-height:88vh; max-height:88dvh; background:var(--ivory); border-top:3px double var(--ink);
+    box-shadow:0 -10px 30px rgba(29,27,25,.2); transform:translateY(105%); transition:transform .34s cubic-bezier(.2,.8,.2,1)}
+  .drawer.is-open{transform:none}
+  .drawer.is-dragging{transition:none}
+  .drawer-head{flex:none; padding:8px 22px 0; touch-action:none}
+  .drawer-grip{display:block; width:40px; height:4px; margin:0 auto 6px; background:var(--rule)}
+  .drawer-title-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding-bottom:8px; border-bottom:1px solid var(--ink)}
+  .drawer-title-row h2{margin:0; font-family:var(--serif); font-size:20px; font-weight:900; letter-spacing:.08em; line-height:1.3}
+  .drawer-title-row h2 span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.32em; color:var(--ink-3)}
+  .x{display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 12px; font:inherit; font-size:14px; letter-spacing:.12em; color:var(--ink); background:transparent; border:1px solid var(--ink); cursor:pointer}
+  .x:hover{background:var(--ink); color:var(--paper)}
+  .drawer-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:0 22px calc(var(--safe-b) + 24px)}
+
+  .notice{margin-top:18px; padding:14px 16px 12px; background:var(--paper); border:1px solid var(--wine); border-left-width:4px; font-size:14px; color:var(--ink-2); line-height:1.75}
+  .notice b{display:block; margin-bottom:2px; font-family:var(--serif); font-size:15px; letter-spacing:.1em; color:var(--wine)}
   .notice p{margin:0}
 
-  /* 章節 */
-  .chap{margin-top:56px; scroll-margin-top:calc(var(--nav-h) + 12px)}
-  .chap-head{display:grid; grid-template-columns:auto 1fr; align-items:end; gap:14px; padding-bottom:10px; border-bottom:1px solid var(--ink)}
-  .chap-no{font-family:var(--serif); font-size:44px; line-height:.9; color:var(--wine); font-weight:400}
-  .chap-head h2{margin:0; font-family:var(--serif); font-size:22px; font-weight:900; letter-spacing:.06em; line-height:1.3}
-  .chap-head h2 span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.32em; color:var(--ink-3)}
-  .body p{margin:18px 0 0; color:var(--ink-2); text-align:justify}
-  .dropcap::first-letter{float:left; margin:6px 10px 0 0; font-family:var(--serif); font-size:58px; line-height:1; font-weight:900; color:var(--ink)}
-  .pull{margin:26px 0 0; padding:18px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); font-family:var(--serif); font-size:20px; font-weight:600; line-height:1.6; text-align:center}
-  .pull::before{content:"“"; display:block; font-size:44px; line-height:.6; color:var(--wine)}
-  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:22px; border-top:1px solid var(--ink)}
-  .twocol div{padding:14px 14px 4px 0}
-  .twocol div + div{padding-left:14px; border-left:1px solid var(--rule)}
-  .twocol b{display:block; font-family:var(--serif); font-size:16px; font-weight:600; line-height:1.4}
-  .twocol small{display:block; margin-top:4px; font-size:13px; color:var(--ink-3); line-height:1.6}
-  .purpose-list{margin:22px 0 0; padding:0; list-style:none; border-top:1px solid var(--ink)}
-  .purpose-list li{padding:14px 0; border-bottom:1px solid var(--rule)}
-  .purpose-list b{display:block; font-family:var(--serif); font-size:16px; font-weight:600; line-height:1.4}
-  .purpose-list small{display:block; margin-top:4px; font-size:13px; color:var(--ink-3); line-height:1.6}
-  .editor-note{margin-top:22px; padding:14px 16px; background:var(--paper); border:1px solid var(--rule); font-size:13.5px; color:var(--ink-2); line-height:1.75}
-  .editor-note b{font-family:var(--serif); color:var(--wine); letter-spacing:.1em}
-
-  /* 草稿文案框 */
-  .draft{position:relative; margin-top:22px; padding:18px 0 2px; border-top:1px dashed var(--wine)}
-  .draft-tag{position:absolute; top:-11px; left:0; padding:0 8px 0 0; background:var(--ivory); font-size:11.5px; letter-spacing:.16em; line-height:22px; color:var(--wine)}
-  .draft-tag::before{content:"DRAFT · "; font-family:var(--serif); letter-spacing:.1em}
-  .draft .body p:first-child{margin-top:4px}
-
   /* 步驟 */
-  .how{display:grid; grid-template-columns:repeat(3,1fr); margin:22px 0 0; padding:0; list-style:none; counter-reset:s}
+  .how{display:grid; grid-template-columns:repeat(3,1fr); margin:20px 0 0; padding:0; list-style:none; counter-reset:s}
   .how li{padding:4px 10px 4px 0; font-size:13.5px; line-height:1.6; color:var(--ink-2)}
   .how li + li{padding-left:12px; border-left:1px solid var(--rule)}
-  .how li::before{counter-increment:s; content:"0" counter(s); display:block; font-family:var(--serif); font-size:28px; line-height:1.1; color:var(--wine)}
+  .how li::before{counter-increment:s; content:"0" counter(s); display:block; font-family:var(--serif); font-size:26px; line-height:1.1; color:var(--wine)}
   .how li b{display:block; font-family:var(--serif); font-size:15px; font-weight:600; color:var(--ink)}
 
   /* 專戶 */
-  .ledger{margin-top:26px; padding:20px 18px 18px; background:var(--paper); border-top:3px double var(--ink); border-bottom:3px double var(--ink); position:relative}
+  .ledger{margin-top:20px; padding:18px 18px 16px; background:var(--paper); border-top:3px double var(--ink); border-bottom:3px double var(--ink); position:relative}
   .ledger-label{display:flex; justify-content:space-between; font-size:11px; letter-spacing:.26em; color:var(--ink-3)}
   .ledger-label span:last-child{color:var(--wine)}
-  .ledger dl{margin:14px 0 0}
+  .ledger dl{margin:12px 0 0}
   .ledger .li{padding:10px 0; border-top:1px solid var(--rule)}
   .ledger dt{font-size:11.5px; letter-spacing:.2em; color:var(--ink-3)}
   .ledger dd{margin:2px 0 0; font-family:var(--serif); font-size:17px; font-weight:600; line-height:1.55}
   .ledger dd .tbd{font-weight:500}
+  .ledger dd > .tbd:first-child{margin-left:0}
   .ledger .name{text-wrap:balance}
   .ledger .acct{font-size:30px; font-weight:400; letter-spacing:.08em; font-variant-numeric:tabular-nums}
   .ledger .acct.is-tbd{font-size:22px; letter-spacing:.06em; color:var(--ink-3)}
@@ -135,8 +194,25 @@
   .fine li + li{margin-top:4px}
   .fine li::before{content:"— "; color:var(--wine)}
   .fine b{color:var(--ink); font-weight:500}
-  .footnote{margin-top:24px; padding-top:12px; border-top:1px solid var(--ink); font-size:13.5px; color:var(--ink-2); line-height:1.8}
+  .footnote{margin-top:22px; padding-top:12px; border-top:1px solid var(--ink); font-size:13.5px; color:var(--ink-2); line-height:1.8}
   .footnote b{font-family:var(--serif); color:var(--ink); letter-spacing:.08em}
+
+  /* =========================================================
+   * 區塊 2：匯款回報
+   * ========================================================= */
+  .report .wrap{padding-bottom:calc(var(--bottom-reserve) + 24px)}
+  .mast{padding-top:calc(env(safe-area-inset-top, 0px) + 18px)}
+  .r-title{margin:14px 0 0; font-family:var(--serif); font-size:clamp(34px,10vw,52px); font-weight:900; line-height:1.15; letter-spacing:.08em}
+  .r-title span{display:block; margin-bottom:4px; font-family:var(--sans); font-size:11px; font-weight:500; letter-spacing:.32em; color:var(--wine)}
+  .r-title:focus{outline:none}
+  .r-title:focus-visible{outline:2px solid var(--wine)}
+  .preset-note{margin:16px 0 0; padding:10px 14px; background:var(--wine-l); border-left:3px solid var(--wine); font-size:14px; color:var(--ink); line-height:1.65}
+
+  .chap{margin-top:56px; scroll-margin-top:16px}
+  .chap-head{display:grid; grid-template-columns:auto 1fr; align-items:end; gap:14px; padding-bottom:10px; border-bottom:1px solid var(--ink)}
+  .chap-no{font-family:var(--serif); font-size:44px; line-height:.9; color:var(--wine); font-weight:400}
+  .chap-head h2{margin:0; font-family:var(--serif); font-size:22px; font-weight:900; letter-spacing:.06em; line-height:1.3}
+  .chap-head h2 span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.32em; color:var(--ink-3)}
 
   /* 表單 */
   .form{margin-top:10px}
@@ -218,7 +294,6 @@
   .faq summary:focus-visible{outline-offset:-2px}
   .faq .a{padding:0 0 18px 28px; font-size:14.5px; color:var(--ink-2); line-height:1.85; text-align:justify}
   .faq .a p{margin:0}
-  .faq .a p + p{margin-top:8px}
 
   /* 聯絡 */
   .contact{margin:6px 0 0; border-bottom:1px solid var(--ink)}
@@ -228,7 +303,7 @@
   .contact dd{margin:0; font-family:var(--serif); font-size:16px; font-weight:600; color:var(--ink-3)}
   .contact dd .tbd{margin-left:0}
 
-  footer{margin-top:72px; padding:20px 0 calc(32px + env(safe-area-inset-bottom)); border-top:3px double var(--ink); font-size:12.5px; color:var(--ink-3); line-height:1.8}
+  footer{margin-top:64px; padding:20px 0 0; border-top:3px double var(--ink); font-size:12.5px; color:var(--ink-3); line-height:1.8}
   footer b{display:block; font-family:var(--serif); font-size:15px; color:var(--ink); letter-spacing:.1em}
   footer .full{display:block; margin-bottom:10px; letter-spacing:.08em}
   footer p{margin:0}
@@ -236,164 +311,212 @@
 
   @media (max-width:360px){
     .wrap{padding:0 18px}
-    .toc{margin:0 -18px; padding:0 18px}
-    .vtitle{font-size:34px}
     .how{grid-template-columns:1fr}
     .how li + li{padding-left:0; border-left:0; border-top:1px solid var(--rule); padding-top:8px; margin-top:8px}
     .row2{grid-template-columns:1fr; gap:0}
-    .hero-cta{grid-template-columns:1fr}
+    .stage-top, .slide{padding-left:18px; padding-right:18px}
   }
-  @media (min-width:600px){
-    .vtitle{font-size:52px}
-    .dek{font-size:27px}
-    .chap{margin-top:72px}
+  @media (min-width:600px){ .chap{margin-top:72px} }
+
+  /* 減少動態：淡出、滑入一律立即切換 */
+  @media (prefers-reduced-motion:reduce){
+    *, *::before, *::after{transition:none !important; animation:none !important}
+    .s-text{transform:none !important}
   }
-  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none !important}}
 </style>
+<noscript><style>
+  /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
+  #stage, .float, .tri{display:none !important}
+  #report[hidden]{display:block !important}
+</style></noscript>
 </head>
 <body>
-<a class="skip" href="#c3">跳到匯款回報表單</a>
-<div class="wrap">
-  <header class="mast">
+
+<!-- 共用 SVG 濾鏡（紙紋） -->
+<svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
+  <defs>
+    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/></filter>
+    <linearGradient id="triGrad" x1="0" y1="0" x2="0" y2="1">
+      <stop offset="0" stop-color="#7B2335" stop-opacity=".42"/>
+      <stop offset="1" stop-color="#7B2335" stop-opacity=".93"/>
+    </linearGradient>
+  </defs>
+</svg>
+
+<!-- =====================================================
+     區塊 1：滿版投影片（捐款項目介紹）
+     ===================================================== -->
+<section class="stage" id="stage" aria-roledescription="carousel" aria-labelledby="stageTitle">
+  <div class="stage-top">
     <div class="mast-top"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
-    <p class="mast-word" aria-hidden="true">DONA<i>T</i>ION</p>
-    <div class="mast-sub" aria-hidden="true"><span>REPORT</span><span>愛心捐款・匯款回報</span><span>VOL. —</span></div>
-  </header>
+    <div class="stage-bar">
+      <h1 class="stage-h" id="stageTitle"><span>DONATION</span>愛心捐款・捐款項目介紹</h1>
+      <div class="pager" role="group" aria-label="切換捐款項目">
+        <button type="button" data-go="0" aria-controls="slide-1" aria-label="01 不指定（由家長會統籌運用）" aria-current="true">01</button>
+        <button type="button" data-go="1" aria-controls="slide-2" aria-label="02 教師支援費">02</button>
+        <button type="button" data-go="2" aria-controls="slide-3" aria-label="03 校園 iPad 汰換計畫">03</button>
+      </div>
+    </div>
+  </div>
 
-  <nav class="toc" aria-label="本頁章節">
-    <ol>
-      <li><a href="#c1"><b>01</b>緣起</a></li>
-      <li><a href="#c2"><b>02</b>專戶</a></li>
-      <li><a href="#c3"><b>03</b>回報</a></li>
-      <li><a href="#c4"><b>04</b>問答</a></li>
-      <li><a href="#c5"><b>05</b>聯絡</a></li>
-    </ol>
-  </nav>
-
-  <main>
-    <!-- ===== Hero ===== -->
-    <section aria-labelledby="pageTitle">
-      <div class="cover">
-        <figure class="plate">
-          <svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：拱窗、晨光與一疊書">
-            <defs>
-              <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/></filter>
-              <clipPath id="arch"><path d="M46 360V150a94 94 0 01188 0v210z"/></clipPath>
-            </defs>
-            <rect width="280" height="360" fill="#2A2623"/>
-            <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
-            <path d="M46 360V150a94 94 0 01188 0v210z" fill="#E9E1D2"/>
-            <g clip-path="url(#arch)">
-              <rect x="46" y="200" width="188" height="160" fill="#DCD1BE"/>
-              <circle cx="140" cy="176" r="38" fill="#7B2335"/>
-              <g stroke="#E9E1D2" stroke-width="1" opacity=".55"><path d="M140 118v-14M140 248v-10M88 176h-14M206 176h-14M104 140l-9-9M176 140l9-9"/></g>
-              <g stroke="#B9A98F" stroke-width="1"><path d="M46 214h188M46 226h188M46 240h188"/></g>
-              <path d="M140 56v304" stroke="#2A2623" stroke-width="1.2" opacity=".35"/>
-              <path d="M46 150h188" stroke="#2A2623" stroke-width="1" opacity=".18"/>
+  <div class="slides">
+    <!-- 01 不指定 -->
+    <section class="slide is-active" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" data-title="不指定（由家長會統籌運用）" tabindex="-1">
+      <figure class="s-fig">
+        <div class="s-plate"><svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：拱窗中，數條細線匯聚到一個圓">
+          <defs><clipPath id="p1arch"><path d="M46 360V150a94 94 0 01188 0v210z"/></clipPath></defs>
+          <rect width="280" height="360" fill="#2A2623"/>
+          <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
+          <path d="M46 360V150a94 94 0 01188 0v210z" fill="#E9E1D2"/>
+          <g clip-path="url(#p1arch)">
+            <rect x="46" y="256" width="188" height="104" fill="#DCD1BE"/>
+            <g stroke="#1D1B19" stroke-width="1" opacity=".5" fill="none">
+              <path d="M70 100L140 206M110 80L140 206M170 80L140 206M210 100L140 206M56 150L140 206M224 150L140 206"/>
             </g>
-            <path d="M46 360V150a94 94 0 01188 0v210" fill="none" stroke="#F3EEE4" stroke-width="1"/>
-            <path d="M36 360V150a104 104 0 01208 0v210" fill="none" stroke="#B9A98F" stroke-width=".6" opacity=".5"/>
-            <g>
-              <rect x="70" y="318" width="140" height="18" fill="#7B2335"/>
-              <rect x="80" y="300" width="118" height="18" fill="#1D1B19"/>
-              <rect x="64" y="282" width="128" height="18" fill="#B9A98F"/>
-              <rect x="86" y="266" width="100" height="16" fill="#F3EEE4" stroke="#1D1B19" stroke-width="1"/>
-              <g stroke="#F3EEE4" stroke-width="1" opacity=".7"><path d="M78 327h40M92 309h22M76 291h60"/></g>
-              <path d="M96 266v-8h28v8" fill="none" stroke="#1D1B19" stroke-width="1"/>
-              <path d="M160 266c6-14 18-18 22-30" fill="none" stroke="#1D1B19" stroke-width="1"/>
-              <path d="M182 236c-8 1-12 6-12 12 7 0 12-5 12-12z" fill="#1D1B19"/>
-            </g>
-            <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
-            <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 01</text>
-            <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
-            <rect width="280" height="360" filter="url(#grain)"/>
-          </svg>
-          <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
-        </figure>
-        <h1 class="vtitle" id="pageTitle"><small>和平實驗小學家長會</small>愛心捐款回報</h1>
-      </div>
-
-      <p class="dateline"><b>臺北市大安區和平實驗國民小學 家長會</b><br>愛心捐款專頁</p>
-
-      <p class="dek">指定用途，<br>或交給家長會統籌。</p>
-      <p class="standfirst">本次募款，您可指定「教師支援費」或「校園 iPad 汰換計畫」，也可選擇不指定、由家長會統籌運用。請先自行匯款至專戶，再於本頁回報，以利對帳。</p>
-
-      <div class="hero-cta">
-        <a class="btn btn-line" href="#c2"><span>看匯款專戶</span><span class="arrow" aria-hidden="true">↓</span></a>
-        <a class="btn" href="#c3"><span>我已匯款</span><span class="arrow" aria-hidden="true">→</span></a>
-      </div>
-
-      <aside class="notice" aria-label="本頁狀態">
-        <b>編者註｜本頁尚未正式上線</b>
-        <p>專戶帳號、聯絡方式等仍有待填資料。<strong>在家長會正式公告專戶帳號之前，請先不要依本頁匯款。</strong></p>
-      </aside>
-    </section>
-
-    <!-- ===== 01 為什麼募款 ===== -->
-    <section class="chap" id="c1" aria-labelledby="c1-title">
-      <div class="chap-head"><span class="chap-no">01</span><h2 id="c1-title"><span>PURPOSE</span>為什麼募款</h2></div>
-
-      <div class="draft">
-        <span class="draft-tag">文案待家長會確認</span>
-        <div class="body">
-          <p class="dropcap">本次募款，家長可在回報時指定用途：教師支援費、校園 iPad 汰換計畫；若沒有特別指定，則由家長會統籌運用。實際支用情形，將於公開徵信時一併說明。</p>
-          <p>捐款金額不拘，請依自己的情況量力而為，不必勉強。以下為本次可指定的用途，細項說明待家長會確認後再補充，本頁不自行添加細節。</p>
-        </div>
-        <p class="pull">每一筆心意，<br>都會被仔細記錄、如實說明。</p>
-        <ul class="purpose-list">
-          <li><b>不指定（由家長會統籌運用）</b><small>表單預設選項。未指定時，由家長會統籌運用。</small></li>
-          <li><b>教師支援費</b><small>回報時可指定此項。</small></li>
-          <li><b>校園 iPad 汰換計畫</b><small>回報時可指定此項。</small></li>
-        </ul>
-      </div>
-
-      <div class="editor-note"><b>編者註｜公開徵信</b><br>確認入帳後，將依您在回報表單中選擇的方式（全名／部分隱藏／不公開）列入徵信；公布方式與時間<span class="tbd">待填</span>。本頁不顯示任何已募金額或捐款人數。</div>
-    </section>
-
-    <!-- ===== 02 專戶 ===== -->
-    <section class="chap" id="c2" aria-labelledby="c2-title">
-      <div class="chap-head"><span class="chap-no">02</span><h2 id="c2-title"><span>TRANSFER</span>匯款專戶</h2></div>
-      <ol class="how">
-        <li><b>匯入專戶</b>用自己的帳戶匯款到下方專戶。</li>
-        <li><b>保留證明</b>截圖或保留交易明細。</li>
-        <li><b>填寫回報</b>到本頁第 03 章登記。</li>
-      </ol>
-
-      <div class="ledger">
-        <div class="ledger-label"><span>ACCOUNT</span><span>待填・尚未公告</span></div>
-        <dl>
-          <div class="li"><dt>銀行</dt><dd>○○銀行（代碼 <span class="tbd">待填</span>）</dd></div>
-          <div class="li">
-            <dt>帳號</dt>
-            <dd class="acct is-tbd" id="acctNo" aria-label="帳號待填，尚未公告">———— ——— ———</dd>
-            <dd class="sub" id="acctSub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd>
-          </div>
-          <div class="li">
-            <dt>戶名</dt>
-            <dd class="name">臺北市大安區和平實驗國民小學學生家長會</dd>
-            <dd class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</dd>
-          </div>
-        </dl>
-        <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><span data-label>複製帳號</span><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="5.5" y="5.5" width="9" height="10" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 3h-8v9" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
-        <p class="copy-msg" id="copyMsg" role="status" aria-live="polite"></p>
-      </div>
-
-      <ul class="fine">
-        <li><b>請由家長自己的帳戶匯款</b>，回報時填寫該帳戶的後五碼，家長會才能逐筆核對。</li>
-        <li><b>請保留轉帳證明</b>（截圖或交易明細），對帳有疑問時可作為依據。</li>
-        <li>匯款完成後，請到下方「匯款回報」填寫資料。</li>
-      </ul>
-
-      <div class="footnote" role="note" aria-label="稅務備註">
-        <b>※ 稅務備註</b><br>
-        捐給家長會，可依規定列舉扣除；與其他捐贈合計，以所得總額 20% 為上限。實際扣除依國稅局規定，本頁僅供參考。
+            <rect x="66" y="96" width="8" height="8" fill="#1D1B19"/>
+            <rect x="106" y="76" width="8" height="8" fill="#B9A98F"/>
+            <rect x="166" y="76" width="8" height="8" fill="#7B2335"/>
+            <rect x="206" y="96" width="8" height="8" fill="#B9A98F"/>
+            <rect x="52" y="146" width="8" height="8" fill="#7B2335"/>
+            <rect x="220" y="146" width="8" height="8" fill="#1D1B19"/>
+            <circle cx="140" cy="206" r="48" fill="none" stroke="#7B2335" stroke-width="1" opacity=".45"/>
+            <circle cx="140" cy="206" r="34" fill="#7B2335"/>
+            <g stroke="#B9A98F" stroke-width="1"><path d="M46 276h188M46 290h188M46 306h188"/></g>
+          </g>
+          <path d="M46 360V150a94 94 0 01188 0v210" fill="none" stroke="#F3EEE4" stroke-width="1"/>
+          <path d="M36 360V150a104 104 0 01208 0v210" fill="none" stroke="#B9A98F" stroke-width=".6" opacity=".5"/>
+          <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
+          <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 01</text>
+          <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
+          <rect width="280" height="360" filter="url(#grain)"/>
+        </svg></div>
+        <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
+      </figure>
+      <div class="s-text">
+        <p class="s-kicker"><b>01</b><span>PURPOSE・預設選項</span></p>
+        <h2 class="s-title">不指定<small>由家長會統籌運用</small></h2>
+        <p class="s-copy">交給家長會，依校園實際需要統籌運用。回報時未特別指定用途，即歸入此項。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span>細項說明待家長會確認後補充。</p>
+        <button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
       </div>
     </section>
 
-    <!-- ===== 03 匯款回報 ===== -->
-    <section class="chap" id="c3" aria-labelledby="c3-title">
-      <div class="chap-head"><span class="chap-no">03</span><h2 id="c3-title"><span>REPORT</span>匯款回報</h2></div>
+    <!-- 02 教師支援費 -->
+    <section class="slide" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：教師支援費" data-title="教師支援費" tabindex="-1" aria-hidden="true">
+      <figure class="s-fig">
+        <div class="s-plate"><svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：黑板、攤開的書、鉛筆與茶杯">
+          <rect width="280" height="360" fill="#2A2623"/>
+          <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
+          <rect x="36" y="48" width="208" height="288" fill="#E9E1D2"/>
+          <rect x="36" y="268" width="208" height="68" fill="#DCD1BE"/>
+          <rect x="58" y="84" width="164" height="100" fill="#1D1B19"/>
+          <rect x="58" y="84" width="164" height="100" fill="none" stroke="#B9A98F" stroke-width="3"/>
+          <rect x="66" y="184" width="148" height="5" fill="#7B2335"/>
+          <g stroke="#E9E1D2" stroke-width="1.2" opacity=".75" fill="none">
+            <path d="M74 108h56M74 124h80M74 140h40M74 156h64"/>
+            <circle cx="186" cy="132" r="20"/>
+            <path d="M166 160h40M186 112v40"/>
+          </g>
+          <rect x="36" y="262" width="208" height="6" fill="#1D1B19"/>
+          <g stroke="#1D1B19" stroke-width="1">
+            <path d="M88 236q26-10 52 0v26q-26-9-52 0z" fill="#F3EEE4"/>
+            <path d="M140 236q26-10 52 0v26q-26-9-52 0z" fill="#F3EEE4"/>
+          </g>
+          <g stroke="#B9A98F" stroke-width="1"><path d="M96 244q18-6 36 0M96 251q18-6 36 0M148 244q18-6 36 0M148 251q18-6 36 0"/></g>
+          <rect x="54" y="236" width="20" height="26" fill="#B9A98F"/>
+          <path d="M74 242h5a6 6 0 010 12h-5" fill="none" stroke="#B9A98F" stroke-width="2"/>
+          <path d="M60 230c-3-4 3-6 0-10M68 230c-3-4 3-6 0-10" fill="none" stroke="#6F675D" stroke-width="1"/>
+          <g transform="rotate(-24 214 246)">
+            <rect x="196" y="243" width="34" height="7" fill="#7B2335"/>
+            <path d="M230 243l9 3.5-9 3.5z" fill="#B9A98F"/>
+            <rect x="192" y="243" width="4" height="7" fill="#1D1B19"/>
+          </g>
+          <g stroke="#B9A98F" stroke-width="1"><path d="M36 292h208M36 306h208"/></g>
+          <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
+          <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 02</text>
+          <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
+          <rect width="280" height="360" filter="url(#grain)"/>
+        </svg></div>
+        <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
+      </figure>
+      <div class="s-text">
+        <p class="s-kicker"><b>02</b><span>PURPOSE・可指定</span></p>
+        <h2 class="s-title">教師支援費</h2>
+        <p class="s-copy">支持老師備課與教學所需的支援。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span>支用範圍與細項，待家長會確認後說明。</p>
+        <button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
+      </div>
+    </section>
 
+    <!-- 03 校園 iPad 汰換計畫 -->
+    <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫" data-title="校園 iPad 汰換計畫" tabindex="-1" aria-hidden="true">
+      <figure class="s-fig">
+        <div class="s-plate"><svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：一台舊平板與一台新平板，外圍有一道循環箭頭">
+          <rect width="280" height="360" fill="#2A2623"/>
+          <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
+          <circle cx="140" cy="196" r="112" fill="#E9E1D2"/>
+          <circle cx="140" cy="196" r="122" fill="none" stroke="#B9A98F" stroke-width=".6" opacity=".5"/>
+          <path d="M42 114A128 128 0 01238 114" fill="none" stroke="#7B2335" stroke-width="2"/>
+          <path d="M242 119l-10.4-4.9 7.6-6.4z" fill="#7B2335"/>
+          <g transform="rotate(-10 108 196)">
+            <rect x="60" y="132" width="92" height="128" rx="8" fill="#B9A98F" opacity=".6"/>
+            <rect x="68" y="142" width="76" height="106" rx="2" fill="#DCD1BE"/>
+            <path d="M76 156h40M76 166h28" stroke="#9A8F80" stroke-width="1"/>
+          </g>
+          <g transform="rotate(6 176 206)">
+            <rect x="124" y="136" width="100" height="140" rx="9" fill="#1D1B19"/>
+            <rect x="132" y="146" width="84" height="118" rx="2" fill="#F3EEE4"/>
+            <rect x="142" y="158" width="18" height="18" fill="#7B2335"/>
+            <rect x="166" y="158" width="18" height="18" fill="#B9A98F"/>
+            <rect x="190" y="158" width="18" height="18" fill="#B9A98F"/>
+            <rect x="142" y="182" width="18" height="18" fill="#B9A98F"/>
+            <rect x="166" y="182" width="18" height="18" fill="#1D1B19"/>
+            <rect x="190" y="182" width="18" height="18" fill="#B9A98F"/>
+            <path d="M142 214h66M142 224h44M142 234h56" stroke="#CDC3B2" stroke-width="2"/>
+            <circle cx="174" cy="270" r="2.4" fill="#4F4A44"/>
+          </g>
+          <g stroke="#B9A98F" stroke-width="1"><path d="M52 296h176M64 308h152"/></g>
+          <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
+          <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 03</text>
+          <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
+          <rect width="280" height="360" filter="url(#grain)"/>
+        </svg></div>
+        <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
+      </figure>
+      <div class="s-text">
+        <p class="s-kicker"><b>03</b><span>PURPOSE・可指定</span></p>
+        <h2 class="s-title">校園 iPad 汰換計畫</h2>
+        <p class="s-copy">協助汰換老舊的校園 iPad，讓教學設備可以接續使用。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span>汰換範圍與時程，待家長會確認後公告。</p>
+        <button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
+      </div>
+    </section>
+  </div>
+
+  <span class="edge edge-prev" aria-hidden="true">‹</span>
+  <span class="edge edge-next" aria-hidden="true">›</span>
+  <p class="sr-only" id="slideStatus" aria-live="polite" aria-atomic="true"></p>
+</section>
+
+<!-- =====================================================
+     區塊 2：匯款回報表單
+     ===================================================== -->
+<main class="report" id="report" aria-labelledby="reportTitle" hidden>
+  <div class="wrap">
+    <header class="mast">
+      <div class="mast-top"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+      <h1 class="r-title" id="reportTitle" tabindex="-1"><span>REPORT</span>匯款回報</h1>
+      <div class="mast-sub" aria-hidden="true"><span>DONATION</span><span>先匯款・再回報</span><span>VOL. —</span></div>
+    </header>
+
+    <aside class="notice" aria-label="本頁狀態">
+      <b>編者註｜本頁尚未正式上線</b>
+      <p>專戶帳號、聯絡方式等仍有待填資料。<strong>在家長會正式公告專戶帳號之前，請先不要依本頁匯款。</strong>專戶資訊請點畫面最下方的三角形查看。</p>
+    </aside>
+
+    <p class="preset-note" id="presetNote" role="status" hidden></p>
+
+    <section class="chap" id="c3" aria-label="匯款回報表單" style="margin-top:28px">
       <form class="form" id="reportForm" autocomplete="on">
         <p class="form-intro">標示<span class="req">必填</span>的欄位請務必填寫。約需 2 分鐘。</p>
 
@@ -460,7 +583,7 @@
           <div class="field" data-field>
             <label class="lbl" for="purpose">捐款指定用途<span class="req">必填</span></label>
             <select id="purpose" name="purpose" required data-name="捐款指定用途" data-msg-required="請選擇捐款指定用途">
-              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準，新增用途時改該陣列並同步此處。 -->
+              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準，新增用途時改該陣列並同步此處與投影片。 -->
               <option value="不指定（由家長會統籌運用）" selected>不指定（由家長會統籌運用）</option>
               <option value="教師支援費">教師支援費</option>
               <option value="校園 iPad 汰換計畫">校園 iPad 汰換計畫</option>
@@ -534,9 +657,9 @@
       </div>
     </section>
 
-    <!-- ===== 04 FAQ ===== -->
+    <!-- 精簡 FAQ -->
     <section class="chap" id="c4" aria-labelledby="c4-title">
-      <div class="chap-head"><span class="chap-no">04</span><h2 id="c4-title"><span>Q &amp; A</span>常見問題</h2></div>
+      <div class="chap-head"><span class="chap-no">Q</span><h2 id="c4-title"><span>Q &amp; A</span>常見問題</h2></div>
       <div class="faq">
         <details>
           <summary><span class="q">Q1</span><span>匯款之後，為什麼還要回報？</span></summary>
@@ -551,35 +674,23 @@
           <div class="a"><p>對帳主要依靠轉出帳號後五碼。若由他人代為匯款，請在回報時填寫「實際轉出帳戶」的後五碼，並保留轉帳證明，以免對不上。</p></div>
         </details>
         <details>
-          <summary><span class="q">Q4</span><span>不記得確切的匯款時間怎麼辦？</span></summary>
-          <div class="a"><p>可以查看網路銀行或 App 的交易明細，填到分鐘即可。若只記得大約時間，請盡量填接近的時間，並保留轉帳證明備查。</p></div>
-        </details>
-        <details>
-          <summary><span class="q">Q5</span><span>資料填錯了，或重複送出了？</span></summary>
-          <div class="a"><p>請保留轉帳證明，並透過第 05 章的聯絡方式告知家長會更正（聯絡方式<span class="tbd">待填</span>）。對帳時以專戶實際入帳紀錄為準。</p></div>
-        </details>
-        <details>
-          <summary><span class="q">Q6</span><span>收據什麼時候會收到？</span></summary>
+          <summary><span class="q">Q4</span><span>收據什麼時候會收到？</span></summary>
           <div class="a"><p>收據在對帳完成後才會開立。電子收據會寄到您填寫的 Email；紙本收據的領取方式與整體時程，待家長會另行公告<span class="tbd">待填</span>。</p></div>
         </details>
         <details>
-          <summary><span class="q">Q7</span><span>公開徵信會怎麼顯示我的名字？</span></summary>
-          <div class="a"><p>依您在表單中的選擇：「全名」顯示完整姓名；「部分隱藏」例如王○明；「不公開」則不列出姓名。</p></div>
+          <summary><span class="q">Q5</span><span>資料填錯了，或重複送出了？</span></summary>
+          <div class="a"><p>請保留轉帳證明，並透過下方聯絡方式告知家長會更正（聯絡方式<span class="tbd">待填</span>）。對帳時以專戶實際入帳紀錄為準。</p></div>
         </details>
         <details>
-          <summary><span class="q">Q8</span><span>一定要上傳轉帳截圖嗎？</span></summary>
-          <div class="a"><p>不一定，截圖為選填。無論是否上傳，都請自行保留轉帳證明。本頁目前尚未上線，選擇的檔案不會被傳送。</p></div>
-        </details>
-        <details>
-          <summary><span class="q">Q9</span><span>捐款可以抵稅嗎？</span></summary>
-          <div class="a"><p>請參考第 02 章的稅務備註：捐給家長會，可依規定列舉扣除；與其他捐贈合計，以所得總額 20% 為上限。實際扣除依國稅局規定，本頁僅供參考。</p></div>
+          <summary><span class="q">Q6</span><span>捐款可以抵稅嗎？</span></summary>
+          <div class="a"><p>捐給家長會，可依規定列舉扣除；與其他捐贈合計，以所得總額 20% 為上限。實際扣除依國稅局規定，本頁僅供參考。</p></div>
         </details>
       </div>
     </section>
 
-    <!-- ===== 05 聯絡 ===== -->
+    <!-- 聯絡 -->
     <section class="chap" id="c5" aria-labelledby="c5-title">
-      <div class="chap-head"><span class="chap-no">05</span><h2 id="c5-title"><span>CONTACT</span>聯絡家長會</h2></div>
+      <div class="chap-head"><span class="chap-no">@</span><h2 id="c5-title"><span>CONTACT</span>聯絡家長會</h2></div>
       <dl class="contact">
         <div><dt>聯絡窗口</dt><dd><span class="tbd">待填</span></dd></div>
         <div><dt>電話</dt><dd><span class="tbd">待填</span></dd></div>
@@ -588,15 +699,89 @@
       </dl>
       <p class="hint">以上聯絡資訊待家長會確認後公告。</p>
     </section>
-  </main>
 
-  <footer>
-    <b>和平實驗小學家長會</b>
-    <span class="full">臺北市大安區和平實驗國民小學 家長會</span>
-    <p>本頁尚未上線。專戶帳號、聯絡方式等仍有待填資料，請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至正式公告的專戶後再回報。</p>
-    <div class="colophon" aria-hidden="true"><span>DONATION REPORT</span><span>— FIN —</span></div>
-  </footer>
-</div>
+    <footer>
+      <b>和平實驗小學家長會</b>
+      <span class="full">臺北市大安區和平實驗國民小學 家長會</span>
+      <p>本頁尚未上線。專戶帳號、聯絡方式等仍有待填資料，請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至正式公告的專戶後再回報。</p>
+      <div class="colophon" aria-hidden="true"><span>DONATION REPORT</span><span>— FIN —</span></div>
+    </footer>
+  </div>
+</main>
+
+<!-- =====================================================
+     底部浮動控件（skip／捐款項目介紹 二擇一 + 三角形）
+     ===================================================== -->
+<button type="button" class="float" id="skipBtn" aria-label="skip：略過，前往回報表單"><span>skip</span><span class="arrow" aria-hidden="true">→</span></button>
+<button type="button" class="float float-line" id="introBtn" hidden><span>捐款項目介紹</span><span class="arrow" aria-hidden="true">↺</span></button>
+
+<button type="button" class="tri" id="triBtn" aria-label="開啟捐款資訊" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
+  <svg viewBox="0 0 176 48" aria-hidden="true" focusable="false">
+    <g class="tri-shape">
+      <polygon points="18,46 158,46 88,6" fill="url(#triGrad)"/>
+      <text x="88" y="41" text-anchor="middle" fill="#FAF7F0" font-family="Noto Sans TC, sans-serif" font-size="10.5" font-weight="500" letter-spacing="2">捐款資訊</text>
+    </g>
+  </svg>
+</button>
+
+<!-- 捐款資訊抽屜 -->
+<div class="scrim" id="scrim" hidden></div>
+<section class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-describedby="drawerWarn" hidden>
+  <div class="drawer-head">
+    <span class="drawer-grip" aria-hidden="true"></span>
+    <div class="drawer-title-row">
+      <h2 id="drawerTitle"><span>ACCOUNT</span>捐款資訊</h2>
+      <button type="button" class="x" id="drawerClose"><span>關閉</span><span aria-hidden="true">×</span></button>
+    </div>
+  </div>
+  <div class="drawer-body" id="drawerBody">
+    <aside class="notice" id="drawerWarn">
+      <b>尚未上線</b>
+      <p><strong>本頁尚未上線，專戶帳號公告前請勿依本頁匯款。</strong></p>
+    </aside>
+
+    <div class="ledger">
+      <div class="ledger-label"><span>ACCOUNT</span><span>待填・尚未公告</span></div>
+      <dl>
+        <div class="li">
+          <dt>銀行</dt>
+          <dd><span class="tbd">待填</span></dd>
+          <dd class="sub">銀行名稱與代碼尚未公告。</dd>
+        </div>
+        <div class="li">
+          <dt>分行</dt>
+          <dd><span class="tbd">待填</span></dd>
+        </div>
+        <div class="li">
+          <dt>戶名</dt>
+          <dd class="name">臺北市大安區和平實驗國民小學學生家長會</dd>
+          <dd class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</dd>
+        </div>
+        <div class="li">
+          <dt>帳號</dt>
+          <dd class="acct is-tbd" id="acctNo" aria-label="帳號待填，尚未公告">———— ——— ———</dd>
+          <dd class="sub" id="acctSub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd>
+        </div>
+      </dl>
+      <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><span data-label>複製帳號</span><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="5.5" y="5.5" width="9" height="10" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 3h-8v9" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <p class="copy-msg" id="copyMsg" role="status" aria-live="polite"></p>
+    </div>
+
+    <ol class="how">
+      <li><b>自行匯款</b>先用自己的帳戶匯款至專戶。</li>
+      <li><b>保留證明</b>截圖或保留交易明細。</li>
+      <li><b>回本頁回報</b>填寫回報表單，含帳號後五碼。</li>
+    </ol>
+    <ul class="fine">
+      <li><b>請用自己的帳戶匯款</b>，回報時填寫該帳戶的後五碼，家長會才能逐筆核對。</li>
+    </ul>
+
+    <div class="footnote" role="note" aria-label="稅務備註">
+      <b>※ 稅務備註</b><br>
+      捐給家長會，可依規定列舉扣除；與其他捐贈合計，以所得總額 20% 為上限。實際扣除依國稅局規定，本頁僅供參考。
+    </div>
+  </div>
+</section>
 
 <script>
 (function () {
@@ -612,7 +797,8 @@
   var ACCOUNT_NUMBER = ''; // 待填
 
   /* 捐款指定用途。本次活動確定為以下三項，第一個為預設。
-   * 之後若要新增或調整，只要改這個陣列（並同步更新上方 <select> 的 fallback 選項）即可。 */
+   * 之後若要新增或調整，只要改這個陣列（並同步更新上方 <select> 的 fallback 選項與投影片）即可。
+   * 投影片「我要捐這項」以 data-pick 索引對應本陣列。 */
   var PURPOSE_OPTIONS = [
     { value: '不指定（由家長會統籌運用）', label: '不指定（由家長會統籌運用）', selected: true },
     { value: '教師支援費', label: '教師支援費' },
@@ -637,6 +823,11 @@
       if (def) sel.value = def.value;
     }
   }
+
+  /* ---------- 動態偏好 ---------- */
+  var reduceMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+  function motionMs(ms) { return reduceMQ.matches ? 0 : ms; }
+  function focusEl(el) { if (el) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } } }
 
   /* ---------- 複製帳號 ---------- */
   var copyBtn = $('copyBtn'), acctNo = $('acctNo'), acctSub = $('acctSub'), copyMsg = $('copyMsg');
@@ -710,6 +901,7 @@
   renderPurposeOptions();
   var proof = $('proof'), proofName = $('proofName'), paidAt = $('paidAt');
   var phone = $('phone'), last5 = $('last5'), amount = $('amount'), seat = $('childSeat');
+  var purposeSel = $('purpose'), presetNote = $('presetNote');
 
   // 有 JS 時改用自訂中文錯誤訊息（仍沿用原生 constraint validation）；無 JS 時退回瀏覽器原生驗證。
   form.noValidate = true;
@@ -860,6 +1052,7 @@
   form.addEventListener('change', function (e) {
     var t = e.target;
     if (t.name === 'receipt') syncReceipt();
+    if (t === purposeSel) presetNote.hidden = true; // 家長自行改用途後，移除「已預選」提示
     var c = t.closest('[data-field]');
     if (c && (c.classList.contains('is-invalid') || t.type === 'radio' || t.type === 'checkbox' || t.tagName === 'SELECT' || t.type === 'file')) validateField(c, true);
   });
@@ -917,8 +1110,8 @@
       formErr.textContent = '還有 ' + badCount + ' 個欄位需要修正，請查看標示紅字的地方。';
       formErr.hidden = false;
       var target = controlsOf(firstBad).filter(function (c) { return c.type !== 'hidden'; })[0];
-      firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
-      if (target) target.focus({ preventScroll: true });
+      firstBad.scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'center' });
+      if (target) focusEl(target);
       return;
     }
     formErr.hidden = true;
@@ -937,12 +1130,13 @@
     $('sumLast5').textContent = String(data.get('last5') || '—');
 
     form.hidden = true;
+    presetNote.hidden = true;
     thanks.hidden = false;
-    thanks.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    thanks.focus({ preventScroll: true });
+    thanks.scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
+    focusEl(thanks);
   });
 
-  $('againBtn').addEventListener('click', function () {
+  function resetForm() {
     form.reset();
     fields.forEach(clearField);
     formErr.hidden = true;
@@ -950,27 +1144,318 @@
     renderPurposeOptions();
     proofName.textContent = '尚未選擇檔案';
     refreshMax();
+    presetNote.hidden = true;
     thanks.hidden = true;
     form.hidden = false;
-    $('c3').scrollIntoView({ behavior: 'smooth', block: 'start' });
-    $('donorName').focus({ preventScroll: true });
+  }
+
+  $('againBtn').addEventListener('click', function () {
+    resetForm();
+    $('c3').scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
+    focusEl($('donorName'));
   });
 
-  /* ---------- 目錄：標示目前章節 ---------- */
-  if ('IntersectionObserver' in window) {
-    var links = {};
-    document.querySelectorAll('.toc a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
-    var io = new IntersectionObserver(function (entries) {
-      entries.forEach(function (en) {
-        if (!en.isIntersecting) return;
-        Object.keys(links).forEach(function (k) {
-          var on = k === en.target.id;
-          links[k].classList.toggle('is-here', on);
-          if (on) links[k].setAttribute('aria-current', 'location'); else links[k].removeAttribute('aria-current');
-        });
-      });
-    }, { rootMargin: '-40% 0px -55% 0px' });
-    document.querySelectorAll('.chap').forEach(function (s) { io.observe(s); });
+  /* =========================================================
+   * 區塊切換：投影片 ⇄ 回報表單
+   * ========================================================= */
+  var stage = $('stage'), report = $('report'), reportTitle = $('reportTitle');
+  var skipBtn = $('skipBtn'), introBtn = $('introBtn');
+  var FADE_MS = 320;
+  var mode = 'slides', switching = false, reportScrollY = 0;
+
+  function showReport(opts) {
+    opts = opts || {};
+    if (switching) return;
+    if (mode === 'report') {
+      if (opts.top) window.scrollTo(0, 0);
+      focusEl(reportTitle);
+      return;
+    }
+    switching = true;
+    skipBtn.hidden = true;
+    stage.classList.add('is-fading');
+    setTimeout(function () {
+      stage.hidden = true;
+      stage.classList.remove('is-fading');
+      report.classList.add('is-fading');
+      report.hidden = false;
+      window.scrollTo(0, opts.top ? 0 : reportScrollY);
+      void report.offsetWidth; // 觸發 reflow，讓淡入動畫生效
+      report.classList.remove('is-fading');
+      introBtn.hidden = false;
+      mode = 'report';
+      switching = false;
+      focusEl(reportTitle);
+    }, motionMs(FADE_MS));
+  }
+
+  function showSlides() {
+    if (switching || mode === 'slides') return;
+    switching = true;
+    introBtn.hidden = true;
+    reportScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    report.classList.add('is-fading');
+    setTimeout(function () {
+      report.hidden = true; // 只是隱藏，表單資料保留
+      report.classList.remove('is-fading');
+      window.scrollTo(0, 0);
+      stage.classList.add('is-fading');
+      stage.hidden = false;
+      void stage.offsetWidth;
+      stage.classList.remove('is-fading');
+      skipBtn.hidden = false;
+      mode = 'slides';
+      switching = false;
+      focusEl(slides[cur]);
+    }, motionMs(FADE_MS));
+  }
+
+  skipBtn.addEventListener('click', function () { showReport(); });
+  introBtn.addEventListener('click', showSlides);
+
+  /* ---------- 「我要捐這項」：預選用途 ---------- */
+  function pickPurpose(i) {
+    var opt = PURPOSE_OPTIONS[i];
+    if (!opt) { showReport({ top: true }); return; }
+    if (!thanks.hidden) resetForm(); // 已送出：開始新的一筆
+    if (!purposeSel.querySelector('option')) renderPurposeOptions();
+    purposeSel.value = opt.value;
+    if (purposeSel.value !== opt.value) renderPurposeOptions(); // 保險：選項不同步時還原預設
+    var c = purposeSel.closest('[data-field]');
+    if (c) clearField(c);
+    if (purposeSel.value === opt.value) {
+      presetNote.textContent = '已為您預選捐款用途：「' + opt.label + '」。可在「C. 匯款」中更改。';
+      presetNote.hidden = false;
+    }
+    showReport({ top: true });
+  }
+
+  /* =========================================================
+   * 投影片
+   * ========================================================= */
+  var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
+  var pagerBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-go]'));
+  var slideStatus = $('slideStatus');
+  var N = slides.length, cur = 0;
+  // 控件：點擊／滑動起點落在這些元素上時，不切頁
+  var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav]';
+
+  // 「我要捐這項」按鈕標籤與 PURPOSE_OPTIONS 同步
+  Array.prototype.forEach.call(stage.querySelectorAll('[data-pick]'), function (b) {
+    var i = Number(b.getAttribute('data-pick'));
+    var opt = PURPOSE_OPTIONS[i];
+    if (opt) b.setAttribute('aria-label', '我要捐這項：' + opt.label);
+    b.addEventListener('click', function () { pickPurpose(i); });
+  });
+
+  function renderSlides(announce) {
+    slides.forEach(function (s, i) {
+      var on = i === cur;
+      s.classList.toggle('is-active', on);
+      s.inert = !on;
+      if (on) s.removeAttribute('aria-hidden'); else s.setAttribute('aria-hidden', 'true');
+    });
+    pagerBtns.forEach(function (b, i) {
+      if (i === cur) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
+    });
+    stage.classList.toggle('at-first', cur === 0);
+    stage.classList.toggle('at-last', cur === N - 1);
+    if (announce) {
+      slideStatus.textContent = '第 ' + (cur + 1) + ' 頁，共 ' + N + ' 頁：' + slides[cur].getAttribute('data-title');
+    }
+  }
+
+  // 到第一頁／最後一頁即停住（不循環），頁碼與左右提示會反映邊界
+  function go(i) {
+    if (i < 0 || i >= N || i === cur) return false;
+    var hadFocus = slides[cur].contains(document.activeElement);
+    stage.style.setProperty('--dir', i > cur ? '1' : '-1');
+    void stage.offsetWidth;
+    cur = i;
+    renderSlides(true);
+    if (hadFocus) focusEl(slides[cur].querySelector('.s-cta') || slides[cur]);
+    return true;
+  }
+
+  pagerBtns.forEach(function (b) {
+    b.addEventListener('click', function () { go(Number(b.getAttribute('data-go'))); });
+  });
+
+  // 電腦：點擊左半＝上一頁、右半＝下一頁（僅滑鼠／觸控筆，觸控以滑動為準）
+  var lastPointer = 'mouse';
+  stage.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || 'mouse'; });
+  stage.addEventListener('click', function (e) {
+    if (lastPointer === 'touch') return;
+    if (e.target.closest(CONTROL_SEL)) return;
+    var sel = window.getSelection ? String(window.getSelection()) : '';
+    if (sel) return; // 正在選取文字
+    var r = stage.getBoundingClientRect();
+    if (e.clientX < r.left + r.width / 2) go(cur - 1); else go(cur + 1);
+  });
+  stage.addEventListener('mousemove', function (e) {
+    var side = '';
+    if (!e.target.closest(CONTROL_SEL)) {
+      var r = stage.getBoundingClientRect();
+      side = e.clientX < r.left + r.width / 2 ? 'prev' : 'next';
+    }
+    if (stage.getAttribute('data-hover') !== side) stage.setAttribute('data-hover', side);
+  });
+  stage.addEventListener('mouseleave', function () { stage.setAttribute('data-hover', ''); });
+
+  // 行動裝置：左滑＝下一頁、右滑＝上一頁；起點在控件上則不處理
+  var tx = null, ty = 0;
+  stage.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1 || e.target.closest(CONTROL_SEL)) { tx = null; return; }
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+  }, { passive: true });
+  stage.addEventListener('touchend', function (e) {
+    if (tx === null) return;
+    var t = e.changedTouches[0];
+    var dx = t.clientX - tx, dy = t.clientY - ty;
+    tx = null;
+    if (Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy) * 1.3) go(dx < 0 ? cur + 1 : cur - 1);
+  }, { passive: true });
+  stage.addEventListener('touchcancel', function () { tx = null; }, { passive: true });
+
+  /* =========================================================
+   * 捐款資訊抽屜
+   * ========================================================= */
+  var drawer = $('drawer'), scrim = $('scrim'), triBtn = $('triBtn'), drawerClose = $('drawerClose'), drawerBody = $('drawerBody');
+  var drawerOpen = false, drawerTimer, lockY = 0;
+  var bgEls = [stage, report, skipBtn, introBtn, triBtn];
+
+  function setBackgroundInert(on) {
+    bgEls.forEach(function (el) {
+      el.inert = on;
+      if (on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden');
+    });
+  }
+  function lockScroll() {
+    lockY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    var s = document.body.style;
+    s.position = 'fixed'; s.top = (-lockY) + 'px'; s.left = '0'; s.right = '0'; s.width = '100%';
+  }
+  function unlockScroll() {
+    var s = document.body.style;
+    s.position = ''; s.top = ''; s.left = ''; s.right = ''; s.width = '';
+    window.scrollTo(0, lockY);
+  }
+
+  function openDrawer() {
+    if (drawerOpen || switching) return;
+    drawerOpen = true;
+    clearTimeout(drawerTimer);
+    lockScroll();
+    scrim.hidden = false;
+    drawer.hidden = false;
+    drawer.style.transform = '';
+    drawerBody.scrollTop = 0;
+    void drawer.offsetWidth;
+    scrim.classList.add('is-open');
+    drawer.classList.add('is-open');
+    triBtn.setAttribute('aria-expanded', 'true');
+    setBackgroundInert(true);
+    focusEl(drawerClose);
+  }
+  function closeDrawer() {
+    if (!drawerOpen) return;
+    drawerOpen = false;
+    drawer.classList.remove('is-dragging');
+    scrim.classList.remove('is-open');
+    drawer.classList.remove('is-open');
+    drawer.style.transform = '';
+    triBtn.setAttribute('aria-expanded', 'false');
+    setBackgroundInert(false);
+    unlockScroll();
+    drawerTimer = setTimeout(function () { drawer.hidden = true; scrim.hidden = true; }, motionMs(360));
+    focusEl(triBtn);
+  }
+
+  triBtn.addEventListener('click', openDrawer);
+  scrim.addEventListener('click', closeDrawer);
+  drawerClose.addEventListener('click', closeDrawer);
+
+  // 三角形上向上滑＝開啟
+  var triY = null;
+  triBtn.addEventListener('touchstart', function (e) { triY = e.touches.length === 1 ? e.touches[0].clientY : null; }, { passive: true });
+  triBtn.addEventListener('touchmove', function (e) {
+    if (triY === null) return;
+    if (e.touches[0].clientY - triY < -18) { triY = null; openDrawer(); }
+  }, { passive: true });
+  triBtn.addEventListener('touchend', function () { triY = null; }, { passive: true });
+  triBtn.addEventListener('touchcancel', function () { triY = null; }, { passive: true });
+
+  // 面板上向下滑＝關閉（從標題列拖，或內容已捲到最上方時）
+  var dStartY = null, dDragging = false, dDy = 0, dFromHead = false, dAtTop = false;
+  drawer.addEventListener('touchstart', function (e) {
+    if (e.touches.length !== 1) { dStartY = null; return; }
+    dStartY = e.touches[0].clientY; dDy = 0; dDragging = false;
+    dFromHead = !!e.target.closest('.drawer-head');
+    dAtTop = drawerBody.scrollTop <= 0;
+  }, { passive: true });
+  drawer.addEventListener('touchmove', function (e) {
+    if (dStartY === null) return;
+    var dy = e.touches[0].clientY - dStartY;
+    if (!dDragging) {
+      if (dy > 8 && (dFromHead || (dAtTop && drawerBody.scrollTop <= 0))) {
+        dDragging = true;
+        drawer.classList.add('is-dragging');
+      } else if (Math.abs(dy) > 8) { dStartY = null; return; } // 交給原生捲動
+      else return;
+    }
+    dDy = Math.max(0, dy);
+    drawer.style.transform = 'translateY(' + dDy + 'px)';
+    if (e.cancelable) e.preventDefault();
+  }, { passive: false });
+  function endDrawerDrag() {
+    if (dDragging) {
+      drawer.classList.remove('is-dragging');
+      if (dDy > 80) closeDrawer();
+      else drawer.style.transform = '';
+    }
+    dStartY = null; dDragging = false; dDy = 0;
+  }
+  drawer.addEventListener('touchend', endDrawerDrag, { passive: true });
+  drawer.addEventListener('touchcancel', endDrawerDrag, { passive: true });
+
+  function trapTab(e) {
+    var list = Array.prototype.slice.call(drawer.querySelectorAll('button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])'))
+      .filter(function (el) { return !el.disabled && el.offsetParent !== null; });
+    if (!list.length) return;
+    var first = list[0], last = list[list.length - 1];
+    if (e.shiftKey && (document.activeElement === first || !drawer.contains(document.activeElement))) { e.preventDefault(); last.focus(); }
+    else if (!e.shiftKey && (document.activeElement === last || !drawer.contains(document.activeElement))) { e.preventDefault(); first.focus(); }
+  }
+
+  /* ---------- 鍵盤 ---------- */
+  document.addEventListener('keydown', function (e) {
+    if (drawerOpen) {
+      if (e.key === 'Escape' || e.key === 'Esc') { e.preventDefault(); closeDrawer(); }
+      else if (e.key === 'Tab') trapTab(e);
+      return;
+    }
+    // 只有投影片顯示時，方向鍵才切頁；焦點在輸入框時不攔截
+    if (mode !== 'slides' || switching) return;
+    if (e.altKey || e.ctrlKey || e.metaKey || e.shiftKey) return;
+    var t = e.target;
+    if (t && t.nodeType === 1 && t.closest('input, select, textarea, [contenteditable]')) return;
+    var handled = false;
+    if (e.key === 'ArrowLeft' || e.key === 'Left') { go(cur - 1); handled = true; }
+    else if (e.key === 'ArrowRight' || e.key === 'Right') { go(cur + 1); handled = true; }
+    else if (e.key === 'Home') { go(0); handled = true; }
+    else if (e.key === 'End') { go(N - 1); handled = true; }
+    if (handled) e.preventDefault();
+  });
+
+  /* ---------- 初始狀態 ---------- */
+  renderSlides(false);
+  // 以 #report 連結進入時，直接顯示回報表單
+  if (location.hash === '#report' || location.hash === '#c3') {
+    stage.hidden = true;
+    report.hidden = false;
+    skipBtn.hidden = true;
+    introBtn.hidden = false;
+    mode = 'report';
   }
 })();
 </script>
