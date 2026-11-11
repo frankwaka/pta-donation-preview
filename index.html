@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v14">
+<html lang="zh-Hant" data-build="pta-donation-v15">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -462,6 +462,15 @@
   @keyframes hahapop{0%{opacity:0; transform:translateY(6px) scale(.6)}12%{opacity:1; transform:translateY(0) scale(1.1)}20%,80%{opacity:1; transform:translateY(-4px) scale(1)}100%{opacity:0; transform:translateY(-14px) scale(1)}}
   @media (prefers-reduced-motion:reduce){ .play-sun .sun, .play-sun .haha{animation:none !important} }
   .s-plate .swipe-hint svg{position:static; inset:auto; width:40px; height:20px; min-width:0; min-height:0}
+  .apples .apple{opacity:0}
+  .play-tree .apple.a1{animation:appleDrop1 4s ease-in both}
+  .play-tree .apple.a2{animation:appleDrop2 4s ease-in both}
+  @keyframes appleDrop1{0%,12%{opacity:0;transform:translateY(-130px)}14%{opacity:1;transform:translateY(-130px)}30%{transform:translateY(0)}36%{transform:translateY(-12px)}42%{transform:translateY(0)}88%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+  @keyframes appleDrop2{0%,20%{opacity:0;transform:translateY(-120px)}22%{opacity:1;transform:translateY(-120px)}38%{transform:translateY(0)}44%{transform:translateY(-10px)}50%{transform:translateY(0)}88%{opacity:1;transform:translateY(0)}100%{opacity:0;transform:translateY(0)}}
+  .apples .worm{transform-box:fill-box; transform-origin:0% 100%; transform:scale(0)}
+  .play-tree .worm{animation:wormPeek 4s ease-out both}
+  @keyframes wormPeek{0%,52%{transform:scale(0)}60%{transform:scale(1.15)}64%{transform:scale(1) rotate(0)}70%{transform:scale(1) rotate(-12deg)}76%{transform:scale(1) rotate(10deg)}82%{transform:scale(1) rotate(0)}100%{transform:scale(1)}}
+  @media (prefers-reduced-motion:reduce){ .play-tree .apple, .play-tree .worm{animation:none !important} }
 </style>
 <noscript><style>
   /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
@@ -566,6 +575,11 @@
               <path d="M214 196c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
               <path d="M150 162c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
             </g>
+            </g>
+            <!-- 搖樹掉蘋果 -->
+            <g class="apples" pointer-events="none">
+              <g transform="translate(166 322) scale(1.2)"><g class="apple a1"><g class="apple-in"><path d="M0 -7c-3-3-10-2-10 5c0 6 5 10 10 8c5 2 10-2 10-8c0-7-7-8-10-5z" fill="#E8473B" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path d="M0 -7q1-4 3-6" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linecap="round"/><path d="M2 -10q5-4 9-1q-4 4-9 1z" fill="#6FD04A" stroke="#3B2A20" stroke-width="1.5" stroke-linejoin="round"/><circle cx="-5" cy="-2" r="1.8" fill="#FFB3A8"/></g></g></g>
+              <g transform="translate(234 328) scale(1.3)"><g class="apple a2"><g class="apple-in"><path d="M0 -7c-3-3-10-2-10 5c0 6 5 10 10 8c5 2 10-2 10-8c0-7-7-8-10-5z" fill="#E8473B" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path d="M0 -7q1-4 3-6" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linecap="round"/><path d="M2 -10q5-4 9-1q-4 4-9 1z" fill="#6FD04A" stroke="#3B2A20" stroke-width="1.5" stroke-linejoin="round"/><circle cx="-5" cy="-2" r="1.8" fill="#FFB3A8"/><g class="worm"><path d="M7 -1q6-3 8-9" fill="none" stroke="#3B2A20" stroke-width="6.5" stroke-linecap="round"/><path d="M7 -1q6-3 8-9" fill="none" stroke="#9BE36B" stroke-width="4" stroke-linecap="round"/><circle cx="15.5" cy="-11" r="4.2" fill="#9BE36B" stroke="#3B2A20" stroke-width="1.6"/><circle cx="14.6" cy="-11.6" r="0.9" fill="#3B2A20"/><circle cx="17.2" cy="-11.2" r="0.9" fill="#3B2A20"/><path d="M14.5 -9.4q1.3 1 2.6 0" fill="none" stroke="#3B2A20" stroke-width="0.9" stroke-linecap="round"/></g></g></g></g>
             </g>
             <!-- 小小心意朝大樹聚集 -->
             <g pointer-events="none">
@@ -1825,7 +1839,7 @@
       var svg = g.ownerSVGElement, k = 'play-' + g.getAttribute('data-ix');
       svg.classList.remove(k); void svg.getBoundingClientRect(); svg.classList.add(k);
       clearTimeout(svg['_t' + k]);
-      svg['_t' + k] = setTimeout(function(){ svg.classList.remove(k); }, k === 'play-land' ? 5200 : 2800);
+      svg['_t' + k] = setTimeout(function(){ svg.classList.remove(k); }, k === 'play-land' ? 5200 : (k === 'play-tree' ? 4200 : 2800));
       if (hint) hint.classList.add('is-gone');
     });
   })();
