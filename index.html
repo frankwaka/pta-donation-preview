@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v23">
+<html lang="zh-Hant" data-build="pta-donation-v24">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -494,6 +494,37 @@
   .gc-foot b{color:#2F8F74; font-size:16px}
   .gc-foot small{color:var(--ink-3); font-size:12px}
   @media (prefers-reduced-motion:reduce){ .goal-track i, .goal-tree{transition:none} }
+  .gm-more{margin-left:8px; font-size:11.5px; font-weight:700; color:var(--ink-3)}
+  .goal-mini{width:100%; font:inherit; text-align:left; cursor:pointer}
+  .gc-link{display:block; margin:10px auto 0; padding:4px 12px; font:inherit; font-size:13.5px; font-weight:700; color:var(--red-d); background:none; border:0; cursor:pointer; text-decoration:underline; text-underline-offset:3px}
+  .goal-view{position:fixed; inset:0; z-index:200; overflow-y:auto; background:var(--cream); animation:gvIn .28s ease-out}
+  .goal-view[hidden]{display:none}
+  @keyframes gvIn{from{opacity:0; transform:translateY(16px)}to{opacity:1; transform:none}}
+  .gv-wrap{max-width:520px; margin:0 auto; padding:14px 18px 40px}
+  .gv-top{display:flex; justify-content:space-between; align-items:center}
+  .gv-back{padding:6px 12px; font:inherit; font-size:15px; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; cursor:pointer}
+  .gv-title{margin:16px 0 14px; font-size:24px; font-weight:900; line-height:1.3; text-align:center}
+  .gv-hero{padding:16px 16px 12px; background:var(--paper); border:2px solid var(--ink); border-radius:16px 12px 16px 12px; box-shadow:3px 3px 0 var(--ink); text-align:center}
+  .gv-label{margin:0; font-size:13px; color:var(--ink-3)}
+  .gv-big{margin:4px 0 14px; font-size:15px; color:var(--ink-2)}
+  .gv-big b{display:block; font-size:30px; font-weight:900; color:#2F8F74; line-height:1.25}
+  .gv-pct{margin:10px 0 0; font-size:15px}
+  .gv-pct b{font-size:20px; color:#2F8F74}
+  .gv-grid{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:14px}
+  .gv-grid.three{grid-template-columns:1fr 1fr 1fr}
+  .gv-stat,.gv-mini{padding:10px 10px 9px; background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; text-align:center}
+  .gv-stat span,.gv-mini span{display:block; font-size:12.5px; color:var(--ink-3)}
+  .gv-stat b{display:block; margin-top:2px; font-size:17px; font-weight:900}
+  .gv-stat small{display:block; font-size:11px; color:var(--ink-3)}
+  .gv-stat.is-ok{background:#E3F4E9}
+  .gv-stat.is-ok b{color:#2F8F74}
+  .gv-mini b{display:block; font-size:22px; font-weight:900}
+  .gv-mini.is-wait{background:var(--sun-l)}
+  .gv-note{margin-top:16px; padding:12px 14px; background:var(--paper); border:2px dashed var(--line); border-radius:12px}
+  .gv-note b{font-size:14px}
+  .gv-note p{margin:4px 0 0; font-size:13.5px; line-height:1.7; color:var(--ink-2)}
+  .gv-cta{width:100%; margin-top:18px}
+  body.gv-open{overflow:hidden}
 </style>
 <noscript><style>
   /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
@@ -552,10 +583,10 @@
         <span class="count" aria-hidden="true"><b id="pageNow">1</b> / 3</span>
       </div>
     </div>
-        <div class="goal-mini" data-goal-mini role="group" aria-label="募款進度">
-        <span class="gm-top"><b>募款進度</b><span><em data-goal-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
+        <button type="button" class="goal-mini" data-goal-open aria-label="看募款進度詳情">
+        <span class="gm-top"><b>募款進度</b><span class="gm-more">看詳情 ›</span><span><em data-goal-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
         <span class="goal-track" aria-hidden="true"><i data-goal-bar></i></span>
-      </div>
+      </button>
   </header>
 
   <div class="slides">
@@ -774,6 +805,39 @@
   <p class="sr-only" id="slideStatus" aria-live="polite" aria-atomic="true"></p>
 </section>
 
+
+<!-- 募款進度分頁 -->
+<section class="goal-view" id="goalView" role="dialog" aria-modal="true" aria-labelledby="gvTitle" hidden>
+  <div class="gv-wrap">
+    <header class="gv-top">
+      <button type="button" class="gv-back" data-goal-close aria-label="返回">‹ 返回</button>
+      <span class="goal-sample" data-goal-sample>範例數字</span>
+    </header>
+    <h2 class="gv-title" id="gvTitle">115 學年度家長會<br>募款進度</h2>
+    <div class="gv-hero">
+      <p class="gv-label">已確認入帳／募款目標</p>
+      <p class="gv-big"><b data-goal-confirmed>NT$0</b><span>/ <span data-goal-target>NT$0</span></span></p>
+      <div class="goal-track big" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-goal-pb><i data-goal-bar></i><span class="goal-tree" data-goal-tree aria-hidden="true">🌳</span></div>
+      <p class="gv-pct">已達成 <b data-goal-pct>0%</b></p>
+    </div>
+    <div class="gv-grid">
+      <div class="gv-stat"><span>募款目標</span><b data-goal-target>NT$0</b></div>
+      <div class="gv-stat"><span>家長已回報</span><b data-goal-reported>NT$0</b><small>含尚未對帳</small></div>
+      <div class="gv-stat is-ok"><span>已確認入帳</span><b data-goal-confirmed>NT$0</b><small>家長會已對帳</small></div>
+      <div class="gv-stat"><span>還差多少</span><b data-goal-left>NT$0</b></div>
+    </div>
+    <div class="gv-grid three">
+      <div class="gv-mini"><span>已確認筆數</span><b data-goal-count>0</b></div>
+      <div class="gv-mini is-wait"><span>待確認入帳</span><b data-goal-pending>0</b></div>
+      <div class="gv-mini"><span>支持家庭</span><b data-goal-donors>0</b></div>
+    </div>
+    <div class="gv-note">
+      <b>這些數字怎麼來的？</b>
+      <p>家長匯款後填寫回報，家長會對完帳才算「已確認入帳」，進度條只算已確認的金額。本頁只顯示總數，不會公開任何家長的姓名或金額。<span data-goal-updated>每天更新</span>。</p>
+    </div>
+    <button type="button" class="btn gv-cta" data-goal-close data-goal-donate><span>我也要支持</span><span class="arrow" aria-hidden="true">→</span></button>
+  </div>
+</section>
 <!-- =====================================================
      區塊 2：匯款回報表單
      ===================================================== -->
@@ -810,6 +874,7 @@
       <p class="gc-nums"><b data-goal-confirmed>NT$0</b><span> / 目標 <span data-goal-target>NT$0</span></span></p>
       <div class="goal-track big" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-goal-pb><i data-goal-bar></i><span class="goal-tree" data-goal-tree aria-hidden="true">🌳</span></div>
       <p class="gc-foot">已達成 <b data-goal-pct>0%</b>・<span data-goal-count>0</span> 筆捐款<br><small>只計算家長會已確認入帳的金額，<span data-goal-updated>每天更新</span>。</small></p>
+      <button type="button" class="gc-link" data-goal-open>看完整募款進度 ›</button>
     </section>
 
     <aside class="notice" aria-label="本頁狀態">
@@ -1886,8 +1951,8 @@
 <script>
   /* 募款進度：接上 Apps Script 後，把 GOAL_STATS_URL 填上；它回傳 {"confirmed":數字,"target":數字,"count":數字,"updated":"文字"}，只含總數，不含任何家長資料。 */
   (function(){
-    var GOAL_STATS_URL = ''; // 待填：Apps Script 網址（GET）
-    var SAMPLE = { confirmed:133700, target:500000, count:42, updated:'' }; // 範例數字，未接上前顯示
+    var GOAL_STATS_URL = ''; // 待填：Apps Script 網址（GET），回傳 {confirmed, reported, target, count, pending, donors, updated}
+    var SAMPLE = { confirmed:133700, reported:142700, target:500000, count:42, pending:5, donors:45, updated:'' }; // 範例數字，未接上前顯示
     var fmt = function(n){ return 'NT$' + Math.round(n).toLocaleString('en-US'); };
     function render(d, isSample){
       var pct = d.target > 0 ? Math.min(100, d.confirmed / d.target * 100) : 0;
@@ -1896,6 +1961,11 @@
       document.querySelectorAll('[data-goal-confirmed]').forEach(function(e){ e.textContent = fmt(d.confirmed); });
       document.querySelectorAll('[data-goal-target]').forEach(function(e){ e.textContent = fmt(d.target); });
       document.querySelectorAll('[data-goal-count]').forEach(function(e){ e.textContent = d.count; });
+      var setT = function(sel, v){ document.querySelectorAll(sel).forEach(function(e){ e.textContent = v; }); };
+      setT('[data-goal-reported]', fmt(d.reported != null ? d.reported : d.confirmed));
+      setT('[data-goal-left]', fmt(Math.max(0, d.target - d.confirmed)));
+      setT('[data-goal-pending]', d.pending != null ? d.pending : 0);
+      setT('[data-goal-donors]', d.donors != null ? d.donors : d.count);
       document.querySelectorAll('[data-goal-sample]').forEach(function(e){ e.hidden = !isSample; });
       if (d.updated) document.querySelectorAll('[data-goal-updated]').forEach(function(e){ e.textContent = '更新於 ' + d.updated; });
       document.querySelectorAll('[data-goal-pb]').forEach(function(e){ e.setAttribute('aria-valuenow', Math.round(pct)); e.setAttribute('aria-valuetext', '已達成 ' + pctTxt); });
@@ -1904,10 +1974,37 @@
         document.querySelectorAll('[data-goal-tree]').forEach(function(e){ e.style.left = Math.min(Math.max(pct, 4), 96) + '%'; });
       }); });
     }
+    window.__goalData = { d: SAMPLE, sample: true };
     render(SAMPLE, true);
+    var view = document.getElementById('goalView'), lastFocus = null;
+    function openGoal(){
+      lastFocus = document.activeElement;
+      view.hidden = false; document.body.classList.add('gv-open'); view.scrollTop = 0;
+      document.querySelectorAll('#goalView [data-goal-bar]').forEach(function(e){ e.style.transition='none'; e.style.width='0'; });
+      document.querySelectorAll('#goalView [data-goal-tree]').forEach(function(e){ e.style.transition='none'; e.style.left='0'; });
+      void view.offsetWidth;
+      document.querySelectorAll('#goalView [data-goal-bar], #goalView [data-goal-tree]').forEach(function(e){ e.style.transition=''; });
+      render(window.__goalData.d, window.__goalData.sample);
+      var b = view.querySelector('.gv-back'); if (b) b.focus({preventScroll:true});
+      if (location.hash !== '#progress') history.pushState(null, '', '#progress');
+    }
+    function closeGoal(fromPop){
+      if (view.hidden) return;
+      view.hidden = true; document.body.classList.remove('gv-open');
+      if (!fromPop && location.hash === '#progress') history.back();
+      if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
+    }
+    document.addEventListener('click', function(ev){
+      var o = ev.target.closest('[data-goal-open]'); if (o){ ev.preventDefault(); ev.stopPropagation(); openGoal(); return; }
+      var c = ev.target.closest('[data-goal-close]'); if (c){ ev.preventDefault(); var donate = c.hasAttribute('data-goal-donate'); closeGoal(false);
+        if (donate) { var st = document.getElementById('stage'); if (st && !st.hidden) st.scrollIntoView({behavior:'smooth'}); } }
+    }, true);
+    window.addEventListener('popstate', function(){ if (location.hash !== '#progress') closeGoal(true); });
+    document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') closeGoal(false); });
+    if (location.hash === '#progress') openGoal();
     if (GOAL_STATS_URL) {
       fetch(GOAL_STATS_URL).then(function(r){ return r.json(); }).then(function(d){
-        if (d && typeof d.confirmed === 'number' && typeof d.target === 'number') render(d, false);
+        if (d && typeof d.confirmed === 'number' && typeof d.target === 'number') { window.__goalData = { d: d, sample: false }; render(d, false); }
       }).catch(function(){});
     }
   })();
