@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v15">
+<html lang="zh-Hant" data-build="pta-donation-v16">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -1841,6 +1841,12 @@
       clearTimeout(svg['_t' + k]);
       svg['_t' + k] = setTimeout(function(){ svg.classList.remove(k); }, k === 'play-land' ? 5200 : (k === 'play-tree' ? 4200 : 2800));
       if (hint) hint.classList.add('is-gone');
+      var sh = document.getElementById('swipeHint');
+      if (sh && !sh.hidden && !sh.classList.contains('is-gone')) {
+        sh.classList.add('is-gone');
+        try { sessionStorage.setItem('ptaDonationV3.swipeHintSeen', '1'); } catch (e) {}
+        setTimeout(function () { sh.hidden = true; }, 460);
+      }
     });
   })();
 </script>
