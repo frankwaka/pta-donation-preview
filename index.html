@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v8">
+<html lang="zh-Hant" data-build="pta-donation-v9">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -419,6 +419,12 @@
     .s-text{transform:none !important}
   }
   #c2,#c3{scroll-margin-top:72px}
+  .cta-row{display:flex; gap:10px; margin-top:10px}
+  .cta-row .s-cta{flex:1 1 0; width:auto; margin-top:0; padding:10px 8px; font-size:15px; gap:6px; white-space:nowrap}
+  .cta-row .s-cta .arrow{font-size:15px}
+  .s-direct{color:var(--ink); background:var(--sun-l, #FBE7A1)}
+  .s-direct:hover{background:#F6D978}
+  #skipBtn{display:none !important}
 </style>
 <noscript><style>
   /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
@@ -543,7 +549,7 @@
         <h2 class="s-title"><span class="mark">不指定</span><small>（由家長會統籌運用）</small></h2>
         <p class="s-copy">交給家長會，依校園實際需要統籌運用。回報時未特別指定用途，即歸入此項。</p>
         <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">細項說明待家長會確認後補充。</span></p>
-        <button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>我已匯款，直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
       </div>
     </section>
 
@@ -606,7 +612,7 @@
         <h2 class="s-title"><span class="mark">教師支援費</span></h2>
         <p class="s-copy">支持老師備課與教學所需的支援。</p>
         <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">支用範圍與細項，待家長會確認後說明。</span></p>
-        <button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>我已匯款，直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
       </div>
     </section>
 
@@ -671,7 +677,7 @@
         <h2 class="s-title"><span class="mark">校園 iPad 汰換計畫</span></h2>
         <p class="s-copy">協助汰換老舊的校園 iPad，讓教學設備可以接續使用。</p>
         <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">汰換範圍與時程，待家長會確認後公告。</span></p>
-        <button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>我已匯款，直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
       </div>
     </section>
   </div>
@@ -1463,6 +1469,8 @@
     }, motionMs(FADE_MS));
   }
 
+  function goDirect() { $('c3').hidden = false; $('doneBtn').hidden = true; showReport({ anchor: 'c3' }); }
+  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.s-direct')) goDirect(); });
   skipBtn.addEventListener('click', function () { $('c3').hidden = false; $('doneBtn').hidden = true; showReport({ anchor: 'c3' }); });
   introBtn.addEventListener('click', showSlides);
 
