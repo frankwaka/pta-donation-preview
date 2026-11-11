@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v12">
+<html lang="zh-Hant" data-build="pta-donation-v13">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -427,6 +427,30 @@
   #skipBtn{display:none !important}
   @media (max-width:420px){ .stage-top .logo{width:46px; height:46px} .stage-h{font-size:15.5px; letter-spacing:0} .brand-l{gap:8px} }
   @media (max-width:365px){ .stage-h{font-size:14.5px} }
+  /* 主視覺小彩蛋：點天空、海、地、樹 */
+  .ix{cursor:pointer; -webkit-tap-highlight-color:transparent}
+  .ix *{transform-box:fill-box}
+  .cloud{transform-origin:50% 50%}
+  .play-sky .c1{animation:drift 1.8s ease-in-out}
+  .play-sky .c2{animation:drift 1.8s ease-in-out .12s reverse}
+  .play-sky .twinkle{animation:twinkle 1.2s ease-in-out; transform-origin:50% 50%}
+  @keyframes drift{0%,100%{transform:translateX(0)}25%{transform:translateX(18px)}60%{transform:translateX(-12px)}80%{transform:translateX(5px)}}
+  @keyframes twinkle{0%,100%{transform:scale(1) rotate(0)}50%{transform:scale(1.5) rotate(45deg)}}
+  .tree{transform-box:fill-box; transform-origin:50% 100%}
+  .play-tree .tree{animation:sway 1.5s ease-in-out}
+  @keyframes sway{0%,100%{transform:rotate(0)}20%{transform:rotate(-3.5deg)}45%{transform:rotate(3deg)}70%{transform:rotate(-1.5deg)}88%{transform:rotate(.8deg)}}
+  .tuft{transform-origin:50% 100%; transform:scale(0)}
+  .play-land .tuft{animation:sprout 4.2s cubic-bezier(.3,1.6,.5,1) var(--d) both}
+  @keyframes sprout{0%{transform:scale(0)}12%{transform:scale(1.25,1.25)}18%,82%{transform:scale(1)}100%{transform:scale(0)}}
+  .boat{transform-origin:50% 100%}
+  .play-sea .boat{animation:bob 2.6s ease-in-out}
+  .play-sea .waves{animation:waveshift 2.6s ease-in-out}
+  @keyframes bob{0%,100%{transform:translate(0,0) rotate(0)}20%{transform:translate(4px,-6px) rotate(-6deg)}45%{transform:translate(8px,3px) rotate(5deg)}70%{transform:translate(4px,-4px) rotate(-3deg)}88%{transform:translate(1px,1px) rotate(1deg)}}
+  @keyframes waveshift{0%,100%{transform:translateX(0)}50%{transform:translateX(-10px)}}
+  .tap-hint{position:absolute; left:10px; bottom:10px; padding:3px 10px; font-size:12px; font-weight:700; color:var(--ink); background:#FFFBF3; border:2px solid #3B2A20; border-radius:999px; pointer-events:none; animation:hintpulse 1.8s ease-in-out infinite; transition:opacity .4s}
+  .tap-hint.is-gone{opacity:0}
+  @keyframes hintpulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
+  @media (prefers-reduced-motion:reduce){ .play-sky *, .play-tree .tree, .play-sea *, .tap-hint{animation:none !important} .play-land .tuft{animation:none; transform:scale(1)} }
 </style>
 <noscript><style>
   /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
@@ -505,25 +529,32 @@
       <figure class="s-fig">
         <div class="s-plate">
           <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天下、綠色海面前的黃色土地上，長著一棵紅色大樹，四周小小的心意朝大樹聚集">
-            <rect width="400" height="400" fill="#5BA4D6"/>
+            <g class="ix" data-ix="sky"><rect width="400" height="400" fill="#5BA4D6"/>
             <circle cx="120" cy="20" r="150" fill="#7FBBE3" opacity=".55"/>
             <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M320 58v-12M320 142v12M278 100h-12M362 100h12M290 70l-8-8M350 130l8 8M350 70l8-8M290 130l-8 8"/></g>
             <circle cx="320" cy="100" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
             <path d="M309 98q3 4 6 0M325 98q3 4 6 0M311 110q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M40 122c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H44c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
-            <path d="M180 84c1-8 12-11 19-6 4-7 16-6 19 2 9 0 11 9 6 13h-41c-7 0-8-6-3-9z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.2" stroke-linejoin="round"/>
-            <path d="M110 60l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            <path class="cloud c1" d="M40 122c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H44c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path class="cloud c2" d="M180 84c1-8 12-11 19-6 4-7 16-6 19 2 9 0 11 9 6 13h-41c-7 0-8-6-3-9z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.2" stroke-linejoin="round"/>
+            <path class="twinkle" d="M110 60l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            </g>
             <!-- 綠海 -->
+            <g class="ix" data-ix="sea">
             <path d="M-10 212c40-10 84-10 124-2s84 10 124 0 84-10 172 0V300H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
-            <g fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M24 244q8-6 16 0t16 0M296 238q8-6 16 0t16 0M118 256q8-6 16 0t16 0M330 268q8-6 16 0t16 0"/></g>
-            <path d="M52 230h40l-6 10H58z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
-            <path d="M72 228v-34l18 30z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <g class="waves" fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M24 244q8-6 16 0t16 0M296 238q8-6 16 0t16 0M118 256q8-6 16 0t16 0M330 268q8-6 16 0t16 0"/></g>
+            <g class="boat"><path d="M52 230h40l-6 10H58z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M72 228v-34l18 30z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/></g>
+            </g>
             <!-- 黃地 -->
+            <g class="ix" data-ix="land">
             <path d="M-10 286c60-26 140-30 210-16s150 18 220-8V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
             <g fill="#D9A92E"><circle cx="54" cy="330" r="3"/><circle cx="92" cy="356" r="2.5"/><circle cx="300" cy="336" r="3"/><circle cx="340" cy="360" r="2.5"/><circle cx="150" cy="350" r="2.5"/><circle cx="250" cy="364" r="3"/></g>
             <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M36 316l4-10 4 10M48 318l3-8 3 8M340 312l4-10 4 10M120 330l3-8 3 8"/></g>
-            <ellipse cx="200" cy="312" rx="50" ry="7" fill="#D9A92E"/>
+            <g class="tufts"><path class="tuft" style="--d:0ms" d="M62 350q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:90ms" d="M122 372q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:180ms" d="M262 350q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:270ms" d="M322 378q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:360ms" d="M22 370q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:450ms" d="M364 336q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:540ms" d="M152 330q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:630ms" d="M232 388q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:720ms" d="M92 392q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path class="tuft" style="--d:810ms" d="M292 396q2-12 4-16q1 9 4 4q2-10 4-14q1 12 4 26z" fill="#4FB37A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/></g>
+            </g>
+            <ellipse cx="200" cy="312" rx="50" ry="7" fill="#D9A92E" pointer-events="none"/>
             <!-- 紅樹 -->
+            <g class="ix tree" data-ix="tree">
             <path d="M200 262c-12-6-22-14-30-26M202 250c12-6 20-14 26-26" fill="none" stroke="#3B2A20" stroke-width="3" stroke-linecap="round"/>
             <path d="M188 312c4-28 5-60 2-92h20c-3 32-2 64 2 92z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
             <path d="M200 96c40-3 70 22 68 54 22 15 17 55-13 62-10 23-50 26-60 10-25 14-63 3-63-24-24-13-20-48 6-56 2-30 30-46 62-46z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
@@ -533,7 +564,9 @@
               <path d="M214 196c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
               <path d="M150 162c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
             </g>
+            </g>
             <!-- 小小心意朝大樹聚集 -->
+            <g pointer-events="none">
             <g fill="none" stroke-width="2.6" stroke-dasharray="1 8" stroke-linecap="round">
               <path d="M72 172c20-4 38 0 54 8" stroke="#FFFBF3"/><path d="M340 192c-22-8-44-8-62-2" stroke="#FFFBF3"/>
               <path d="M92 340c26-14 52-22 82-24" stroke="#3B2A20"/><path d="M318 344c-26-16-52-24-84-26" stroke="#3B2A20"/>
@@ -544,8 +577,10 @@
               <path d="M72 338c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
               <path d="M320 342c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
             </g>
+            </g>
           </svg>
           <span class="plate-tag">插畫・非實景</span>
+          <span class="tap-hint" aria-hidden="true">點點看 👆</span>
         </div>
         <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -1506,7 +1541,7 @@
   var slideStatus = $('slideStatus'), pageNow = $('pageNow'), swipeHint = $('swipeHint');
   var N = slides.length, cur = 0;
   // 控件：點擊／滑動起點落在這些元素上時，不切頁
-  var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav]';
+  var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav], .ix';
 
   // 「我要捐這項」按鈕標籤與 PURPOSE_OPTIONS 同步
   Array.prototype.forEach.call(stage.querySelectorAll('[data-pick]'), function (b) {
@@ -1770,6 +1805,20 @@
     if(!b2||!b1) return;
     b2.addEventListener('click', function(){ b1.click(); });
     new MutationObserver(function(){ m2.textContent=m1.textContent; }).observe(m1,{childList:true,characterData:true,subtree:true});
+  })();
+
+  // 主視覺小彩蛋：點一下（不是滑動）才播放；電腦版點這些區塊不會換頁
+  (function(){
+    var hint = document.querySelector('#slide-1 .tap-hint');
+    document.addEventListener('click', function (e) {
+      var g = e.target.closest && e.target.closest('.ix');
+      if (!g) return;
+      var svg = g.ownerSVGElement, k = 'play-' + g.getAttribute('data-ix');
+      svg.classList.remove(k); void svg.getBoundingClientRect(); svg.classList.add(k);
+      clearTimeout(svg['_t' + k]);
+      svg['_t' + k] = setTimeout(function(){ svg.classList.remove(k); }, k === 'play-land' ? 5200 : 2800);
+      if (hint) hint.classList.add('is-gone');
+    });
   })();
 </script>
 </body>
