@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v11">
+<html lang="zh-Hant" data-build="pta-donation-v12">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -64,7 +64,7 @@
   /* 共用：校名列 */
   .brand{display:flex; align-items:center; justify-content:space-between; gap:10px}
   .brand-l{display:flex; align-items:center; gap:10px; min-width:0}
-  .logo{flex:none; width:38px; height:38px}
+  .logo{flex:none; width:50px; height:50px}
   .brand-name{display:flex; flex-wrap:wrap; align-items:center; gap:2px 8px; font-size:12.5px; font-weight:700; line-height:1.45; color:var(--ink-2); letter-spacing:.03em}
   .status{display:inline-block; padding:0 8px; font-size:11px; font-weight:700; line-height:1.7; color:#fff; background:var(--red-d); border-radius:10px 6px 11px 7px; white-space:nowrap; transform:rotate(-2deg)}
 
@@ -183,7 +183,7 @@
   @media (max-height:700px){
     :root{--tri-h:48px; --float-h:38px; --pad-x:16px}
     .stage-top{padding-top:calc(var(--safe-t) + 6px)}
-    .logo{width:32px; height:32px}
+    .logo{width:46px; height:46px}
     .stage-h{font-size:15.5px}
     .slide{gap:10px; padding-top:6px}
     .s-title{font-size:clamp(22px, 6.6vw, 30px); margin-top:4px}
@@ -425,6 +425,8 @@
   .s-direct{color:var(--ink); background:var(--sun-l, #FBE7A1)}
   .s-direct:hover{background:#F6D978}
   #skipBtn{display:none !important}
+  @media (max-width:420px){ .stage-top .logo{width:46px; height:46px} .stage-h{font-size:15.5px; letter-spacing:0} .brand-l{gap:8px} }
+  @media (max-width:365px){ .stage-h{font-size:14.5px} }
 </style>
 <noscript><style>
   /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
@@ -445,7 +447,7 @@
     <clipPath id="logoClip"><circle cx="24" cy="24" r="21"/></clipPath>
     <symbol id="logoSym" viewBox="0 0 48 48">
       <circle cx="24" cy="24" r="22" fill="#FFF8E7"/>
-      <g transform="translate(24 24) scale(0.86) translate(-23.2 -23.8)" stroke="#3B2A20" stroke-width="1.2" stroke-linejoin="round">
+      <g transform="translate(24 24) scale(1.07) translate(-23.2 -23.8)" stroke="#3B2A20" stroke-width="1.2" stroke-linejoin="round">
         <circle cx="30.7" cy="24.4" r="6.9" fill="none" stroke-width="6.2"/>
         <circle cx="30.7" cy="24.4" r="6.9" fill="none" stroke="#2457B8" stroke-width="3.8"/>
         <rect x="5.5" y="13" width="16.1" height="3.4" rx="1.4" fill="#2457B8"/>
