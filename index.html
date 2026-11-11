@@ -1,0 +1,978 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#F3EEE4">
+<meta name="robots" content="noindex, nofollow">
+<title>愛心捐款回報｜和平實驗小學家長會</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
+<style>
+  :root{
+    --ivory:#F3EEE4; --paper:#FAF7F0; --ink:#1D1B19; --ink-2:#4F4A44; --ink-3:#6F675D;
+    --rule:#CDC3B2; --wine:#7B2335; --wine-l:#EFE1DF; --tan:#B9A98F; --error:#A3261E;
+    --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    --sans:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
+    --nav-h:56px;
+  }
+  *{box-sizing:border-box}
+  [hidden]{display:none !important}
+  html{-webkit-text-size-adjust:100%; scroll-behavior:smooth}
+  body{margin:0; background:var(--ivory); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.85; -webkit-tap-highlight-color:transparent}
+  .wrap{max-width:560px; margin:0 auto; padding:0 22px}
+  :focus-visible{outline:2px solid var(--wine); outline-offset:3px}
+  a{color:inherit}
+  .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
+  .skip{position:absolute; left:12px; top:-60px; z-index:50; padding:10px 14px; background:var(--ink); color:var(--paper); font-size:14px; text-decoration:none}
+  .skip:focus{top:12px}
+
+  /* 待填標記 */
+  .tbd{display:inline-block; margin-left:6px; padding:0 6px; border:1px solid var(--wine); font-family:var(--sans); font-size:11px; font-weight:500; font-style:normal; letter-spacing:.12em; line-height:1.7; color:var(--wine); vertical-align:.15em; white-space:nowrap}
+  .tbd.solid{background:var(--wine); color:var(--paper)}
+
+  /* 刊頭 */
+  .mast{padding-top:18px}
+  .mast-top{display:flex; justify-content:space-between; align-items:center; gap:10px; padding-bottom:8px; border-bottom:1px solid var(--ink); font-size:12px; letter-spacing:.14em}
+  .mast-top .status{color:var(--wine); white-space:nowrap}
+  .mast-top .status::before{content:""; display:inline-block; width:7px; height:7px; margin-right:6px; border:1px solid var(--wine); border-radius:50%; vertical-align:.08em}
+  .mast-word{margin:10px 0 0; font-family:var(--serif); font-weight:400; font-size:clamp(40px,13vw,76px); line-height:.95; letter-spacing:.04em; color:var(--ink)}
+  .mast-word i{font-style:normal; color:var(--wine)}
+  .mast-sub{display:flex; justify-content:space-between; margin-top:8px; padding:6px 0; border-top:1px solid var(--rule); border-bottom:3px double var(--ink); font-size:11px; letter-spacing:.24em; color:var(--ink-2)}
+
+  /* 目錄導覽 */
+  .toc{position:sticky; top:0; z-index:20; margin:0 -22px; padding:0 22px; background:rgba(243,238,228,.94); -webkit-backdrop-filter:blur(6px); backdrop-filter:blur(6px); border-bottom:1px solid var(--rule)}
+  .toc ol{display:grid; grid-template-columns:repeat(5,1fr); margin:0; padding:0; list-style:none}
+  .toc a{display:flex; flex-direction:column; align-items:center; justify-content:center; min-height:var(--nav-h); padding:4px 0; text-decoration:none; font-size:13px; letter-spacing:.12em; line-height:1.25; color:var(--ink-2)}
+  .toc a b{font-family:var(--serif); font-weight:400; font-size:12px; letter-spacing:.06em; color:var(--wine)}
+  .toc li + li a{border-left:1px solid var(--rule)}
+  .toc a:hover, .toc a.is-here{color:var(--ink); background:rgba(123,35,53,.05)}
+  .toc a:focus-visible{outline-offset:-3px}
+
+  /* Hero */
+  .cover{display:grid; grid-template-columns:1fr auto; gap:16px; margin-top:24px; align-items:start}
+  .plate{margin:0}
+  .plate svg{display:block; width:100%; height:auto; background:#2A2623}
+  .plate figcaption{margin-top:8px; font-size:11.5px; color:var(--ink-3); letter-spacing:.06em; line-height:1.6}
+  .vtitle{margin:0; writing-mode:vertical-rl; text-orientation:upright; font-family:var(--serif); font-weight:900; font-size:40px; line-height:1.1; letter-spacing:.14em}
+  .vtitle small{display:block; margin-right:10px; font-family:var(--sans); font-weight:500; font-size:12px; letter-spacing:.3em; color:var(--wine)}
+  .dateline{margin:22px 0 0; padding:8px 0; border-top:1px solid var(--ink); border-bottom:1px solid var(--rule); font-size:12.5px; letter-spacing:.16em; color:var(--ink-2); line-height:1.6}
+  .dateline b{font-family:var(--serif); font-weight:600; color:var(--ink)}
+  .dek{margin:22px 0 0; font-family:var(--serif); font-size:23px; font-weight:600; line-height:1.55; letter-spacing:.03em}
+  .standfirst{margin:12px 0 0; padding-left:14px; border-left:2px solid var(--wine); color:var(--ink-2); font-size:15px}
+  .hero-cta{display:grid; grid-template-columns:1fr 1fr; gap:10px; margin-top:22px}
+  .hero-cta .btn{font-size:15px; letter-spacing:.1em; padding:12px 14px; text-decoration:none}
+
+  /* 本頁狀態 */
+  .notice{margin-top:26px; padding:16px 16px 14px; background:var(--paper); border:1px solid var(--wine); border-left-width:4px; font-size:14px; color:var(--ink-2); line-height:1.75}
+  .notice b{display:block; margin-bottom:4px; font-family:var(--serif); font-size:15.5px; letter-spacing:.1em; color:var(--wine)}
+  .notice p{margin:0}
+
+  /* 章節 */
+  .chap{margin-top:56px; scroll-margin-top:calc(var(--nav-h) + 12px)}
+  .chap-head{display:grid; grid-template-columns:auto 1fr; align-items:end; gap:14px; padding-bottom:10px; border-bottom:1px solid var(--ink)}
+  .chap-no{font-family:var(--serif); font-size:44px; line-height:.9; color:var(--wine); font-weight:400}
+  .chap-head h2{margin:0; font-family:var(--serif); font-size:22px; font-weight:900; letter-spacing:.06em; line-height:1.3}
+  .chap-head h2 span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.32em; color:var(--ink-3)}
+  .body p{margin:18px 0 0; color:var(--ink-2); text-align:justify}
+  .dropcap::first-letter{float:left; margin:6px 10px 0 0; font-family:var(--serif); font-size:58px; line-height:1; font-weight:900; color:var(--ink)}
+  .pull{margin:26px 0 0; padding:18px 0; border-top:1px solid var(--rule); border-bottom:1px solid var(--rule); font-family:var(--serif); font-size:20px; font-weight:600; line-height:1.6; text-align:center}
+  .pull::before{content:"“"; display:block; font-size:44px; line-height:.6; color:var(--wine)}
+  .twocol{display:grid; grid-template-columns:1fr 1fr; gap:0; margin-top:22px; border-top:1px solid var(--ink)}
+  .twocol div{padding:14px 14px 4px 0}
+  .twocol div + div{padding-left:14px; border-left:1px solid var(--rule)}
+  .twocol b{display:block; font-family:var(--serif); font-size:16px; font-weight:600; line-height:1.4}
+  .twocol small{display:block; margin-top:4px; font-size:13px; color:var(--ink-3); line-height:1.6}
+  .purpose-list{margin:22px 0 0; padding:0; list-style:none; border-top:1px solid var(--ink)}
+  .purpose-list li{padding:14px 0; border-bottom:1px solid var(--rule)}
+  .purpose-list b{display:block; font-family:var(--serif); font-size:16px; font-weight:600; line-height:1.4}
+  .purpose-list small{display:block; margin-top:4px; font-size:13px; color:var(--ink-3); line-height:1.6}
+  .editor-note{margin-top:22px; padding:14px 16px; background:var(--paper); border:1px solid var(--rule); font-size:13.5px; color:var(--ink-2); line-height:1.75}
+  .editor-note b{font-family:var(--serif); color:var(--wine); letter-spacing:.1em}
+
+  /* 草稿文案框 */
+  .draft{position:relative; margin-top:22px; padding:18px 0 2px; border-top:1px dashed var(--wine)}
+  .draft-tag{position:absolute; top:-11px; left:0; padding:0 8px 0 0; background:var(--ivory); font-size:11.5px; letter-spacing:.16em; line-height:22px; color:var(--wine)}
+  .draft-tag::before{content:"DRAFT · "; font-family:var(--serif); letter-spacing:.1em}
+  .draft .body p:first-child{margin-top:4px}
+
+  /* 步驟 */
+  .how{display:grid; grid-template-columns:repeat(3,1fr); margin:22px 0 0; padding:0; list-style:none; counter-reset:s}
+  .how li{padding:4px 10px 4px 0; font-size:13.5px; line-height:1.6; color:var(--ink-2)}
+  .how li + li{padding-left:12px; border-left:1px solid var(--rule)}
+  .how li::before{counter-increment:s; content:"0" counter(s); display:block; font-family:var(--serif); font-size:28px; line-height:1.1; color:var(--wine)}
+  .how li b{display:block; font-family:var(--serif); font-size:15px; font-weight:600; color:var(--ink)}
+
+  /* 專戶 */
+  .ledger{margin-top:26px; padding:20px 18px 18px; background:var(--paper); border-top:3px double var(--ink); border-bottom:3px double var(--ink); position:relative}
+  .ledger-label{display:flex; justify-content:space-between; font-size:11px; letter-spacing:.26em; color:var(--ink-3)}
+  .ledger-label span:last-child{color:var(--wine)}
+  .ledger dl{margin:14px 0 0}
+  .ledger .li{padding:10px 0; border-top:1px solid var(--rule)}
+  .ledger dt{font-size:11.5px; letter-spacing:.2em; color:var(--ink-3)}
+  .ledger dd{margin:2px 0 0; font-family:var(--serif); font-size:17px; font-weight:600; line-height:1.55}
+  .ledger dd .tbd{font-weight:500}
+  .ledger .name{text-wrap:balance}
+  .ledger .acct{font-size:30px; font-weight:400; letter-spacing:.08em; font-variant-numeric:tabular-nums}
+  .ledger .acct.is-tbd{font-size:22px; letter-spacing:.06em; color:var(--ink-3)}
+  .ledger .acct.is-ready{user-select:all; -webkit-user-select:all}
+  .ledger .sub{display:block; margin-top:2px; font-family:var(--sans); font-size:12.5px; font-weight:400; color:var(--ink-3); line-height:1.6}
+
+  .btn{display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; min-height:52px; padding:12px 18px; font:inherit; font-size:16px; font-weight:500; letter-spacing:.14em; color:var(--paper); background:var(--ink); border:1px solid var(--ink); border-radius:0; cursor:pointer; transition:background .2s, color .2s, border-color .2s}
+  .btn:hover{background:#000}
+  .btn .arrow{font-family:var(--serif); font-size:18px; letter-spacing:0}
+  .btn.is-done{background:var(--wine); border-color:var(--wine)}
+  .btn-line{background:transparent; color:var(--ink)}
+  .btn-line:hover{background:var(--ink); color:var(--paper)}
+  .btn[aria-disabled="true"]{background:transparent; color:var(--ink-3); border:1px dashed var(--ink-3); cursor:not-allowed}
+  .btn[aria-disabled="true"]:hover{background:rgba(123,35,53,.04)}
+  .btn[aria-disabled="true"] small{font-size:12px; letter-spacing:.08em; color:var(--wine)}
+  .ledger .btn{margin-top:12px}
+  .copy-msg{min-height:1.5em; margin:8px 0 0; font-size:13px; color:var(--wine); line-height:1.6}
+  .fine{margin:18px 0 0; padding:0; list-style:none; font-size:14px; color:var(--ink-2); line-height:1.75}
+  .fine li{padding-left:1.4em; text-indent:-1.4em}
+  .fine li + li{margin-top:4px}
+  .fine li::before{content:"— "; color:var(--wine)}
+  .fine b{color:var(--ink); font-weight:500}
+  .footnote{margin-top:24px; padding-top:12px; border-top:1px solid var(--ink); font-size:13.5px; color:var(--ink-2); line-height:1.8}
+  .footnote b{font-family:var(--serif); color:var(--ink); letter-spacing:.08em}
+
+  /* 表單 */
+  .form{margin-top:10px}
+  .form-intro{margin:16px 0 0; font-size:14px; color:var(--ink-2)}
+  .part{margin:34px 0 0; padding:0; border:0; min-width:0}
+  .part > legend{display:flex; align-items:baseline; gap:10px; width:100%; padding:0 0 6px; border-bottom:1px solid var(--ink); font-family:var(--serif); font-size:17px; font-weight:900; letter-spacing:.08em}
+  .part > legend i{font-style:normal; font-weight:400; color:var(--wine); font-size:15px}
+  .field{margin:18px 0 0; padding:0; border:0; min-width:0}
+  .lbl, .field > legend{display:block; padding:0; margin:0 0 2px; font-size:13.5px; font-weight:500; letter-spacing:.1em; color:var(--ink-2)}
+  .req{margin-left:6px; font-size:11px; letter-spacing:.06em; color:var(--wine); white-space:nowrap}
+  .nw{white-space:nowrap}
+  .req::before{content:"＊"}
+  .opt{margin-left:6px; font-size:11px; color:var(--ink-3)}
+  .hint{display:block; margin-top:6px; font-size:12.5px; color:var(--ink-3); line-height:1.6}
+  input[type=text],input[type=tel],input[type=email],input[type=number],input[type=datetime-local],select{
+    display:block; width:100%; min-height:48px; padding:10px 2px; font:inherit; font-size:17px; line-height:1.5; color:var(--ink);
+    background-color:transparent; border:0; border-bottom:1.5px solid var(--ink-3); border-radius:0; appearance:none; -webkit-appearance:none; transition:border-color .2s, background-color .2s}
+  input[type=number]{-moz-appearance:textfield}
+  input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0}
+  input[type=datetime-local]::-webkit-date-and-time-value{text-align:left}
+  input::placeholder{color:#9A8F80}
+  input:focus,select:focus{outline:none; border-bottom-color:var(--wine); background-color:rgba(123,35,53,.04)}
+  select{cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231D1B19' stroke-width='1.3'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 4px center; padding-right:28px}
+  select:invalid{color:#9A8F80}
+  select option{color:var(--ink)}
+  .row2{display:grid; grid-template-columns:1.5fr 1fr; gap:18px}
+  .unit{display:flex; align-items:center; gap:10px}
+  .unit::before{content:"NT$"; font-family:var(--serif); font-size:17px; color:var(--ink-2)}
+  .opts{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--ink)}
+  .opts label{position:relative}
+  .opts label + label{border-left:1px solid var(--ink)}
+  .opts input{position:absolute; opacity:0; width:1px; height:1px}
+  .opts span{display:flex; align-items:center; justify-content:center; min-height:50px; padding:6px 4px; font-size:14.5px; cursor:pointer; text-align:center; line-height:1.35; transition:background .15s,color .15s}
+  .opts label:hover span{background:rgba(123,35,53,.05)}
+  .opts input:checked + span{background:var(--ink); color:var(--paper)}
+  .opts input:focus-visible + span{outline:2px solid var(--wine); outline-offset:-4px}
+  .indent{margin-top:8px; padding:0 0 4px 16px; border-left:1px solid var(--wine)}
+  .upload{position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:56px; padding:10px 0; border-bottom:1.5px solid var(--ink-3); cursor:pointer}
+  .upload:focus-within{border-bottom-color:var(--wine); background:rgba(123,35,53,.04)}
+  .upload input{position:absolute; opacity:0; width:1px; height:1px}
+  .upload span{font-size:15px; min-width:0}
+  .upload small{display:block; font-size:12.5px; color:var(--ink-3); word-break:break-all}
+  .upload em{flex:none; display:flex; align-items:center; min-height:40px; padding:0 14px; border:1px solid var(--ink); font-style:normal; font-size:13px; letter-spacing:.1em}
+  .sign-wrap{margin-top:34px; border-top:3px double var(--ink)}
+  .sign{display:flex; gap:12px; align-items:flex-start; padding:16px 0 6px; font-family:var(--serif); font-size:16px; cursor:pointer; line-height:1.6}
+  .sign input{flex:none; width:22px; height:22px; margin:2px 0 0; accent-color:var(--wine)}
+  .submit{margin-top:18px}
+  .submit-note{margin:10px 0 0; font-size:12.5px; color:var(--ink-3); line-height:1.6}
+
+  /* 錯誤訊息 */
+  .err{display:block; margin:6px 0 0; font-size:13px; line-height:1.55; color:var(--error)}
+  .err:empty{display:none}
+  .err::before{content:"！"; font-weight:700}
+  .is-invalid input[type=text],.is-invalid input[type=tel],.is-invalid input[type=email],.is-invalid input[type=number],.is-invalid input[type=datetime-local],.is-invalid select{border-bottom-color:var(--error); border-bottom-width:2px}
+  .is-invalid .opts{border-color:var(--error); box-shadow:0 0 0 1px var(--error)}
+  .is-invalid .upload{border-bottom-color:var(--error)}
+  .form-err{margin:14px 0 0; padding:10px 14px; border:1px solid var(--error); background:#F7E7E3; font-size:14px; color:var(--error); line-height:1.6}
+
+  /* 感謝 */
+  .thanks{margin-top:22px; padding:30px 0 10px; border-top:3px double var(--ink); scroll-margin-top:calc(var(--nav-h) + 12px)}
+  .thanks:focus{outline:none}
+  .thanks .big{margin:0; font-family:var(--serif); font-size:64px; font-weight:900; line-height:1; letter-spacing:.06em}
+  .thanks .big i{font-style:normal; color:var(--wine)}
+  .thanks h3{margin:14px 0 10px; font-family:var(--serif); font-size:21px; font-weight:600}
+  .thanks p{margin:0 0 18px; color:var(--ink-2); font-size:15px; text-align:justify}
+  .summary{margin:0 0 22px; border-top:1px solid var(--ink)}
+  .summary div{display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid var(--rule); font-size:14.5px}
+  .summary dt{color:var(--ink-3); letter-spacing:.1em} .summary dd{margin:0; font-family:var(--serif); font-weight:600; text-align:right; font-variant-numeric:tabular-nums}
+  .demo{margin:14px 0 0 !important; padding:10px 12px; border:1px dashed var(--ink-3); font-size:12.5px !important; color:var(--ink-3) !important; line-height:1.6}
+
+  /* FAQ */
+  .faq{margin-top:10px}
+  .faq details{border-bottom:1px solid var(--rule)}
+  .faq summary{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:baseline; min-height:56px; padding:15px 0 13px; cursor:pointer; list-style:none; font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.5}
+  .faq summary::-webkit-details-marker{display:none}
+  .faq summary .q{font-weight:400; font-size:15px; color:var(--wine)}
+  .faq summary::after{content:"+"; font-family:var(--serif); font-weight:400; font-size:22px; line-height:1; color:var(--ink-3); transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg); color:var(--wine)}
+  .faq summary:focus-visible{outline-offset:-2px}
+  .faq .a{padding:0 0 18px 28px; font-size:14.5px; color:var(--ink-2); line-height:1.85; text-align:justify}
+  .faq .a p{margin:0}
+  .faq .a p + p{margin-top:8px}
+
+  /* 聯絡 */
+  .contact{margin:6px 0 0; border-bottom:1px solid var(--ink)}
+  .contact div{display:grid; grid-template-columns:7em 1fr; gap:12px; align-items:baseline; padding:13px 0; border-top:1px solid var(--rule)}
+  .contact div:first-child{border-top:0}
+  .contact dt{font-size:12.5px; letter-spacing:.18em; color:var(--ink-3)}
+  .contact dd{margin:0; font-family:var(--serif); font-size:16px; font-weight:600; color:var(--ink-3)}
+  .contact dd .tbd{margin-left:0}
+
+  footer{margin-top:72px; padding:20px 0 calc(32px + env(safe-area-inset-bottom)); border-top:3px double var(--ink); font-size:12.5px; color:var(--ink-3); line-height:1.8}
+  footer b{display:block; font-family:var(--serif); font-size:15px; color:var(--ink); letter-spacing:.1em}
+  footer .full{display:block; margin-bottom:10px; letter-spacing:.08em}
+  footer p{margin:0}
+  footer .colophon{display:flex; justify-content:space-between; margin-top:14px; padding-top:8px; border-top:1px solid var(--rule); font-size:11px; letter-spacing:.24em}
+
+  @media (max-width:360px){
+    .wrap{padding:0 18px}
+    .toc{margin:0 -18px; padding:0 18px}
+    .vtitle{font-size:34px}
+    .how{grid-template-columns:1fr}
+    .how li + li{padding-left:0; border-left:0; border-top:1px solid var(--rule); padding-top:8px; margin-top:8px}
+    .row2{grid-template-columns:1fr; gap:0}
+    .hero-cta{grid-template-columns:1fr}
+  }
+  @media (min-width:600px){
+    .vtitle{font-size:52px}
+    .dek{font-size:27px}
+    .chap{margin-top:72px}
+  }
+  @media (prefers-reduced-motion:reduce){html{scroll-behavior:auto} *{transition:none !important}}
+</style>
+</head>
+<body>
+<a class="skip" href="#c3">跳到匯款回報表單</a>
+<div class="wrap">
+  <header class="mast">
+    <div class="mast-top"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+    <p class="mast-word" aria-hidden="true">DONA<i>T</i>ION</p>
+    <div class="mast-sub" aria-hidden="true"><span>REPORT</span><span>愛心捐款・匯款回報</span><span>VOL. —</span></div>
+  </header>
+
+  <nav class="toc" aria-label="本頁章節">
+    <ol>
+      <li><a href="#c1"><b>01</b>緣起</a></li>
+      <li><a href="#c2"><b>02</b>專戶</a></li>
+      <li><a href="#c3"><b>03</b>回報</a></li>
+      <li><a href="#c4"><b>04</b>問答</a></li>
+      <li><a href="#c5"><b>05</b>聯絡</a></li>
+    </ol>
+  </nav>
+
+  <main>
+    <!-- ===== Hero ===== -->
+    <section aria-labelledby="pageTitle">
+      <div class="cover">
+        <figure class="plate">
+          <svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：拱窗、晨光與一疊書">
+            <defs>
+              <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/></filter>
+              <clipPath id="arch"><path d="M46 360V150a94 94 0 01188 0v210z"/></clipPath>
+            </defs>
+            <rect width="280" height="360" fill="#2A2623"/>
+            <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
+            <path d="M46 360V150a94 94 0 01188 0v210z" fill="#E9E1D2"/>
+            <g clip-path="url(#arch)">
+              <rect x="46" y="200" width="188" height="160" fill="#DCD1BE"/>
+              <circle cx="140" cy="176" r="38" fill="#7B2335"/>
+              <g stroke="#E9E1D2" stroke-width="1" opacity=".55"><path d="M140 118v-14M140 248v-10M88 176h-14M206 176h-14M104 140l-9-9M176 140l9-9"/></g>
+              <g stroke="#B9A98F" stroke-width="1"><path d="M46 214h188M46 226h188M46 240h188"/></g>
+              <path d="M140 56v304" stroke="#2A2623" stroke-width="1.2" opacity=".35"/>
+              <path d="M46 150h188" stroke="#2A2623" stroke-width="1" opacity=".18"/>
+            </g>
+            <path d="M46 360V150a94 94 0 01188 0v210" fill="none" stroke="#F3EEE4" stroke-width="1"/>
+            <path d="M36 360V150a104 104 0 01208 0v210" fill="none" stroke="#B9A98F" stroke-width=".6" opacity=".5"/>
+            <g>
+              <rect x="70" y="318" width="140" height="18" fill="#7B2335"/>
+              <rect x="80" y="300" width="118" height="18" fill="#1D1B19"/>
+              <rect x="64" y="282" width="128" height="18" fill="#B9A98F"/>
+              <rect x="86" y="266" width="100" height="16" fill="#F3EEE4" stroke="#1D1B19" stroke-width="1"/>
+              <g stroke="#F3EEE4" stroke-width="1" opacity=".7"><path d="M78 327h40M92 309h22M76 291h60"/></g>
+              <path d="M96 266v-8h28v8" fill="none" stroke="#1D1B19" stroke-width="1"/>
+              <path d="M160 266c6-14 18-18 22-30" fill="none" stroke="#1D1B19" stroke-width="1"/>
+              <path d="M182 236c-8 1-12 6-12 12 7 0 12-5 12-12z" fill="#1D1B19"/>
+            </g>
+            <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
+            <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 01</text>
+            <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
+            <rect width="280" height="360" filter="url(#grain)"/>
+          </svg>
+          <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
+        </figure>
+        <h1 class="vtitle" id="pageTitle"><small>和平實驗小學家長會</small>愛心捐款回報</h1>
+      </div>
+
+      <p class="dateline"><b>臺北市大安區和平實驗國民小學 家長會</b><br>愛心捐款專頁</p>
+
+      <p class="dek">指定用途，<br>或交給家長會統籌。</p>
+      <p class="standfirst">本次募款，您可指定「教師支援費」或「校園 iPad 汰換計畫」，也可選擇不指定、由家長會統籌運用。請先自行匯款至專戶，再於本頁回報，以利對帳。</p>
+
+      <div class="hero-cta">
+        <a class="btn btn-line" href="#c2"><span>看匯款專戶</span><span class="arrow" aria-hidden="true">↓</span></a>
+        <a class="btn" href="#c3"><span>我已匯款</span><span class="arrow" aria-hidden="true">→</span></a>
+      </div>
+
+      <aside class="notice" aria-label="本頁狀態">
+        <b>編者註｜本頁尚未正式上線</b>
+        <p>專戶帳號、聯絡方式等仍有待填資料。<strong>在家長會正式公告專戶帳號之前，請先不要依本頁匯款。</strong></p>
+      </aside>
+    </section>
+
+    <!-- ===== 01 為什麼募款 ===== -->
+    <section class="chap" id="c1" aria-labelledby="c1-title">
+      <div class="chap-head"><span class="chap-no">01</span><h2 id="c1-title"><span>PURPOSE</span>為什麼募款</h2></div>
+
+      <div class="draft">
+        <span class="draft-tag">文案待家長會確認</span>
+        <div class="body">
+          <p class="dropcap">本次募款，家長可在回報時指定用途：教師支援費、校園 iPad 汰換計畫；若沒有特別指定，則由家長會統籌運用。實際支用情形，將於公開徵信時一併說明。</p>
+          <p>捐款金額不拘，請依自己的情況量力而為，不必勉強。以下為本次可指定的用途，細項說明待家長會確認後再補充，本頁不自行添加細節。</p>
+        </div>
+        <p class="pull">每一筆心意，<br>都會被仔細記錄、如實說明。</p>
+        <ul class="purpose-list">
+          <li><b>不指定（由家長會統籌運用）</b><small>表單預設選項。未指定時，由家長會統籌運用。</small></li>
+          <li><b>教師支援費</b><small>回報時可指定此項。</small></li>
+          <li><b>校園 iPad 汰換計畫</b><small>回報時可指定此項。</small></li>
+        </ul>
+      </div>
+
+      <div class="editor-note"><b>編者註｜公開徵信</b><br>確認入帳後，將依您在回報表單中選擇的方式（全名／部分隱藏／不公開）列入徵信；公布方式與時間<span class="tbd">待填</span>。本頁不顯示任何已募金額或捐款人數。</div>
+    </section>
+
+    <!-- ===== 02 專戶 ===== -->
+    <section class="chap" id="c2" aria-labelledby="c2-title">
+      <div class="chap-head"><span class="chap-no">02</span><h2 id="c2-title"><span>TRANSFER</span>匯款專戶</h2></div>
+      <ol class="how">
+        <li><b>匯入專戶</b>用自己的帳戶匯款到下方專戶。</li>
+        <li><b>保留證明</b>截圖或保留交易明細。</li>
+        <li><b>填寫回報</b>到本頁第 03 章登記。</li>
+      </ol>
+
+      <div class="ledger">
+        <div class="ledger-label"><span>ACCOUNT</span><span>待填・尚未公告</span></div>
+        <dl>
+          <div class="li"><dt>銀行</dt><dd>○○銀行（代碼 <span class="tbd">待填</span>）</dd></div>
+          <div class="li">
+            <dt>帳號</dt>
+            <dd class="acct is-tbd" id="acctNo" aria-label="帳號待填，尚未公告">———— ——— ———</dd>
+            <dd class="sub" id="acctSub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd>
+          </div>
+          <div class="li">
+            <dt>戶名</dt>
+            <dd class="name">臺北市大安區和平實驗國民小學學生家長會</dd>
+            <dd class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</dd>
+          </div>
+        </dl>
+        <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><span data-label>複製帳號</span><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="5.5" y="5.5" width="9" height="10" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 3h-8v9" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
+        <p class="copy-msg" id="copyMsg" role="status" aria-live="polite"></p>
+      </div>
+
+      <ul class="fine">
+        <li><b>請由家長自己的帳戶匯款</b>，回報時填寫該帳戶的後五碼，家長會才能逐筆核對。</li>
+        <li><b>請保留轉帳證明</b>（截圖或交易明細），對帳有疑問時可作為依據。</li>
+        <li>匯款完成後，請到下方「匯款回報」填寫資料。</li>
+      </ul>
+
+      <div class="footnote" role="note" aria-label="稅務備註">
+        <b>※ 稅務備註</b><br>
+        捐給家長會，可依規定列舉扣除；與其他捐贈合計，以所得總額 20% 為上限。實際扣除依國稅局規定，本頁僅供參考。
+      </div>
+    </section>
+
+    <!-- ===== 03 匯款回報 ===== -->
+    <section class="chap" id="c3" aria-labelledby="c3-title">
+      <div class="chap-head"><span class="chap-no">03</span><h2 id="c3-title"><span>REPORT</span>匯款回報</h2></div>
+
+      <form class="form" id="reportForm" autocomplete="on">
+        <p class="form-intro">標示<span class="req">必填</span>的欄位請務必填寫。約需 2 分鐘。</p>
+
+        <fieldset class="part">
+          <legend><i>A.</i>捐款人</legend>
+          <div class="field" data-field>
+            <label class="lbl" for="donorName">捐款人姓名<span class="req">必填</span></label>
+            <input id="donorName" name="donorName" type="text" autocomplete="name" required maxlength="30" placeholder="王大明" data-name="捐款人姓名">
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="phone">電話<span class="req">必填</span></label>
+            <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="0912-345-678" aria-describedby="phoneHint" data-name="電話">
+            <span class="hint" id="phoneHint">手機 09 開頭共 10 碼，或含區碼的市話（例如 <span class="nw">02-2345-6789</span>）。</span>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="email">Email<span class="req">必填</span></label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required maxlength="100" placeholder="name@example.com" data-name="Email" data-msg-required="請填寫 Email">
+          </div>
+        </fieldset>
+
+        <fieldset class="part">
+          <legend><i>B.</i>子女</legend>
+          <div class="row2">
+            <div class="field" data-field>
+              <label class="lbl" for="childClass">年級班別<span class="req">必填</span></label>
+              <select id="childClass" name="childClass" required data-name="年級班別" data-msg-required="請選擇年級班別">
+                <option value="" selected disabled>請選擇</option>
+                <option value="幼稚園 野薑花班">幼稚園 野薑花班</option>
+                <option value="一年級 月橘班">一年級 月橘班</option>
+                <option value="二年級 桂花班">二年級 桂花班</option>
+                <option value="三年級 山櫻班">三年級 山櫻班</option>
+                <option value="四年級 欒樹班">四年級 欒樹班</option>
+                <option value="五年級 木棉班">五年級 木棉班</option>
+                <option value="六年級 楓香班">六年級 楓香班</option>
+              </select>
+            </div>
+            <div class="field" data-field>
+              <label class="lbl" for="childSeat">座號<span class="req">必填</span></label>
+              <input id="childSeat" name="childSeat" type="number" inputmode="numeric" required min="1" max="60" step="1" placeholder="12" data-name="座號">
+            </div>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="childName">子女姓名<span class="req">必填</span></label>
+            <input id="childName" name="childName" type="text" autocomplete="off" required maxlength="30" placeholder="王小芳" data-name="子女姓名">
+          </div>
+        </fieldset>
+
+        <fieldset class="part">
+          <legend><i>C.</i>匯款</legend>
+          <div class="field" data-field>
+            <label class="lbl" for="paidAt">匯款日期與時間<span class="req">必填</span></label>
+            <input id="paidAt" name="paidAt" type="datetime-local" required data-name="匯款日期與時間" aria-describedby="paidAtHint">
+            <span class="hint" id="paidAtHint">請填轉帳成功的時間，約略到分鐘即可；不可晚於現在。</span>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="amount">金額（新台幣）<span class="req">必填</span></label>
+            <div class="unit"><input id="amount" name="amount" type="number" inputmode="numeric" required min="1" step="1" placeholder="1000" data-name="金額"></div>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="last5">轉出帳號後五碼<span class="req">必填</span></label>
+            <input id="last5" name="last5" type="text" inputmode="numeric" autocomplete="off" required minlength="5" maxlength="5" pattern="[0-9]{5}" placeholder="12345" aria-describedby="last5Hint" data-name="轉出帳號後五碼">
+            <span class="hint" id="last5Hint">請填您自己轉出帳戶的後五碼，方便對帳。</span>
+          </div>
+          <div class="field" data-field>
+            <label class="lbl" for="purpose">捐款指定用途<span class="req">必填</span></label>
+            <select id="purpose" name="purpose" required data-name="捐款指定用途" data-msg-required="請選擇捐款指定用途">
+              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準，新增用途時改該陣列並同步此處。 -->
+              <option value="不指定（由家長會統籌運用）" selected>不指定（由家長會統籌運用）</option>
+              <option value="教師支援費">教師支援費</option>
+              <option value="校園 iPad 汰換計畫">校園 iPad 汰換計畫</option>
+            </select>
+          </div>
+        </fieldset>
+
+        <fieldset class="part">
+          <legend><i>D.</i>收據與徵信</legend>
+          <fieldset class="field" data-field>
+            <legend>收據<span class="req">必填</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="receipt" value="不需要" required data-msg-required="請選擇是否需要收據"><span>不需要</span></label>
+              <label><input type="radio" name="receipt" value="電子收據"><span>電子收據</span></label>
+              <label><input type="radio" name="receipt" value="紙本收據"><span>紙本收據</span></label>
+            </div>
+          </fieldset>
+          <div class="indent" id="receiptExtra" hidden>
+            <div class="field" data-field>
+              <label class="lbl" for="receiptTitle">收據抬頭<span class="req">必填</span></label>
+              <input id="receiptTitle" name="receiptTitle" type="text" maxlength="40" placeholder="個人姓名或公司名稱" data-name="收據抬頭">
+            </div>
+            <div class="field" data-field>
+              <label class="lbl" for="taxId">統一編號<span class="opt">選填</span></label>
+              <input id="taxId" name="taxId" type="text" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]{8}" placeholder="8 位數字" data-name="統一編號">
+            </div>
+            <span class="hint" id="receiptNote"></span>
+          </div>
+          <fieldset class="field" data-field>
+            <legend>公開徵信<span class="req">必填</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="disclose" value="全名" required data-msg-required="請選擇公開徵信方式"><span>全名</span></label>
+              <label><input type="radio" name="disclose" value="部分隱藏"><span>部分隱藏</span></label>
+              <label><input type="radio" name="disclose" value="不公開"><span>不公開</span></label>
+            </div>
+            <span class="hint">部分隱藏例如王○明。</span>
+          </fieldset>
+          <div class="field" data-field>
+            <span class="lbl" id="proofLbl">轉帳截圖<span class="opt">選填</span></span>
+            <label class="upload">
+              <input id="proof" name="proof" type="file" accept="image/*" aria-labelledby="proofLbl proofName" data-name="轉帳截圖">
+              <span>上傳圖片<small id="proofName">尚未選擇檔案</small></span>
+              <em aria-hidden="true">選擇</em>
+            </label>
+          </div>
+        </fieldset>
+
+        <div class="sign-wrap" data-field>
+          <label class="sign">
+            <input type="checkbox" id="agree" name="agree" value="yes" required data-msg-required="請勾選確認後再送出">
+            <span>我已完成匯款，並確認以上資料正確。<span class="req">必填</span></span>
+          </label>
+        </div>
+
+        <p class="form-err" id="formErr" role="alert" hidden></p>
+        <button type="submit" class="btn submit"><span>送出回報</span><span class="arrow" aria-hidden="true">→</span></button>
+        <p class="submit-note">本頁尚未上線：送出僅為前端示意，資料不會傳送或儲存。</p>
+      </form>
+
+      <div class="thanks" id="thanks" tabindex="-1" hidden>
+        <p class="big" aria-hidden="true">謝謝<i>。</i></p>
+        <h3>感謝您完成匯款回報</h3>
+        <p>家長會將依「匯款日期、金額、帳號後五碼」與專戶入帳紀錄逐筆對帳；對上之後，再依您的選擇開立收據、列入公開徵信。</p>
+        <dl class="summary">
+          <div><dt>匯款時間</dt><dd id="sumDate">—</dd></div>
+          <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
+          <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
+        </dl>
+        <button type="button" class="btn btn-line" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
+        <p class="demo">本頁尚未上線：這筆回報僅為前端示意，未傳送、也未儲存任何資料。</p>
+      </div>
+    </section>
+
+    <!-- ===== 04 FAQ ===== -->
+    <section class="chap" id="c4" aria-labelledby="c4-title">
+      <div class="chap-head"><span class="chap-no">04</span><h2 id="c4-title"><span>Q &amp; A</span>常見問題</h2></div>
+      <div class="faq">
+        <details>
+          <summary><span class="q">Q1</span><span>匯款之後，為什麼還要回報？</span></summary>
+          <div class="a"><p>銀行入帳紀錄通常只看得到時間、金額與部分帳號，無法直接知道是哪一位家長。您的回報能讓家長會把入帳紀錄對應到捐款人，後續才能開立收據、列入徵信。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q2</span><span>家長會怎麼對帳？</span></summary>
+          <div class="a"><p>家長會會以您填寫的「匯款日期與時間、金額、轉出帳號後五碼」三項資料，與專戶的入帳紀錄逐筆比對。三項都對上，才算完成對帳。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q3</span><span>為什麼要用自己的帳戶匯款？</span></summary>
+          <div class="a"><p>對帳主要依靠轉出帳號後五碼。若由他人代為匯款，請在回報時填寫「實際轉出帳戶」的後五碼，並保留轉帳證明，以免對不上。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q4</span><span>不記得確切的匯款時間怎麼辦？</span></summary>
+          <div class="a"><p>可以查看網路銀行或 App 的交易明細，填到分鐘即可。若只記得大約時間，請盡量填接近的時間，並保留轉帳證明備查。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q5</span><span>資料填錯了，或重複送出了？</span></summary>
+          <div class="a"><p>請保留轉帳證明，並透過第 05 章的聯絡方式告知家長會更正（聯絡方式<span class="tbd">待填</span>）。對帳時以專戶實際入帳紀錄為準。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q6</span><span>收據什麼時候會收到？</span></summary>
+          <div class="a"><p>收據在對帳完成後才會開立。電子收據會寄到您填寫的 Email；紙本收據的領取方式與整體時程，待家長會另行公告<span class="tbd">待填</span>。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q7</span><span>公開徵信會怎麼顯示我的名字？</span></summary>
+          <div class="a"><p>依您在表單中的選擇：「全名」顯示完整姓名；「部分隱藏」例如王○明；「不公開」則不列出姓名。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q8</span><span>一定要上傳轉帳截圖嗎？</span></summary>
+          <div class="a"><p>不一定，截圖為選填。無論是否上傳，都請自行保留轉帳證明。本頁目前尚未上線，選擇的檔案不會被傳送。</p></div>
+        </details>
+        <details>
+          <summary><span class="q">Q9</span><span>捐款可以抵稅嗎？</span></summary>
+          <div class="a"><p>請參考第 02 章的稅務備註：捐給家長會，可依規定列舉扣除；與其他捐贈合計，以所得總額 20% 為上限。實際扣除依國稅局規定，本頁僅供參考。</p></div>
+        </details>
+      </div>
+    </section>
+
+    <!-- ===== 05 聯絡 ===== -->
+    <section class="chap" id="c5" aria-labelledby="c5-title">
+      <div class="chap-head"><span class="chap-no">05</span><h2 id="c5-title"><span>CONTACT</span>聯絡家長會</h2></div>
+      <dl class="contact">
+        <div><dt>聯絡窗口</dt><dd><span class="tbd">待填</span></dd></div>
+        <div><dt>電話</dt><dd><span class="tbd">待填</span></dd></div>
+        <div><dt>Email</dt><dd><span class="tbd">待填</span></dd></div>
+        <div><dt>可聯絡時段</dt><dd><span class="tbd">待填</span></dd></div>
+      </dl>
+      <p class="hint">以上聯絡資訊待家長會確認後公告。</p>
+    </section>
+  </main>
+
+  <footer>
+    <b>和平實驗小學家長會</b>
+    <span class="full">臺北市大安區和平實驗國民小學 家長會</span>
+    <p>本頁尚未上線。專戶帳號、聯絡方式等仍有待填資料，請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至正式公告的專戶後再回報。</p>
+    <div class="colophon" aria-hidden="true"><span>DONATION REPORT</span><span>— FIN —</span></div>
+  </footer>
+</div>
+
+<script>
+(function () {
+  'use strict';
+  var $ = function (id) { return document.getElementById(id); };
+
+  /* =========================================================
+   * 專戶帳號設定
+   * 帳號正式公告後，把家長會確認過的帳號字串填入 ACCOUNT_NUMBER（可含連字號），
+   * 頁面會自動顯示帳號並啟用「複製帳號」。
+   * 目前尚未公告，請保持空字串，不要填入假數字。
+   * ========================================================= */
+  var ACCOUNT_NUMBER = ''; // 待填
+
+  /* 捐款指定用途。本次活動確定為以下三項，第一個為預設。
+   * 之後若要新增或調整，只要改這個陣列（並同步更新上方 <select> 的 fallback 選項）即可。 */
+  var PURPOSE_OPTIONS = [
+    { value: '不指定（由家長會統籌運用）', label: '不指定（由家長會統籌運用）', selected: true },
+    { value: '教師支援費', label: '教師支援費' },
+    { value: '校園 iPad 汰換計畫', label: '校園 iPad 汰換計畫' }
+  ];
+
+  function renderPurposeOptions() {
+    var sel = $('purpose');
+    if (!sel) return;
+    var current = sel.value;
+    sel.innerHTML = '';
+    PURPOSE_OPTIONS.forEach(function (opt) {
+      var o = document.createElement('option');
+      o.value = opt.value;
+      o.textContent = opt.label;
+      sel.appendChild(o);
+    });
+    var match = PURPOSE_OPTIONS.some(function (opt) { return opt.value === current; });
+    if (match) sel.value = current;
+    else {
+      var def = PURPOSE_OPTIONS.filter(function (opt) { return opt.selected; })[0] || PURPOSE_OPTIONS[0];
+      if (def) sel.value = def.value;
+    }
+  }
+
+  /* ---------- 複製帳號 ---------- */
+  var copyBtn = $('copyBtn'), acctNo = $('acctNo'), acctSub = $('acctSub'), copyMsg = $('copyMsg');
+  var label = copyBtn.querySelector('[data-label]');
+  var hasAccount = /\d/.test(ACCOUNT_NUMBER);
+  var copyTimer;
+
+  if (hasAccount) {
+    acctNo.textContent = ACCOUNT_NUMBER;
+    acctNo.classList.remove('is-tbd');
+    acctNo.classList.add('is-ready');
+    acctNo.removeAttribute('aria-label');
+    acctSub.hidden = true;
+  } else {
+    copyBtn.setAttribute('aria-disabled', 'true');
+    label.innerHTML = '複製帳號 <small>（尚未公告）</small>';
+  }
+
+  function legacyCopy(text) {
+    var ta = document.createElement('textarea');
+    ta.value = text; ta.setAttribute('readonly', '');
+    ta.style.cssText = 'position:fixed;top:0;left:0;opacity:0;';
+    document.body.appendChild(ta); ta.select();
+    var ok = false;
+    try { ok = document.execCommand('copy'); } catch (e) { ok = false; }
+    document.body.removeChild(ta);
+    return ok;
+  }
+  function selectAccount() {
+    var range = document.createRange(); range.selectNodeContents(acctNo);
+    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+  }
+  function copyDone(ok) {
+    clearTimeout(copyTimer);
+    if (ok) {
+      label.textContent = '已複製';
+      copyBtn.classList.add('is-done');
+      copyMsg.textContent = '帳號已複製，可貼到網路銀行或 App。';
+    } else {
+      selectAccount();
+      copyMsg.textContent = '無法自動複製，已幫您選取帳號，請長按後選「拷貝」。';
+    }
+    copyTimer = setTimeout(function () {
+      label.textContent = '複製帳號';
+      copyBtn.classList.remove('is-done');
+      copyMsg.textContent = '';
+    }, ok ? 2000 : 5000);
+  }
+  copyBtn.addEventListener('click', function () {
+    if (!hasAccount) {
+      // 帳號仍待填：不複製任何數字，只提示
+      clearTimeout(copyTimer);
+      copyMsg.textContent = '帳號尚未公告，請先向家長會確認。';
+      copyTimer = setTimeout(function () { copyMsg.textContent = ''; }, 5000);
+      return;
+    }
+    var text = ACCOUNT_NUMBER.replace(/\D/g, ''); // 只複製數字
+    if (navigator.clipboard && window.isSecureContext) {
+      navigator.clipboard.writeText(text).then(
+        function () { copyDone(true); },
+        function () { copyDone(legacyCopy(text)); }
+      );
+    } else {
+      copyDone(legacyCopy(text));
+    }
+  });
+
+  /* ---------- 表單元素 ---------- */
+  var form = $('reportForm'), thanks = $('thanks'), formErr = $('formErr');
+  var receiptExtra = $('receiptExtra'), receiptTitle = $('receiptTitle'), taxId = $('taxId'), receiptNote = $('receiptNote');
+  renderPurposeOptions();
+  var proof = $('proof'), proofName = $('proofName'), paidAt = $('paidAt');
+  var phone = $('phone'), last5 = $('last5'), amount = $('amount'), seat = $('childSeat');
+
+  // 有 JS 時改用自訂中文錯誤訊息（仍沿用原生 constraint validation）；無 JS 時退回瀏覽器原生驗證。
+  form.noValidate = true;
+
+  /* ---------- 小工具 ---------- */
+  function toHalfWidth(s) {
+    return s.replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); });
+  }
+  function localNow() {
+    var d = new Date();
+    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
+    return d.toISOString().slice(0, 16);
+  }
+  function phoneDigits(v) { return toHalfWidth(v).replace(/[\s\-()（）．.]/g, ''); }
+  function isValidPhone(v) {
+    var d = phoneDigits(v);
+    if (/^09\d{8}$/.test(d)) return true;                 // 手機：09 開頭共 10 碼
+    if (/^\+8869\d{8}$/.test(d)) return true;             // 手機國際格式 +886 9xx
+    return /^0[2-8]\d{7,8}(#\d{1,6})?$/.test(d);          // 市話：含區碼 9–10 碼，可加 #分機
+  }
+
+  /* ---------- 每個欄位的錯誤訊息容器 ---------- */
+  var uid = 0;
+  function errFor(container) {
+    var e = container.querySelector(':scope > .err');
+    if (!e) {
+      e = document.createElement('p');
+      e.className = 'err';
+      e.id = 'err-' + (++uid);
+      e.setAttribute('aria-live', 'polite');
+      container.appendChild(e);
+      container.querySelectorAll('input,select').forEach(function (c) {
+        var d = c.getAttribute('aria-describedby');
+        c.setAttribute('aria-describedby', (d ? d + ' ' : '') + e.id);
+      });
+    }
+    return e;
+  }
+  function controlsOf(container) {
+    return Array.prototype.slice.call(container.querySelectorAll('input,select'));
+  }
+
+  /* ---------- 自訂規則（JS 補強） ---------- */
+  function customCheck(el) {
+    var v = el.value;
+    switch (el.id) {
+      case 'donorName':
+      case 'childName':
+      case 'receiptTitle':
+        if (el.required && v && !v.trim()) return '請填寫' + el.dataset.name;
+        break;
+      case 'phone':
+        if (v && !isValidPhone(v)) return '電話格式不正確：手機請填 09 開頭共 10 碼（例如 0912-345-678）；市話請含區碼（例如 02-2345-6789）。';
+        break;
+      case 'last5':
+        if (v && !/^\d{5}$/.test(v)) return '請填恰好 5 位數字（目前 ' + v.length + ' 位）。';
+        break;
+      case 'taxId':
+        if (v && !/^\d{8}$/.test(v)) return '統一編號為 8 位數字；沒有可留空。';
+        break;
+      case 'amount':
+        if (v && (!/^\d+$/.test(v) || Number(v) < 1)) return '金額請填正整數（例如 1000），不含小數點與符號。';
+        break;
+      case 'childSeat':
+        if (v && (!/^\d+$/.test(v) || Number(v) < 1 || Number(v) > 60)) return '座號請填 1 到 60 之間的整數。';
+        break;
+      case 'paidAt':
+        if (v && v > localNow()) return '匯款時間不可晚於現在，請確認日期與時間。';
+        break;
+      case 'proof':
+        var f = el.files && el.files[0];
+        if (f && f.type && f.type.indexOf('image/') !== 0) return '請選擇圖片檔（例如 JPG、PNG）。';
+        break;
+    }
+    return '';
+  }
+
+  function messageFor(el) {
+    var s = el.validity;
+    var name = el.dataset.name || '此欄位';
+    if (s.valueMissing) {
+      if (el.dataset.msgRequired) return el.dataset.msgRequired;
+      if (el.tagName === 'SELECT') return '請選擇' + name;
+      if (el.type === 'radio' || el.type === 'checkbox') return '請選擇一個選項';
+      return '請填寫' + name;
+    }
+    if (s.customError) return el.validationMessage;
+    if (s.badInput) return name + '請輸入數字';
+    if (s.typeMismatch && el.type === 'email') return 'Email 格式不正確，例如 name@example.com';
+    if (s.patternMismatch || s.tooShort || s.tooLong) return name + '格式不正確';
+    if (s.rangeUnderflow || s.rangeOverflow || s.stepMismatch) return name + '超出可填範圍';
+    return name + '格式不正確';
+  }
+
+  // 驗證一個欄位容器，回傳是否有效
+  function validateField(container, show) {
+    if (container.hidden || container.closest('[hidden]')) { clearField(container); return true; }
+    var ctrls = controlsOf(container), msg = '';
+    for (var i = 0; i < ctrls.length; i++) {
+      var el = ctrls[i];
+      el.setCustomValidity('');
+      el.setCustomValidity(customCheck(el));
+      if (!el.checkValidity()) { msg = messageFor(el); break; }
+    }
+    if (show) {
+      errFor(container).textContent = msg;
+      container.classList.toggle('is-invalid', !!msg);
+      ctrls.forEach(function (c) {
+        if (msg) c.setAttribute('aria-invalid', 'true'); else c.removeAttribute('aria-invalid');
+      });
+    }
+    return !msg;
+  }
+  function clearField(container) {
+    var e = container.querySelector(':scope > .err');
+    if (e) e.textContent = '';
+    container.classList.remove('is-invalid');
+    controlsOf(container).forEach(function (c) { c.removeAttribute('aria-invalid'); c.setCustomValidity(''); });
+  }
+  var fields = Array.prototype.slice.call(form.querySelectorAll('[data-field]'));
+
+  /* ---------- 條件欄位 ---------- */
+  function syncReceipt() {
+    var checked = form.querySelector('input[name="receipt"]:checked');
+    var v = checked ? checked.value : '';
+    var need = v === '電子收據' || v === '紙本收據';
+    receiptExtra.hidden = !need;
+    receiptTitle.required = need;
+    receiptNote.textContent = v === '電子收據'
+      ? '電子收據將寄至您填寫的 Email（對帳完成後開立）。'
+      : (v === '紙本收據' ? '紙本收據的領取方式，待家長會另行公告。' : '');
+    if (!need) { receiptTitle.value = ''; taxId.value = ''; }
+  }
+
+  /* ---------- 即時互動 ---------- */
+  // 數字欄位：全形轉半形、去除非數字
+  [last5, taxId].forEach(function (el) {
+    el.addEventListener('input', function () {
+      var clean = toHalfWidth(el.value).replace(/\D/g, '');
+      if (clean !== el.value) el.value = clean;
+    });
+  });
+  phone.addEventListener('input', function () {
+    var half = toHalfWidth(phone.value);
+    if (half !== phone.value) phone.value = half;
+  });
+
+  form.addEventListener('change', function (e) {
+    var t = e.target;
+    if (t.name === 'receipt') syncReceipt();
+    var c = t.closest('[data-field]');
+    if (c && (c.classList.contains('is-invalid') || t.type === 'radio' || t.type === 'checkbox' || t.tagName === 'SELECT' || t.type === 'file')) validateField(c, true);
+  });
+  // 離開欄位時驗證；已顯示錯誤的欄位在輸入時即時更新。
+  // 若是因為點按其他元素而離開，等手指／滑鼠放開後再顯示錯誤，
+  // 避免錯誤訊息撐開版面、讓這次點按落空。
+  var pointerIsDown = false, pendingBlur = [];
+  function flushBlur() {
+    var list = pendingBlur; pendingBlur = [];
+    list.forEach(function (c) { validateField(c, true); });
+  }
+  document.addEventListener('pointerdown', function () { pointerIsDown = true; }, true);
+  ['pointerup', 'pointercancel'].forEach(function (ev) {
+    document.addEventListener(ev, function () { pointerIsDown = false; setTimeout(flushBlur, 0); }, true);
+  });
+  form.addEventListener('focusout', function (e) {
+    var t = e.target;
+    if (!t.matches('input[type=text],input[type=tel],input[type=email],input[type=number],input[type=datetime-local]')) return;
+    if (!t.value && !t.closest('.is-invalid')) return; // 尚未填寫時不急著報錯
+    var c = t.closest('[data-field]'); if (!c) return;
+    if (pointerIsDown) { if (pendingBlur.indexOf(c) < 0) pendingBlur.push(c); }
+    else validateField(c, true);
+  });
+  form.addEventListener('input', function (e) {
+    var c = e.target.closest('[data-field]');
+    if (c && c.classList.contains('is-invalid')) validateField(c, true);
+  });
+
+  proof.addEventListener('change', function () {
+    var f = proof.files && proof.files[0];
+    proofName.textContent = f ? '已選擇：' + f.name : '尚未選擇檔案';
+  });
+  function refreshMax() { paidAt.max = localNow(); }
+  paidAt.addEventListener('focus', refreshMax);
+  refreshMax();
+
+  /* ---------- 送出 ---------- */
+  function fmtDateTime(v) {
+    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v || '');
+    return m ? m[1] + '/' + m[2] + '/' + m[3] + '　' + m[4] + ':' + m[5] : '—';
+  }
+
+  form.addEventListener('submit', function (e) {
+    e.preventDefault();
+    refreshMax();
+
+    var firstBad = null, badCount = 0;
+    fields.forEach(function (c) {
+      if (!validateField(c, true)) {
+        badCount++;
+        if (!firstBad) firstBad = c;
+      }
+    });
+    if (firstBad) {
+      formErr.textContent = '還有 ' + badCount + ' 個欄位需要修正，請查看標示紅字的地方。';
+      formErr.hidden = false;
+      var target = controlsOf(firstBad).filter(function (c) { return c.type !== 'hidden'; })[0];
+      firstBad.scrollIntoView({ behavior: 'smooth', block: 'center' });
+      if (target) target.focus({ preventScroll: true });
+      return;
+    }
+    formErr.hidden = true;
+
+    var data = new FormData(form);
+
+    // TODO: 之後改為 POST 到 Google Apps Script Web App，寫入 Google 試算表。
+    // 將下方 URL 換成部署後的 Web App 網址：
+    // const GAS_WEB_APP_URL = '';
+    // 現在僅前端示意，不傳送資料。
+    // 例：fetch(GAS_WEB_APP_URL, { method: 'POST', body: data })
+    // 截圖檔案需另行處理（例如轉 base64 或改傳到雲端硬碟），上線前再規劃。
+
+    $('sumDate').textContent = fmtDateTime(String(data.get('paidAt') || ''));
+    $('sumAmount').textContent = 'NT$ ' + Number(data.get('amount')).toLocaleString('zh-TW');
+    $('sumLast5').textContent = String(data.get('last5') || '—');
+
+    form.hidden = true;
+    thanks.hidden = false;
+    thanks.scrollIntoView({ behavior: 'smooth', block: 'start' });
+    thanks.focus({ preventScroll: true });
+  });
+
+  $('againBtn').addEventListener('click', function () {
+    form.reset();
+    fields.forEach(clearField);
+    formErr.hidden = true;
+    syncReceipt();
+    renderPurposeOptions();
+    proofName.textContent = '尚未選擇檔案';
+    refreshMax();
+    thanks.hidden = true;
+    form.hidden = false;
+    $('c3').scrollIntoView({ behavior: 'smooth', block: 'start' });
+    $('donorName').focus({ preventScroll: true });
+  });
+
+  /* ---------- 目錄：標示目前章節 ---------- */
+  if ('IntersectionObserver' in window) {
+    var links = {};
+    document.querySelectorAll('.toc a').forEach(function (a) { links[a.getAttribute('href').slice(1)] = a; });
+    var io = new IntersectionObserver(function (entries) {
+      entries.forEach(function (en) {
+        if (!en.isIntersecting) return;
+        Object.keys(links).forEach(function (k) {
+          var on = k === en.target.id;
+          links[k].classList.toggle('is-here', on);
+          if (on) links[k].setAttribute('aria-current', 'location'); else links[k].removeAttribute('aria-current');
+        });
+      });
+    }, { rootMargin: '-40% 0px -55% 0px' });
+    document.querySelectorAll('.chap').forEach(function (s) { io.observe(s); });
+  }
+})();
+</script>
+</body>
+</html>
