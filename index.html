@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v7">
+<html lang="zh-Hant" data-build="pta-donation-v8">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -921,7 +921,7 @@
 <!-- =====================================================
      底部浮動控件（skip／捐款項目介紹 二擇一 + 三角形）
      ===================================================== -->
-<button type="button" class="float" id="skipBtn" aria-label="skip：略過，前往回報表單"><span>skip</span><span class="arrow" aria-hidden="true">→</span></button>
+<button type="button" class="float" id="skipBtn" aria-label="我已匯款，直接回報"><span>我已匯款，直接回報</span><span class="arrow" aria-hidden="true">→</span></button>
 <button type="button" class="float float-line" id="introBtn" hidden><span>捐款項目介紹</span><span class="arrow" aria-hidden="true">↺</span></button>
 
 <button type="button" class="tri" id="triBtn" aria-label="開啟捐款資訊（點擊或向上滑）" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
@@ -1463,7 +1463,7 @@
     }, motionMs(FADE_MS));
   }
 
-  skipBtn.addEventListener('click', function () { showReport(); });
+  skipBtn.addEventListener('click', function () { $('c3').hidden = false; $('doneBtn').hidden = true; showReport({ anchor: 'c3' }); });
   introBtn.addEventListener('click', showSlides);
 
   /* ---------- 「我要捐這項」：預選用途 ---------- */
