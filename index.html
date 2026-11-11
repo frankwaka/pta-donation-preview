@@ -1,326 +1,421 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v2">
+<html lang="zh-Hant" data-build="pta-donation-v3">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#F3EEE4">
+<meta name="theme-color" content="#FBF4E6">
 <meta name="robots" content="noindex, nofollow">
-<title>愛心捐款回報｜和平實驗小學家長會</title>
+<title>愛心捐款回報｜和平實驗小學家長會（尚未上線）</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700&family=Noto+Serif+TC:wght@400;600;900&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
 <style>
   :root{
-    --ivory:#F3EEE4; --paper:#FAF7F0; --ink:#1D1B19; --ink-2:#4F4A44; --ink-3:#6F675D;
-    --rule:#CDC3B2; --wine:#7B2335; --wine-l:#EFE1DF; --tan:#B9A98F; --error:#A3261E;
-    --serif:"Noto Serif TC","Songti TC","PMingLiU",serif;
+    /* 紙與墨 */
+    --cream:#FBF4E6; --paper:#FFFBF3; --ink:#3B2A20; --ink-2:#6A5242; --ink-3:#86705F; --line:#E6D5BC; --field:#CDB89A; --wood:#8E5A2E;
+    /* 主視覺四色：藍天、綠海、黃地、紅樹 */
+    --sky:#5BA4D6; --sky-d:#2C6D9C; --sky-l:#DCEBF6;
+    --sea:#2F8F74; --sea-d:#236E59; --sea-l:#D9EEE6;
+    --sun:#F0C84A; --sun-d:#9A7212; --sun-l:#FBEBC0;
+    --red:#D6453A; --red-d:#C23B30; --red-l:#F8DDD8;
+    --error:#B3261E;
+    --wobble:22px 30px 24px 34px / 30px 22px 34px 24px;
+    --wobble-2:30px 20px 32px 22px / 22px 32px 20px 30px;
     --sans:"Noto Sans TC",system-ui,-apple-system,"PingFang TC","Microsoft JhengHei",sans-serif;
-    --nav-h:0px;
-    /* 底部三個浮動控件的尺寸與保留空間 */
+
+    /* 視窗高度：以 iPhone Safari 工具列出現時的「小視窗」為準 */
+    --vh:100vh;
+    --safe-t:env(safe-area-inset-top, 0px);
     --safe-b:env(safe-area-inset-bottom, 0px);
-    --tri-h:48px;          /* 三角形按鈕熱區高度 */
-    --float-h:44px;        /* skip／捐款項目介紹 高度 */
-    --float-gap:14px;      /* 浮動按鈕與三角形間距 */
-    --bottom-reserve:calc(var(--safe-b) + var(--tri-h) + var(--float-gap) + var(--float-h) + 18px);
+    --safe-l:env(safe-area-inset-left, 0px);
+    --safe-r:env(safe-area-inset-right, 0px);
+    --pad-x:18px;
+
+    /* 底部浮動控件尺寸與保留空間（skip／介紹鈕在三角形上方，間距 ≥ 12px） */
+    --tri-h:54px;
+    --float-h:42px;
+    --float-gap:14px;
+    --bottom-reserve:calc(var(--safe-b) + var(--tri-h) + var(--float-gap) + var(--float-h) + 12px);
+    --fig-min:max(160px, calc(var(--vh) * .3));
     --fade:.32s;
+  }
+  @supports (height:100svh){
+    :root{ --vh:min(100dvh, 100svh); }
   }
   *{box-sizing:border-box}
   [hidden]{display:none !important}
   html{-webkit-text-size-adjust:100%}
-  body{margin:0; background:var(--ivory); color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.85; -webkit-tap-highlight-color:transparent}
-  .wrap{max-width:560px; margin:0 auto; padding:0 22px}
-  :focus-visible{outline:2px solid var(--wine); outline-offset:3px}
-  a{color:inherit}
+  body{
+    margin:0; color:var(--ink); font-family:var(--sans); font-size:16px; line-height:1.8;
+    background-color:var(--cream);
+    background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.85' numOctaves='2' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 .45 0 0 0 0 .3 0 0 0 0 .15 0 0 0 .07 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+    -webkit-tap-highlight-color:transparent;
+  }
+  .wrap{max-width:560px; margin:0 auto; padding:0 max(20px, var(--safe-r)) 0 max(20px, var(--safe-l))}
+  a{color:var(--red-d)}
+  :focus-visible{outline:3px solid var(--sky-d); outline-offset:3px; border-radius:8px}
   .sr-only{position:absolute; width:1px; height:1px; margin:-1px; padding:0; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0}
 
   /* 待填標記 */
-  .tbd{display:inline-block; margin-left:6px; padding:0 6px; border:1px solid var(--wine); font-family:var(--sans); font-size:11px; font-weight:500; font-style:normal; letter-spacing:.12em; line-height:1.7; color:var(--wine); vertical-align:.15em; white-space:nowrap}
-  .tbd.solid{background:var(--wine); color:var(--paper)}
+  .tbd{display:inline-block; margin-left:6px; padding:0 8px; font-size:11.5px; font-weight:700; font-style:normal; line-height:1.65; letter-spacing:.04em;
+    color:var(--red-d); background:var(--sun-l); border:1.5px dashed var(--red-d); border-radius:10px 7px 10px 7px; vertical-align:.1em; white-space:nowrap}
+  .tbd.solid{color:#fff; background:var(--red-d); border-style:solid}
 
-  /* 刊頭（共用） */
-  .mast-top{display:flex; justify-content:space-between; align-items:center; gap:10px; padding-bottom:8px; border-bottom:1px solid var(--ink); font-size:12px; letter-spacing:.14em; line-height:1.6}
-  .mast-top .status{color:var(--wine); white-space:nowrap}
-  .mast-top .status::before{content:""; display:inline-block; width:7px; height:7px; margin-right:6px; border:1px solid var(--wine); border-radius:50%; vertical-align:.08em}
-  .mast-sub{display:flex; justify-content:space-between; gap:8px; margin-top:8px; padding:6px 0; border-top:1px solid var(--rule); border-bottom:3px double var(--ink); font-size:11px; letter-spacing:.24em; color:var(--ink-2); line-height:1.6}
+  /* 共用：校名列 */
+  .brand{display:flex; align-items:center; justify-content:space-between; gap:10px}
+  .brand-l{display:flex; align-items:center; gap:10px; min-width:0}
+  .logo{flex:none; width:38px; height:38px}
+  .brand-name{display:flex; flex-wrap:wrap; align-items:center; gap:2px 8px; font-size:12.5px; font-weight:700; line-height:1.45; color:var(--ink-2); letter-spacing:.03em}
+  .status{display:inline-block; padding:0 8px; font-size:11px; font-weight:700; line-height:1.7; color:#fff; background:var(--red-d); border-radius:10px 6px 11px 7px; white-space:nowrap; transform:rotate(-2deg)}
+
+  /* 按鈕（厚陰影、按下會位移） */
+  .btn{display:flex; align-items:center; justify-content:center; gap:10px; width:100%; min-height:52px; padding:12px 20px;
+    font:inherit; font-size:17px; font-weight:700; letter-spacing:.06em; line-height:1.3; color:#fff; background:var(--red-d);
+    border:2.5px solid var(--ink); border-radius:var(--wobble-2); box-shadow:3px 4px 0 var(--ink); cursor:pointer;
+    transition:transform .12s, box-shadow .12s, background .2s}
+  .btn:hover{background:#AE3329}
+  .btn:active{transform:translate(2px,3px); box-shadow:1px 1px 0 var(--ink)}
+  .btn .arrow{font-size:18px; letter-spacing:0}
+  .btn.is-done{background:var(--sea-d)}
+  .btn-ghost{color:var(--ink); background:var(--paper)}
+  .btn-ghost:hover{background:var(--sun-l)}
+  .btn[aria-disabled="true"]{color:var(--ink-2); background:var(--paper); border-style:dashed; box-shadow:none; cursor:not-allowed}
+  .btn[aria-disabled="true"]:active{transform:none}
+  .btn[aria-disabled="true"] small{font-size:12px; font-weight:500; color:var(--red-d)}
 
   /* =========================================================
-   * 區塊 1：滿版投影片
+   * 區塊 1：投影片（一般文件流；整頁只有 window 一個捲動者）
    * ========================================================= */
-  .stage{position:fixed; top:0; left:0; right:0; z-index:1; display:flex; flex-direction:column; height:100vh; height:100dvh;
-    padding-left:env(safe-area-inset-left); padding-right:env(safe-area-inset-right);
-    background:var(--ivory); overflow:hidden; touch-action:pan-y pinch-zoom; transition:opacity var(--fade) ease}
+  .stage{position:relative; display:flex; flex-direction:column; min-height:100vh; min-height:var(--vh);
+    padding:0 var(--safe-r) var(--bottom-reserve) var(--safe-l);
+    touch-action:pan-y pinch-zoom; overflow-x:clip; transition:opacity var(--fade) ease}
   .stage.is-fading, .report.is-fading{opacity:0}
   .report{transition:opacity var(--fade) ease}
 
-  .stage-top{flex:none; width:100%; max-width:1120px; margin:0 auto; padding:calc(env(safe-area-inset-top, 0px) + 14px) 22px 0}
-  .stage-bar{display:flex; justify-content:space-between; align-items:center; gap:12px; border-bottom:3px double var(--ink)}
-  .stage-h{margin:0; padding:6px 0; font-family:var(--serif); font-size:15px; font-weight:600; letter-spacing:.12em; line-height:1.35}
-  .stage-h span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.3em; color:var(--ink-3)}
-  .pager{display:flex; align-items:center}
-  .pager button{position:relative; min-width:44px; min-height:44px; padding:0 4px; font-family:var(--serif); font-size:15px; letter-spacing:.06em; color:var(--ink-3); background:none; border:0; cursor:pointer}
-  .pager button + button::before{content:"/"; position:absolute; left:-4px; top:50%; transform:translateY(-50%); color:var(--rule); font-weight:400}
-  .pager button:hover{color:var(--ink)}
-  .pager button[aria-current="true"]{color:var(--wine); font-weight:600}
-  .pager button[aria-current="true"]::after{content:""; position:absolute; left:12px; right:12px; bottom:9px; height:2px; background:var(--wine)}
-  .pager button:focus-visible{outline-offset:-4px}
+  .stage-top{flex:none; width:100%; max-width:1120px; margin:0 auto; padding:calc(var(--safe-t) + 10px) var(--pad-x) 4px}
+  .stage-h{margin:1px 0 0; font-size:17px; font-weight:900; line-height:1.3; letter-spacing:.03em; color:var(--ink)}
+  .pager{flex:none; display:flex; flex-direction:column; align-items:center; gap:1px}
+  .dots{display:flex}
+  .dot{display:flex; align-items:center; justify-content:center; width:30px; height:30px; padding:0; background:none; border:0; cursor:pointer}
+  .dot i{display:block; width:12px; height:12px; background:var(--paper); border:2px solid var(--ink); border-radius:50%; transition:width .25s, background .25s, border-radius .25s}
+  .dot:hover i{background:var(--sun-l)}
+  .dot[aria-current="true"] i{width:24px; background:var(--red); border-radius:9px 7px 9px 7px}
+  .dot:focus-visible{outline-offset:-2px}
+  .count{font-size:12px; font-weight:700; line-height:1; letter-spacing:.1em; color:var(--ink-2); font-variant-numeric:tabular-nums}
+  .count b{font-size:14px; font-weight:900; color:var(--red-d)}
 
-  .slides{position:relative; flex:1 1 auto; min-height:0}
-  .slide{position:absolute; top:0; bottom:0; left:0; right:0; max-width:1120px; margin:0 auto;
-    display:flex; flex-direction:column; gap:14px; padding:16px 22px var(--bottom-reserve);
-    overflow-y:auto; overscroll-behavior:contain;
-    opacity:0; visibility:hidden; transition:opacity .45s ease, visibility 0s linear .45s}
-  .slide.is-active{opacity:1; visibility:visible; transition:opacity .45s ease}
+  .slides{position:relative; flex:1 1 auto; display:flex; flex-direction:column; width:100%; max-width:1120px; margin:0 auto}
+  .slide{flex:1 1 auto; display:flex; flex-direction:column; gap:12px; padding:8px var(--pad-x) 0}
+  .slide:not(.is-active){display:none}
+  .slide.is-active{animation:slideIn .45s ease both}
   .slide:focus{outline:none}
-  .s-fig{flex:1 1 0; min-height:150px; margin:0; display:flex; flex-direction:column; align-items:center; justify-content:center}
-  .s-plate{position:relative; flex:1 1 0; min-height:0; width:100%; max-height:540px}
-  .s-plate svg{position:absolute; top:0; left:0; width:100%; height:100%; display:block}
-  .s-fig figcaption{flex:none; margin-top:6px; font-size:11px; color:var(--ink-3); letter-spacing:.06em; line-height:1.5}
-  .s-text{flex:none; transform:translateX(calc(var(--dir, 1) * 18px)); transition:transform .5s ease}
-  .slide.is-active .s-text{transform:none}
-  .s-kicker{display:flex; align-items:baseline; gap:12px; margin:0; padding-bottom:6px; border-bottom:1px solid var(--ink); font-size:11px; letter-spacing:.28em; color:var(--ink-3); line-height:1.4}
-  .s-kicker b{font-family:var(--serif); font-size:34px; font-weight:400; line-height:.9; letter-spacing:.02em; color:var(--wine)}
-  .s-title{margin:12px 0 0; font-family:var(--serif); font-size:clamp(28px,8vw,54px); font-weight:900; line-height:1.2; letter-spacing:.05em; text-wrap:balance}
-  .s-title small{display:block; margin-top:4px; font-size:.42em; font-weight:600; letter-spacing:.12em; color:var(--ink-2)}
-  .s-copy{margin:10px 0 0; padding-left:14px; border-left:2px solid var(--wine); font-size:15.5px; color:var(--ink-2); line-height:1.8}
-  .s-meta{margin:8px 0 0; font-size:12.5px; color:var(--ink-3); line-height:1.6}
-  .s-meta .tbd{margin-left:0; margin-right:6px}
-  .s-cta{margin-top:14px; max-width:340px}
+  @keyframes slideIn{from{opacity:0}to{opacity:1}}
+  @keyframes textIn{from{transform:translateX(calc(var(--dir, 1) * 14px))}to{transform:none}}
 
-  .edge{position:absolute; top:50%; z-index:2; display:flex; align-items:center; justify-content:center; width:44px; height:44px; margin-top:-22px;
-    font-family:var(--serif); font-size:26px; line-height:1; color:var(--ink); background:rgba(250,247,240,.8); border:1px solid var(--rule);
-    opacity:0; pointer-events:none; transition:opacity .2s}
-  .edge-prev{left:calc(env(safe-area-inset-left, 0px) + 18px)}
-  .edge-next{right:calc(env(safe-area-inset-right, 0px) + 18px)}
+  #slide-1{--accent:var(--red-d); --accent-l:var(--red-l); --accent-d:var(--red-d)}
+  #slide-2{--accent:var(--sea-d); --accent-l:var(--sea-l); --accent-d:var(--sea-d)}
+  #slide-3{--accent:var(--sky-d); --accent-l:var(--sky-l); --accent-d:var(--sky-d)}
+
+  /* 大主視覺：佔滿剩餘高度，至少 30% 可見高度 */
+  .s-fig{position:relative; flex:1 1 auto; display:flex; min-height:var(--fig-min); margin:0}
+  .s-plate{position:relative; flex:1 1 auto; min-height:0; overflow:hidden; background:var(--sky);
+    border:3px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--accent-l)}
+  .s-plate svg{position:absolute; top:0; left:0; width:100%; height:100%; display:block}
+  .plate-tag{position:absolute; right:10px; bottom:9px; z-index:1; padding:0 9px; font-size:11px; font-weight:700; line-height:1.7; letter-spacing:.06em;
+    color:var(--ink); background:rgba(255,251,243,.9); border:1.5px solid var(--ink); border-radius:12px 8px 12px 8px}
+
+  /* 左右箭頭（每頁各一組，到邊界即隱藏） */
+  .edge{position:absolute; top:50%; z-index:3; display:flex; align-items:center; justify-content:center; width:44px; height:44px; margin-top:-22px; padding:0;
+    color:var(--ink); background:var(--paper); border:2.5px solid var(--ink); border-radius:50% 46% 52% 48%; box-shadow:2px 3px 0 var(--ink); cursor:pointer;
+    transition:transform .12s, box-shadow .12s, background .2s}
+  .edge:hover{background:var(--sun-l)}
+  .edge:active{transform:translate(1px,2px); box-shadow:0 1px 0 var(--ink)}
+  .edge svg{display:block; width:20px; height:20px}
+  .edge-prev{left:10px}
+  .edge-next{right:10px}
+  .edge:disabled{visibility:hidden}
+
+  /* 首次觀看：左右滑動提示 */
+  .swipe-hint{position:absolute; top:20px; left:50%; z-index:4; display:flex; align-items:center; gap:6px; padding:5px 14px 5px 8px;
+    font-size:13.5px; font-weight:900; line-height:1.4; letter-spacing:.06em; color:var(--ink); white-space:nowrap;
+    background:rgba(255,251,243,.95); border:2.5px solid var(--ink); border-radius:20px 16px 22px 14px; box-shadow:3px 3px 0 rgba(59,42,32,.28);
+    transform:translateX(-50%); pointer-events:none; transition:opacity .45s ease, transform .45s ease}
+  .swipe-hint.is-gone{opacity:0; transform:translate(-50%, -8px)}
+  .swipe-hint svg{flex:none; display:block; width:52px; height:26px; overflow:visible}
+  .swipe-hint .hand{animation:swipeHand 1.6s ease-in-out infinite}
+  .swipe-hint .ch-l{animation:chevL 1.6s ease-in-out infinite}
+  .swipe-hint .ch-r{animation:chevR 1.6s ease-in-out infinite}
+  @keyframes swipeHand{0%,100%{transform:translateX(-7px) rotate(-8deg)}50%{transform:translateX(7px) rotate(8deg)}}
+  @keyframes chevL{0%,100%{opacity:1}50%{opacity:.25}}
+  @keyframes chevR{0%,100%{opacity:.25}50%{opacity:1}}
+
+  /* 文字區 */
+  .s-text{flex:none; animation:textIn .5s ease both}
+  .s-kicker{display:flex; align-items:center; gap:8px; margin:0}
+  .s-no{display:inline-flex; align-items:center; justify-content:center; min-width:34px; height:24px; padding:0 8px; font-size:13px; font-weight:900; line-height:1; color:#fff;
+    background:var(--accent); border:2px solid var(--ink); border-radius:12px 8px 12px 8px}
+  .s-tag{padding:1px 10px; font-size:12.5px; font-weight:700; line-height:1.6; color:var(--accent-d); background:var(--accent-l); border-radius:14px 20px 12px 18px}
+  .s-title{margin:6px 0 0; font-size:clamp(26px, 7.4vw, 44px); font-weight:900; line-height:1.25; letter-spacing:.02em}
+  .s-title .mark{position:relative; z-index:0; white-space:nowrap}
+  .s-title .mark::after{content:""; position:absolute; left:-4px; right:-4px; bottom:.08em; z-index:-1; height:.36em; background:var(--sun); opacity:.7;
+    border-radius:40% 60% 50% 70% / 60% 40% 70% 50%; transform:rotate(-1.5deg)}
+  .s-title small{display:inline-block; margin-left:6px; font-size:.5em; font-weight:700; letter-spacing:.02em; color:var(--ink-2); vertical-align:.18em}
+  .s-copy{margin:6px 0 0; font-size:15px; line-height:1.7; color:var(--ink-2)}
+  .s-meta{margin:6px 0 0; font-size:12.5px; line-height:1.6; color:var(--ink-3)}
+  .s-meta .tbd{margin:0 6px 0 0}
+  .s-cta{display:inline-flex; width:auto; min-height:48px; margin-top:10px; padding:10px 22px}
+
   @media (hover:hover) and (pointer:fine){
     .stage[data-hover="prev"]:not(.at-first), .stage[data-hover="next"]:not(.at-last){cursor:pointer}
-    .stage[data-hover="prev"]:not(.at-first) .edge-prev, .stage[data-hover="next"]:not(.at-last) .edge-next{opacity:.85}
   }
 
-  /* 寬螢幕：主視覺與文案左右並排 */
-  @media (min-width:860px) and (min-height:540px){
-    .slide{flex-direction:row; align-items:center; gap:64px; padding:20px 96px var(--bottom-reserve)}
-    .s-fig{height:100%; min-height:0}
-    .s-text{flex:1 1 0; max-width:460px}
+  /* 寬螢幕：主視覺與文案左右並排，箭頭貼畫面兩側 */
+  @media (min-width:860px) and (min-height:560px){
+    :root{--pad-x:28px}
+    .slide{position:relative; flex-direction:row; align-items:stretch; gap:56px; padding:16px 96px 0}
+    .s-fig{position:static; flex:1.15 1 0; min-height:320px}
+    .s-text{flex:1 1 0; align-self:center; max-width:440px}
+    .edge-prev{left:28px} .edge-next{right:28px}
     .s-copy{font-size:16.5px}
   }
-  /* 手機橫放等矮視窗 */
-  @media (max-height:539px) and (orientation:landscape){
-    .stage-top{padding-top:calc(env(safe-area-inset-top, 0px) + 6px)}
-    .slide{flex-direction:row; align-items:flex-start; gap:24px; padding:10px 22px var(--bottom-reserve)}
-    .s-fig{flex:0 0 34%; height:100%; min-height:0}
-    .s-text{flex:1 1 0}
-    .s-title{font-size:26px}
-    .s-kicker b{font-size:26px}
+
+  /* 短螢幕：先犧牲內文與間距，保住頁首與主視覺 */
+  @media (max-height:700px){
+    :root{--tri-h:48px; --float-h:38px; --pad-x:16px}
+    .stage-top{padding-top:calc(var(--safe-t) + 6px)}
+    .logo{width:32px; height:32px}
+    .stage-h{font-size:15.5px}
+    .slide{gap:10px; padding-top:6px}
+    .s-title{font-size:clamp(22px, 6.6vw, 30px); margin-top:4px}
+    .s-copy{margin-top:4px; font-size:14px; line-height:1.6}
+    .s-meta{margin-top:4px}
+    .s-cta{min-height:44px; margin-top:8px; padding:8px 20px; font-size:16px}
+    .swipe-hint{top:14px; font-size:12.5px}
+    .edge{width:40px; height:40px; margin-top:-20px}
+  }
+  @media (max-height:620px){
+    .s-meta .more{display:none}
+    .s-kicker .s-tag{font-size:11.5px}
+    .s-copy{font-size:13.5px}
+    .brand-name{font-size:12px}
+  }
+  /* 手機橫放等矮視窗：主視覺放左側 */
+  @media (max-height:520px) and (orientation:landscape){
+    .slide{flex-direction:row; gap:20px}
+    .s-fig{flex:0 0 44%; min-height:200px}
+    .s-text{flex:1 1 0; align-self:center}
+    .swipe-hint{left:calc(var(--pad-x) + 22%)}
   }
 
   /* =========================================================
    * 底部浮動控件
    * ========================================================= */
   .float{position:fixed; left:50%; bottom:calc(var(--safe-b) + var(--tri-h) + var(--float-gap)); z-index:30; transform:translateX(-50%);
-    display:inline-flex; align-items:center; justify-content:center; gap:10px; height:var(--float-h); padding:0 22px;
-    font:inherit; font-family:var(--serif); font-size:15px; letter-spacing:.16em; line-height:1; white-space:nowrap;
-    color:var(--paper); background:var(--ink); border:1px solid var(--ink); border-radius:0; cursor:pointer;
-    box-shadow:0 6px 18px rgba(29,27,25,.16); transition:background .2s, color .2s}
-  .float:hover{background:#000}
+    display:inline-flex; align-items:center; justify-content:center; gap:8px; height:var(--float-h); padding:0 20px;
+    font:inherit; font-size:15px; font-weight:900; letter-spacing:.08em; line-height:1; white-space:nowrap;
+    color:var(--ink); background:var(--sun); border:2.5px solid var(--ink); border-radius:22px 16px 24px 18px; box-shadow:3px 4px 0 var(--ink); cursor:pointer;
+    transition:transform .12s, box-shadow .12s, background .2s}
+  .float:hover{background:#F5D56A}
+  .float:active{transform:translate(calc(-50% + 2px), 3px); box-shadow:1px 1px 0 var(--ink)}
   .float .arrow{font-size:16px; letter-spacing:0}
-  .float-line{color:var(--ink); background:var(--paper)}
-  .float-line:hover{color:var(--paper); background:var(--ink)}
+  .float-line{background:var(--paper)}
+  .float-line:hover{background:var(--sun-l)}
 
   .tri{position:fixed; left:50%; bottom:var(--safe-b); z-index:30; transform:translateX(-50%);
-    width:176px; height:var(--tri-h); margin:0; padding:0; background:none; border:0; cursor:pointer;
+    width:180px; height:var(--tri-h); margin:0; padding:0; background:none; border:0; cursor:pointer;
     touch-action:none; -webkit-user-select:none; user-select:none}
   .tri svg{display:block; width:100%; height:100%; overflow:visible}
-  .tri .tri-shape{transition:transform .2s; transform-origin:88px 46px}
-  .tri:hover .tri-shape{transform:scaleY(1.08)}
+  .tri .tri-shape{transition:transform .2s; transform-origin:90px 54px}
+  .tri:hover .tri-shape{transform:scaleY(1.07)}
   .tri:focus-visible{outline-offset:-2px}
+  /* 循環的上滑提示：兩個小箭頭交錯向上浮現並淡出 */
+  .tri .chev{animation:chevUp 1.8s ease-in-out infinite}
+  .tri .chev-2{animation-delay:.9s}
+  @keyframes chevUp{0%{opacity:0; transform:translateY(7px)} 35%{opacity:1} 70%{opacity:1} 100%{opacity:0; transform:translateY(-7px)}}
 
   /* 捐款資訊抽屜 */
-  .scrim{position:fixed; inset:0; z-index:40; background:rgba(29,27,25,.5); opacity:0; transition:opacity .3s}
+  .scrim{position:fixed; inset:0; z-index:40; background:rgba(59,42,32,.5); opacity:0; transition:opacity .3s}
   .scrim.is-open{opacity:1}
   .drawer{position:fixed; left:0; right:0; bottom:0; z-index:50; display:flex; flex-direction:column; max-width:600px; margin:0 auto;
-    max-height:88vh; max-height:88dvh; background:var(--ivory); border-top:3px double var(--ink);
-    box-shadow:0 -10px 30px rgba(29,27,25,.2); transform:translateY(105%); transition:transform .34s cubic-bezier(.2,.8,.2,1)}
+    max-height:88vh; max-height:88svh; background-color:var(--cream); border:3px solid var(--ink); border-bottom:0; border-radius:30px 24px 0 0 / 26px 32px 0 0;
+    box-shadow:0 -8px 0 rgba(240,200,74,.45), 0 -12px 30px rgba(59,42,32,.22); transform:translateY(105%); transition:transform .34s cubic-bezier(.2,.8,.2,1)}
   .drawer.is-open{transform:none}
   .drawer.is-dragging{transition:none}
-  .drawer-head{flex:none; padding:8px 22px 0; touch-action:none}
-  .drawer-grip{display:block; width:40px; height:4px; margin:0 auto 6px; background:var(--rule)}
-  .drawer-title-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding-bottom:8px; border-bottom:1px solid var(--ink)}
-  .drawer-title-row h2{margin:0; font-family:var(--serif); font-size:20px; font-weight:900; letter-spacing:.08em; line-height:1.3}
-  .drawer-title-row h2 span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.32em; color:var(--ink-3)}
-  .x{display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 12px; font:inherit; font-size:14px; letter-spacing:.12em; color:var(--ink); background:transparent; border:1px solid var(--ink); cursor:pointer}
-  .x:hover{background:var(--ink); color:var(--paper)}
-  .drawer-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:0 22px calc(var(--safe-b) + 24px)}
+  .drawer-head{flex:none; padding:8px 20px 0; touch-action:none}
+  .drawer-grip{display:block; width:46px; height:6px; margin:0 auto 8px; background:var(--field); border-radius:6px}
+  .drawer-title-row{display:flex; justify-content:space-between; align-items:center; gap:12px; padding-bottom:8px; border-bottom:2px dashed var(--line)}
+  .drawer-title-row h2{display:flex; align-items:center; gap:8px; margin:0; font-size:21px; font-weight:900; letter-spacing:.04em; line-height:1.3}
+  .x{display:inline-flex; align-items:center; gap:6px; min-height:44px; padding:0 14px; font:inherit; font-size:14px; font-weight:700; color:var(--ink);
+    background:var(--paper); border:2px solid var(--ink); border-radius:16px 12px 18px 12px; box-shadow:2px 3px 0 var(--ink); cursor:pointer}
+  .x:active{transform:translate(1px,2px); box-shadow:0 1px 0 var(--ink)}
+  .drawer-body{flex:1 1 auto; min-height:0; overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch; padding:0 20px calc(var(--safe-b) + 24px)}
 
-  .notice{margin-top:18px; padding:14px 16px 12px; background:var(--paper); border:1px solid var(--wine); border-left-width:4px; font-size:14px; color:var(--ink-2); line-height:1.75}
-  .notice b{display:block; margin-bottom:2px; font-family:var(--serif); font-size:15px; letter-spacing:.1em; color:var(--wine)}
+  .notice{display:flex; gap:12px; align-items:flex-start; margin-top:16px; padding:12px 14px; background:var(--red-l); border:2px solid var(--red-d);
+    border-radius:var(--wobble-2); font-size:14px; line-height:1.7; color:var(--ink)}
+  .notice svg{flex:none; margin-top:2px}
+  .notice b{display:block; color:var(--red-d); font-size:15px}
   .notice p{margin:0}
 
-  /* 步驟 */
-  .how{display:grid; grid-template-columns:repeat(3,1fr); margin:20px 0 0; padding:0; list-style:none; counter-reset:s}
-  .how li{padding:4px 10px 4px 0; font-size:13.5px; line-height:1.6; color:var(--ink-2)}
-  .how li + li{padding-left:12px; border-left:1px solid var(--rule)}
-  .how li::before{counter-increment:s; content:"0" counter(s); display:block; font-family:var(--serif); font-size:26px; line-height:1.1; color:var(--wine)}
-  .how li b{display:block; font-family:var(--serif); font-size:15px; font-weight:600; color:var(--ink)}
-
-  /* 專戶 */
-  .ledger{margin-top:20px; padding:18px 18px 16px; background:var(--paper); border-top:3px double var(--ink); border-bottom:3px double var(--ink); position:relative}
-  .ledger-label{display:flex; justify-content:space-between; font-size:11px; letter-spacing:.26em; color:var(--ink-3)}
-  .ledger-label span:last-child{color:var(--wine)}
-  .ledger dl{margin:12px 0 0}
-  .ledger .li{padding:10px 0; border-top:1px solid var(--rule)}
-  .ledger dt{font-size:11.5px; letter-spacing:.2em; color:var(--ink-3)}
-  .ledger dd{margin:2px 0 0; font-family:var(--serif); font-size:17px; font-weight:600; line-height:1.55}
-  .ledger dd .tbd{font-weight:500}
+  .ledger{position:relative; margin-top:24px; padding:20px 18px 16px; background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sun-l)}
+  .sticker{position:absolute; top:-14px; right:16px; padding:2px 12px; font-size:12px; font-weight:700; color:#fff; background:var(--red-d); border-radius:12px 18px 10px 16px; transform:rotate(3deg)}
+  .ledger dl{margin:0}
+  .ledger .li{padding:10px 0; border-bottom:1.5px dashed var(--line)}
+  .ledger .li:last-child{border-bottom:0}
+  .ledger dt{font-size:13px; font-weight:700; color:var(--ink-2)}
+  .ledger dd{margin:2px 0 0; font-size:16.5px; font-weight:700; line-height:1.55}
   .ledger dd > .tbd:first-child{margin-left:0}
   .ledger .name{text-wrap:balance}
-  .ledger .acct{font-size:30px; font-weight:400; letter-spacing:.08em; font-variant-numeric:tabular-nums}
-  .ledger .acct.is-tbd{font-size:22px; letter-spacing:.06em; color:var(--ink-3)}
+  .ledger .acct{font-size:28px; letter-spacing:.08em; font-variant-numeric:tabular-nums}
+  .ledger .acct.is-tbd{font-size:22px; color:var(--ink-3); letter-spacing:.06em}
   .ledger .acct.is-ready{user-select:all; -webkit-user-select:all}
-  .ledger .sub{display:block; margin-top:2px; font-family:var(--sans); font-size:12.5px; font-weight:400; color:var(--ink-3); line-height:1.6}
-
-  .btn{display:flex; align-items:center; justify-content:space-between; gap:10px; width:100%; min-height:52px; padding:12px 18px; font:inherit; font-size:16px; font-weight:500; letter-spacing:.14em; color:var(--paper); background:var(--ink); border:1px solid var(--ink); border-radius:0; cursor:pointer; transition:background .2s, color .2s, border-color .2s}
-  .btn:hover{background:#000}
-  .btn .arrow{font-family:var(--serif); font-size:18px; letter-spacing:0}
-  .btn.is-done{background:var(--wine); border-color:var(--wine)}
-  .btn-line{background:transparent; color:var(--ink)}
-  .btn-line:hover{background:var(--ink); color:var(--paper)}
-  .btn[aria-disabled="true"]{background:transparent; color:var(--ink-3); border:1px dashed var(--ink-3); cursor:not-allowed}
-  .btn[aria-disabled="true"]:hover{background:rgba(123,35,53,.04)}
-  .btn[aria-disabled="true"] small{font-size:12px; letter-spacing:.08em; color:var(--wine)}
+  .ledger .sub{display:block; margin-top:2px; font-size:12.5px; font-weight:400; color:var(--ink-2); line-height:1.6}
   .ledger .btn{margin-top:12px}
-  .copy-msg{min-height:1.5em; margin:8px 0 0; font-size:13px; color:var(--wine); line-height:1.6}
-  .fine{margin:18px 0 0; padding:0; list-style:none; font-size:14px; color:var(--ink-2); line-height:1.75}
-  .fine li{padding-left:1.4em; text-indent:-1.4em}
-  .fine li + li{margin-top:4px}
-  .fine li::before{content:"— "; color:var(--wine)}
-  .fine b{color:var(--ink); font-weight:500}
-  .footnote{margin-top:22px; padding-top:12px; border-top:1px solid var(--ink); font-size:13.5px; color:var(--ink-2); line-height:1.8}
-  .footnote b{font-family:var(--serif); color:var(--ink); letter-spacing:.08em}
+  .copy-msg{min-height:1.5em; margin:8px 0 0; font-size:13px; text-align:center; color:var(--sea-d); line-height:1.6}
+
+  .how{display:grid; grid-template-columns:repeat(3,1fr); gap:8px; margin:20px 0 0; padding:0; list-style:none; counter-reset:s}
+  .how li{padding:10px 8px; font-size:13px; line-height:1.55; color:var(--ink-2); text-align:center; background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble-2)}
+  .how li::before{counter-increment:s; content:counter(s); display:block; width:28px; height:28px; margin:0 auto 4px; font-size:14px; font-weight:900; line-height:28px; color:#fff; background:var(--sky-d); border-radius:50%}
+  .how li:nth-child(2)::before{background:var(--sea-d)}
+  .how li:nth-child(3)::before{background:var(--red-d)}
+  .how li b{display:block; font-size:14.5px; color:var(--ink)}
+  .fine{margin:14px 0 0; padding:12px 14px 12px 34px; background:var(--sun-l); border-radius:var(--wobble-2); font-size:14px; line-height:1.7}
+  .fine b{color:var(--ink)}
+  .footnote{margin-top:18px; padding:12px 16px; border-left:4px solid var(--wood); background:rgba(255,251,243,.8); border-radius:0 18px 18px 0; font-size:13.5px; color:var(--ink-2); line-height:1.75}
+  .footnote b{color:var(--ink)}
 
   /* =========================================================
    * 區塊 2：匯款回報
    * ========================================================= */
   .report .wrap{padding-bottom:calc(var(--bottom-reserve) + 24px)}
-  .mast{padding-top:calc(env(safe-area-inset-top, 0px) + 18px)}
-  .r-title{margin:14px 0 0; font-family:var(--serif); font-size:clamp(34px,10vw,52px); font-weight:900; line-height:1.15; letter-spacing:.08em}
-  .r-title span{display:block; margin-bottom:4px; font-family:var(--sans); font-size:11px; font-weight:500; letter-spacing:.32em; color:var(--wine)}
+  .mast{padding-top:calc(var(--safe-t) + 14px)}
+  .r-hero{position:relative; margin-top:16px; padding:22px 20px 0; overflow:hidden; background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sky-l)}
+  .r-hero::before{content:""; position:absolute; top:-6px; left:50%; width:90px; height:22px; background:rgba(240,200,74,.75); border-radius:3px; transform:translateX(-50%) rotate(-3deg)}
+  .eyebrow{display:inline-block; padding:2px 12px; font-size:13px; font-weight:700; letter-spacing:.06em; color:var(--sea-d); background:var(--sea-l); border-radius:14px 20px 12px 18px}
+  .r-title{margin:10px 0 6px; font-size:clamp(30px, 9vw, 40px); font-weight:900; line-height:1.3; letter-spacing:.03em}
+  .r-title .mark{position:relative; z-index:0}
+  .r-title .mark::after{content:""; position:absolute; left:-4px; right:-4px; bottom:.08em; z-index:-1; height:.36em; background:var(--sun); opacity:.7; border-radius:40% 60% 50% 70% / 60% 40% 70% 50%; transform:rotate(-1.5deg)}
   .r-title:focus{outline:none}
-  .r-title:focus-visible{outline:2px solid var(--wine)}
-  .preset-note{margin:16px 0 0; padding:10px 14px; background:var(--wine-l); border-left:3px solid var(--wine); font-size:14px; color:var(--ink); line-height:1.65}
+  .r-title:focus-visible{outline:3px solid var(--sky-d)}
+  .r-hero p{margin:0; font-size:15px; color:var(--ink-2)}
+  .r-art{position:relative; height:104px; margin:14px -20px 0; border-top:2.5px solid var(--ink)}
+  .r-art svg{position:absolute; inset:0; width:100%; height:100%; display:block}
+  .preset-note{margin:18px 0 0; padding:10px 14px; background:var(--sun-l); border:2px dashed var(--red-d); border-radius:var(--wobble-2); font-size:14.5px; font-weight:500; line-height:1.65}
 
-  .chap{margin-top:56px; scroll-margin-top:16px}
-  .chap-head{display:grid; grid-template-columns:auto 1fr; align-items:end; gap:14px; padding-bottom:10px; border-bottom:1px solid var(--ink)}
-  .chap-no{font-family:var(--serif); font-size:44px; line-height:.9; color:var(--wine); font-weight:400}
-  .chap-head h2{margin:0; font-family:var(--serif); font-size:22px; font-weight:900; letter-spacing:.06em; line-height:1.3}
-  .chap-head h2 span{display:block; font-family:var(--sans); font-size:10.5px; font-weight:500; letter-spacing:.32em; color:var(--ink-3)}
+  .chap{margin-top:44px; scroll-margin-top:16px}
+  .sec-title{display:flex; align-items:center; gap:10px; margin:0 0 4px; font-size:22px; font-weight:900; line-height:1.4}
+  .sec-title svg{flex:none}
+  .squiggle{display:block; width:120px; height:10px; margin:0 0 12px}
 
   /* 表單 */
-  .form{margin-top:10px}
-  .form-intro{margin:16px 0 0; font-size:14px; color:var(--ink-2)}
-  .part{margin:34px 0 0; padding:0; border:0; min-width:0}
-  .part > legend{display:flex; align-items:baseline; gap:10px; width:100%; padding:0 0 6px; border-bottom:1px solid var(--ink); font-family:var(--serif); font-size:17px; font-weight:900; letter-spacing:.08em}
-  .part > legend i{font-style:normal; font-weight:400; color:var(--wine); font-size:15px}
-  .field{margin:18px 0 0; padding:0; border:0; min-width:0}
-  .lbl, .field > legend{display:block; padding:0; margin:0 0 2px; font-size:13.5px; font-weight:500; letter-spacing:.1em; color:var(--ink-2)}
-  .req{margin-left:6px; font-size:11px; letter-spacing:.06em; color:var(--wine); white-space:nowrap}
+  .form-card{margin-top:22px; padding:22px 18px 24px; background-color:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sea-l);
+    background-image:repeating-linear-gradient(transparent 0 35px, rgba(230,213,188,.3) 35px 36px)}
+  .form-intro{margin:0; font-size:14px; color:var(--ink-2)}
+  .part{margin:24px 0 0; padding:18px 0 0; border:0; border-top:2px dashed var(--line); min-width:0}
+  .part:first-of-type{margin-top:12px; padding-top:0; border-top:0}
+  .part > legend{display:flex; align-items:center; gap:8px; float:left; width:100%; padding:0; margin:0 0 2px; font-size:17px; font-weight:900; color:var(--ink)}
+  .part > legend + *{clear:both}
+  .part > legend i{display:inline-flex; align-items:center; justify-content:center; width:28px; height:28px; font-style:normal; font-size:14px; color:#fff; background:var(--sky-d); border:2px solid var(--ink); border-radius:50% 45% 52% 48%}
+  .part:nth-of-type(2) > legend i{background:var(--sea-d)}
+  .part:nth-of-type(3) > legend i{background:var(--sun-d)}
+  .part:nth-of-type(4) > legend i{background:var(--red-d)}
+  .field{margin:14px 0 0; padding:0; border:0; min-width:0}
+  .lbl, .field > legend{display:block; padding:0; margin:0 0 6px; font-size:15px; font-weight:700; line-height:1.5}
+  .req{display:inline-block; margin-left:6px; padding:0 7px; font-size:11px; font-weight:700; line-height:1.6; color:#fff; background:var(--red-d); border-radius:10px 6px 10px 6px; vertical-align:2px; white-space:nowrap}
   .nw{white-space:nowrap}
-  .req::before{content:"＊"}
-  .opt{margin-left:6px; font-size:11px; color:var(--ink-3)}
-  .hint{display:block; margin-top:6px; font-size:12.5px; color:var(--ink-3); line-height:1.6}
+  .opt{margin-left:6px; font-size:12px; font-weight:400; color:var(--ink-2)}
+  .hint{display:block; margin-top:5px; font-size:13px; color:var(--ink-2); line-height:1.6}
   input[type=text],input[type=tel],input[type=email],input[type=number],input[type=datetime-local],select{
-    display:block; width:100%; min-height:48px; padding:10px 2px; font:inherit; font-size:17px; line-height:1.5; color:var(--ink);
-    background-color:transparent; border:0; border-bottom:1.5px solid var(--ink-3); border-radius:0; appearance:none; -webkit-appearance:none; transition:border-color .2s, background-color .2s}
+    display:block; width:100%; min-height:50px; padding:10px 14px; font:inherit; font-size:16px; line-height:1.5; color:var(--ink);
+    background-color:#fff; border:2px solid var(--field); border-radius:14px 18px 12px 16px; appearance:none; -webkit-appearance:none; transition:border-color .2s, box-shadow .2s}
   input[type=number]{-moz-appearance:textfield}
   input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0}
   input[type=datetime-local]::-webkit-date-and-time-value{text-align:left}
-  input::placeholder{color:#9A8F80}
-  input:focus,select:focus{outline:none; border-bottom-color:var(--wine); background-color:rgba(123,35,53,.04)}
-  select{cursor:pointer; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8'%3E%3Cpath d='M1 1l5 5 5-5' fill='none' stroke='%231D1B19' stroke-width='1.3'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 4px center; padding-right:28px}
-  select:invalid{color:#9A8F80}
+  input::placeholder{color:#A8957F}
+  input:focus,select:focus{outline:none; border-color:var(--sky-d); box-shadow:0 0 0 4px rgba(91,164,214,.35)}
+  select{cursor:pointer; padding-right:40px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%233B2A20' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center}
+  select:invalid{color:#A8957F}
   select option{color:var(--ink)}
-  .row2{display:grid; grid-template-columns:1.5fr 1fr; gap:18px}
-  .unit{display:flex; align-items:center; gap:10px}
-  .unit::before{content:"NT$"; font-family:var(--serif); font-size:17px; color:var(--ink-2)}
-  .opts{display:grid; grid-template-columns:repeat(3,1fr); gap:0; border:1px solid var(--ink)}
+  .row2{display:grid; grid-template-columns:1.4fr 1fr; gap:12px}
+  .unit{position:relative}
+  .unit::before{content:"NT$"; position:absolute; left:14px; top:50%; z-index:1; transform:translateY(-50%); font-weight:700; color:var(--wood); pointer-events:none}
+  .unit input{padding-left:56px}
+  .opts{display:grid; grid-template-columns:repeat(3,1fr); gap:8px}
   .opts label{position:relative}
-  .opts label + label{border-left:1px solid var(--ink)}
   .opts input{position:absolute; opacity:0; width:1px; height:1px}
-  .opts span{display:flex; align-items:center; justify-content:center; min-height:50px; padding:6px 4px; font-size:14.5px; cursor:pointer; text-align:center; line-height:1.35; transition:background .15s,color .15s}
-  .opts label:hover span{background:rgba(123,35,53,.05)}
-  .opts input:checked + span{background:var(--ink); color:var(--paper)}
-  .opts input:focus-visible + span{outline:2px solid var(--wine); outline-offset:-4px}
-  .indent{margin-top:8px; padding:0 0 4px 16px; border-left:1px solid var(--wine)}
-  .upload{position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:56px; padding:10px 0; border-bottom:1.5px solid var(--ink-3); cursor:pointer}
-  .upload:focus-within{border-bottom-color:var(--wine); background:rgba(123,35,53,.04)}
+  .opts span{display:flex; align-items:center; justify-content:center; min-height:48px; padding:6px 6px; font-size:14.5px; font-weight:500; line-height:1.35; text-align:center; cursor:pointer;
+    background:#fff; border:2px solid var(--field); border-radius:16px 12px 18px 12px; transition:background .15s, border-color .15s}
+  .opts label:hover span{border-color:var(--sun-d)}
+  .opts input:checked + span{color:var(--ink); font-weight:900; background:var(--sun-l); border-color:var(--ink); box-shadow:2px 3px 0 var(--ink)}
+  .opts input:focus-visible + span{outline:3px solid var(--sky-d); outline-offset:2px}
+  .indent{margin-top:12px; padding:2px 14px 14px; background:var(--cream); border-radius:var(--wobble-2)}
+  .upload{position:relative; display:flex; align-items:center; justify-content:space-between; gap:12px; min-height:56px; padding:10px 14px; background:#fff; border:2px dashed var(--field); border-radius:var(--wobble-2); cursor:pointer}
+  .upload:focus-within{border-color:var(--sky-d); box-shadow:0 0 0 4px rgba(91,164,214,.35)}
   .upload input{position:absolute; opacity:0; width:1px; height:1px}
-  .upload span{font-size:15px; min-width:0}
-  .upload small{display:block; font-size:12.5px; color:var(--ink-3); word-break:break-all}
-  .upload em{flex:none; display:flex; align-items:center; min-height:40px; padding:0 14px; border:1px solid var(--ink); font-style:normal; font-size:13px; letter-spacing:.1em}
-  .sign-wrap{margin-top:34px; border-top:3px double var(--ink)}
-  .sign{display:flex; gap:12px; align-items:flex-start; padding:16px 0 6px; font-family:var(--serif); font-size:16px; cursor:pointer; line-height:1.6}
-  .sign input{flex:none; width:22px; height:22px; margin:2px 0 0; accent-color:var(--wine)}
-  .submit{margin-top:18px}
-  .submit-note{margin:10px 0 0; font-size:12.5px; color:var(--ink-3); line-height:1.6}
+  .upload span{min-width:0; font-size:15px; font-weight:700}
+  .upload small{display:block; font-size:12.5px; font-weight:400; color:var(--ink-2); word-break:break-all}
+  .upload em{flex:none; display:flex; align-items:center; min-height:38px; padding:0 14px; font-style:normal; font-size:13px; font-weight:700; background:var(--sun-l); border:2px solid var(--ink); border-radius:14px 10px 14px 10px}
+  .sign-wrap{margin-top:22px}
+  .sign{display:flex; gap:12px; align-items:flex-start; padding:14px; background:var(--sea-l); border-radius:var(--wobble-2); font-size:15px; font-weight:500; line-height:1.6; cursor:pointer}
+  .sign input{flex:none; width:24px; height:24px; margin:1px 0 0; accent-color:var(--sea-d)}
+  .submit{margin-top:20px}
+  .submit-note{margin:10px 0 0; font-size:12.5px; color:var(--ink-2); line-height:1.6; text-align:center}
 
   /* 錯誤訊息 */
-  .err{display:block; margin:6px 0 0; font-size:13px; line-height:1.55; color:var(--error)}
+  .err{display:block; margin:6px 0 0; font-size:13px; font-weight:500; line-height:1.55; color:var(--error)}
   .err:empty{display:none}
-  .err::before{content:"！"; font-weight:700}
-  .is-invalid input[type=text],.is-invalid input[type=tel],.is-invalid input[type=email],.is-invalid input[type=number],.is-invalid input[type=datetime-local],.is-invalid select{border-bottom-color:var(--error); border-bottom-width:2px}
-  .is-invalid .opts{border-color:var(--error); box-shadow:0 0 0 1px var(--error)}
-  .is-invalid .upload{border-bottom-color:var(--error)}
-  .form-err{margin:14px 0 0; padding:10px 14px; border:1px solid var(--error); background:#F7E7E3; font-size:14px; color:var(--error); line-height:1.6}
+  .err::before{content:"！"; font-weight:900}
+  .is-invalid input[type=text],.is-invalid input[type=tel],.is-invalid input[type=email],.is-invalid input[type=number],.is-invalid input[type=datetime-local],.is-invalid select{border-color:var(--error); background-color:#FFF6F4}
+  .is-invalid .opts span{border-color:var(--error)}
+  .is-invalid .upload{border-color:var(--error)}
+  .is-invalid .sign{box-shadow:0 0 0 2px var(--error)}
+  .form-err{margin:16px 0 0; padding:10px 14px; color:var(--error); background:#FDEBE7; border:2px solid var(--error); border-radius:var(--wobble-2); font-size:14px; font-weight:500; line-height:1.6}
 
   /* 感謝 */
-  .thanks{margin-top:22px; padding:30px 0 10px; border-top:3px double var(--ink); scroll-margin-top:calc(var(--nav-h) + 12px)}
+  .thanks{margin-top:22px; padding:28px 20px 22px; text-align:center; background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sun-l); scroll-margin-top:12px}
   .thanks:focus{outline:none}
-  .thanks .big{margin:0; font-family:var(--serif); font-size:64px; font-weight:900; line-height:1; letter-spacing:.06em}
-  .thanks .big i{font-style:normal; color:var(--wine)}
-  .thanks h3{margin:14px 0 10px; font-family:var(--serif); font-size:21px; font-weight:600}
-  .thanks p{margin:0 0 18px; color:var(--ink-2); font-size:15px; text-align:justify}
-  .summary{margin:0 0 22px; border-top:1px solid var(--ink)}
-  .summary div{display:flex; justify-content:space-between; gap:12px; padding:10px 0; border-bottom:1px solid var(--rule); font-size:14.5px}
-  .summary dt{color:var(--ink-3); letter-spacing:.1em} .summary dd{margin:0; font-family:var(--serif); font-weight:600; text-align:right; font-variant-numeric:tabular-nums}
-  .demo{margin:14px 0 0 !important; padding:10px 12px; border:1px dashed var(--ink-3); font-size:12.5px !important; color:var(--ink-3) !important; line-height:1.6}
+  .thanks h3{margin:8px 0 10px; font-size:23px; font-weight:900}
+  .thanks p{margin:0 0 16px; font-size:15px; color:var(--ink-2); text-align:left}
+  .summary{margin:0 0 18px; padding:10px 16px; background:var(--cream); border-radius:var(--wobble-2); text-align:left}
+  .summary div{display:flex; justify-content:space-between; gap:12px; padding:5px 0; font-size:15px}
+  .summary dt{color:var(--ink-2)} .summary dd{margin:0; font-weight:700; text-align:right; font-variant-numeric:tabular-nums}
+  .demo{margin:14px 0 0 !important; padding:10px 12px; border:1.5px dashed var(--field); border-radius:14px; font-size:12.5px !important; color:var(--ink-2) !important; line-height:1.6; text-align:center !important}
 
   /* FAQ */
-  .faq{margin-top:10px}
-  .faq details{border-bottom:1px solid var(--rule)}
-  .faq summary{display:grid; grid-template-columns:auto 1fr auto; gap:12px; align-items:baseline; min-height:56px; padding:15px 0 13px; cursor:pointer; list-style:none; font-family:var(--serif); font-size:16.5px; font-weight:600; line-height:1.5}
+  .faq{display:grid; gap:10px}
+  .faq details{background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble-2)}
+  .faq details[open]{box-shadow:3px 4px 0 var(--sky-l)}
+  .faq summary{display:grid; grid-template-columns:auto 1fr auto; gap:10px; align-items:center; min-height:54px; padding:10px 14px; cursor:pointer; list-style:none; font-size:15.5px; font-weight:700; line-height:1.5}
   .faq summary::-webkit-details-marker{display:none}
-  .faq summary .q{font-weight:400; font-size:15px; color:var(--wine)}
-  .faq summary::after{content:"+"; font-family:var(--serif); font-weight:400; font-size:22px; line-height:1; color:var(--ink-3); transition:transform .2s}
-  .faq details[open] summary::after{transform:rotate(45deg); color:var(--wine)}
-  .faq summary:focus-visible{outline-offset:-2px}
-  .faq .a{padding:0 0 18px 28px; font-size:14.5px; color:var(--ink-2); line-height:1.85; text-align:justify}
+  .faq summary .q{display:inline-flex; align-items:center; justify-content:center; min-width:32px; height:24px; padding:0 6px; font-size:12px; font-weight:900; color:#fff; background:var(--sky-d); border-radius:12px 8px 12px 8px}
+  .faq summary::after{content:"+"; font-size:22px; font-weight:700; line-height:1; color:var(--ink-2); transition:transform .2s}
+  .faq details[open] summary::after{transform:rotate(45deg); color:var(--red-d)}
+  .faq summary:focus-visible{outline-offset:-3px}
+  .faq .a{padding:0 16px 14px 16px; font-size:14.5px; color:var(--ink-2); line-height:1.8}
   .faq .a p{margin:0}
 
   /* 聯絡 */
-  .contact{margin:6px 0 0; border-bottom:1px solid var(--ink)}
-  .contact div{display:grid; grid-template-columns:7em 1fr; gap:12px; align-items:baseline; padding:13px 0; border-top:1px solid var(--rule)}
+  .contact{margin:0; padding:6px 16px; background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble)}
+  .contact div{display:grid; grid-template-columns:6.5em 1fr; gap:12px; align-items:center; padding:10px 0; border-top:1.5px dashed var(--line)}
   .contact div:first-child{border-top:0}
-  .contact dt{font-size:12.5px; letter-spacing:.18em; color:var(--ink-3)}
-  .contact dd{margin:0; font-family:var(--serif); font-size:16px; font-weight:600; color:var(--ink-3)}
+  .contact dt{font-size:13.5px; font-weight:700; color:var(--ink-2)}
+  .contact dd{margin:0}
   .contact dd .tbd{margin-left:0}
 
-  footer{margin-top:64px; padding:20px 0 0; border-top:3px double var(--ink); font-size:12.5px; color:var(--ink-3); line-height:1.8}
-  footer b{display:block; font-family:var(--serif); font-size:15px; color:var(--ink); letter-spacing:.1em}
-  footer .full{display:block; margin-bottom:10px; letter-spacing:.08em}
-  footer p{margin:0}
-  footer .colophon{display:flex; justify-content:space-between; margin-top:14px; padding-top:8px; border-top:1px solid var(--rule); font-size:11px; letter-spacing:.24em}
+  footer{margin-top:52px; padding:20px 0 0; text-align:center; font-size:13px; color:var(--ink-2); line-height:1.8}
+  footer svg{display:block; margin:0 auto 8px}
+  footer b{display:block; font-size:15px; color:var(--ink)}
+  footer p{margin:6px 0 0}
 
   @media (max-width:360px){
-    .wrap{padding:0 18px}
     .how{grid-template-columns:1fr}
-    .how li + li{padding-left:0; border-left:0; border-top:1px solid var(--rule); padding-top:8px; margin-top:8px}
     .row2{grid-template-columns:1fr; gap:0}
-    .stage-top, .slide{padding-left:18px; padding-right:18px}
+    .opts span{font-size:13.5px}
   }
-  @media (min-width:600px){ .chap{margin-top:72px} }
+  @media (min-width:600px){ .chap{margin-top:60px} }
 
-  /* 減少動態：淡出、滑入一律立即切換 */
+  /* 減少動態：淡入淡出、切頁、三角形與滑動提示的循環動畫一律停止 */
   @media (prefers-reduced-motion:reduce){
-    *, *::before, *::after{transition:none !important; animation:none !important}
+    *, *::before, *::after{transition:none !important; animation:none !important; scroll-behavior:auto !important}
     .s-text{transform:none !important}
   }
 </style>
@@ -332,14 +427,26 @@
 </head>
 <body>
 
-<!-- 共用 SVG 濾鏡（紙紋） -->
+<!-- 共用 SVG：校徽與三角形漸層 -->
 <svg width="0" height="0" style="position:absolute" aria-hidden="true" focusable="false">
   <defs>
-    <filter id="grain"><feTurbulence type="fractalNoise" baseFrequency=".9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix values="0 0 0 0 1  0 0 0 0 1  0 0 0 0 1  0 0 0 .09 0"/></filter>
     <linearGradient id="triGrad" x1="0" y1="0" x2="0" y2="1">
-      <stop offset="0" stop-color="#7B2335" stop-opacity=".42"/>
-      <stop offset="1" stop-color="#7B2335" stop-opacity=".93"/>
+      <stop offset="0" stop-color="#5BA4D6" stop-opacity=".6"/>
+      <stop offset=".55" stop-color="#2F8F74" stop-opacity=".88"/>
+      <stop offset="1" stop-color="#236E59" stop-opacity=".95"/>
     </linearGradient>
+    <clipPath id="logoClip"><circle cx="24" cy="24" r="21"/></clipPath>
+    <symbol id="logoSym" viewBox="0 0 48 48">
+      <g clip-path="url(#logoClip)">
+        <rect width="48" height="48" fill="#5BA4D6"/>
+        <rect y="25" width="48" height="10" fill="#2F8F74"/>
+        <path d="M0 34c12-5 30-6 48-2v16H0z" fill="#F0C84A"/>
+        <path d="M23 37v-11" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round"/>
+        <circle cx="23" cy="19" r="9" fill="#D6453A" stroke="#3B2A20" stroke-width="2"/>
+        <circle cx="37" cy="11" r="4" fill="#F0C84A"/>
+      </g>
+      <circle cx="24" cy="24" r="21" fill="none" stroke="#3B2A20" stroke-width="2.6"/>
+    </symbol>
   </defs>
 </svg>
 
@@ -347,56 +454,94 @@
      區塊 1：滿版投影片（捐款項目介紹）
      ===================================================== -->
 <section class="stage" id="stage" aria-roledescription="carousel" aria-labelledby="stageTitle">
-  <div class="stage-top">
-    <div class="mast-top"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
-    <div class="stage-bar">
-      <h1 class="stage-h" id="stageTitle"><span>DONATION</span>愛心捐款・捐款項目介紹</h1>
+  <header class="stage-top">
+    <div class="brand">
+      <div class="brand-l">
+        <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
+        <div>
+          <div class="brand-name"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+          <h1 class="stage-h" id="stageTitle">愛心捐款・捐款項目介紹</h1>
+        </div>
+      </div>
       <div class="pager" role="group" aria-label="切換捐款項目">
-        <button type="button" data-go="0" aria-controls="slide-1" aria-label="01 不指定（由家長會統籌運用）" aria-current="true">01</button>
-        <button type="button" data-go="1" aria-controls="slide-2" aria-label="02 教師支援費">02</button>
-        <button type="button" data-go="2" aria-controls="slide-3" aria-label="03 校園 iPad 汰換計畫">03</button>
+        <div class="dots">
+          <button type="button" class="dot" data-go="0" aria-controls="slide-1" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" aria-current="true"><i></i></button>
+          <button type="button" class="dot" data-go="1" aria-controls="slide-2" aria-label="第 2 頁，共 3 頁：教師支援費"><i></i></button>
+          <button type="button" class="dot" data-go="2" aria-controls="slide-3" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫"><i></i></button>
+        </div>
+        <span class="count" aria-hidden="true"><b id="pageNow">1</b> / 3</span>
       </div>
     </div>
-  </div>
+  </header>
 
   <div class="slides">
+    <p class="swipe-hint" id="swipeHint" aria-hidden="true">
+      <svg viewBox="0 0 52 26" focusable="false">
+        <path class="ch-l" d="M7 8l-5 5 5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="ch-r" d="M45 8l5 5-5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="hand">
+          <circle cx="26" cy="13" r="9" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.4"/>
+          <circle cx="26" cy="13" r="3" fill="#D6453A"/>
+        </g>
+      </svg>
+      <span>左右滑動看更多</span>
+    </p>
+
     <!-- 01 不指定 -->
     <section class="slide is-active" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" data-title="不指定（由家長會統籌運用）" tabindex="-1">
       <figure class="s-fig">
-        <div class="s-plate"><svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：拱窗中，數條細線匯聚到一個圓">
-          <defs><clipPath id="p1arch"><path d="M46 360V150a94 94 0 01188 0v210z"/></clipPath></defs>
-          <rect width="280" height="360" fill="#2A2623"/>
-          <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
-          <path d="M46 360V150a94 94 0 01188 0v210z" fill="#E9E1D2"/>
-          <g clip-path="url(#p1arch)">
-            <rect x="46" y="256" width="188" height="104" fill="#DCD1BE"/>
-            <g stroke="#1D1B19" stroke-width="1" opacity=".5" fill="none">
-              <path d="M70 100L140 206M110 80L140 206M170 80L140 206M210 100L140 206M56 150L140 206M224 150L140 206"/>
+        <div class="s-plate">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天下、綠色海面前的黃色土地上，長著一棵紅色大樹，四周小小的心意朝大樹聚集">
+            <rect width="400" height="400" fill="#5BA4D6"/>
+            <circle cx="120" cy="20" r="150" fill="#7FBBE3" opacity=".55"/>
+            <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M320 58v-12M320 142v12M278 100h-12M362 100h12M290 70l-8-8M350 130l8 8M350 70l8-8M290 130l-8 8"/></g>
+            <circle cx="320" cy="100" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
+            <path d="M309 98q3 4 6 0M325 98q3 4 6 0M311 110q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M40 122c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H44c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M180 84c1-8 12-11 19-6 4-7 16-6 19 2 9 0 11 9 6 13h-41c-7 0-8-6-3-9z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.2" stroke-linejoin="round"/>
+            <path d="M110 60l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            <!-- 綠海 -->
+            <path d="M-10 212c40-10 84-10 124-2s84 10 124 0 84-10 172 0V300H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M24 244q8-6 16 0t16 0M296 238q8-6 16 0t16 0M118 256q8-6 16 0t16 0M330 268q8-6 16 0t16 0"/></g>
+            <path d="M52 230h40l-6 10H58z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M72 228v-34l18 30z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <!-- 黃地 -->
+            <path d="M-10 286c60-26 140-30 210-16s150 18 220-8V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#D9A92E"><circle cx="54" cy="330" r="3"/><circle cx="92" cy="356" r="2.5"/><circle cx="300" cy="336" r="3"/><circle cx="340" cy="360" r="2.5"/><circle cx="150" cy="350" r="2.5"/><circle cx="250" cy="364" r="3"/></g>
+            <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M36 316l4-10 4 10M48 318l3-8 3 8M340 312l4-10 4 10M120 330l3-8 3 8"/></g>
+            <ellipse cx="200" cy="312" rx="50" ry="7" fill="#D9A92E"/>
+            <!-- 紅樹 -->
+            <path d="M200 262c-12-6-22-14-30-26M202 250c12-6 20-14 26-26" fill="none" stroke="#3B2A20" stroke-width="3" stroke-linecap="round"/>
+            <path d="M188 312c4-28 5-60 2-92h20c-3 32-2 64 2 92z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M200 96c40-3 70 22 68 54 22 15 17 55-13 62-10 23-50 26-60 10-25 14-63 3-63-24-24-13-20-48 6-56 2-30 30-46 62-46z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#EF8276"><circle cx="168" cy="140" r="9"/><circle cx="236" cy="128" r="6"/><circle cx="246" cy="184" r="10"/><circle cx="158" cy="194" r="6"/><circle cx="206" cy="168" r="5"/></g>
+            <g fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.8" stroke-linejoin="round">
+              <path d="M194 128c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
+              <path d="M214 196c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
+              <path d="M150 162c0-4 5-6 7-2 2-4 7-2 7 2 0 5-7 9-7 9s-7-4-7-9z"/>
             </g>
-            <rect x="66" y="96" width="8" height="8" fill="#1D1B19"/>
-            <rect x="106" y="76" width="8" height="8" fill="#B9A98F"/>
-            <rect x="166" y="76" width="8" height="8" fill="#7B2335"/>
-            <rect x="206" y="96" width="8" height="8" fill="#B9A98F"/>
-            <rect x="52" y="146" width="8" height="8" fill="#7B2335"/>
-            <rect x="220" y="146" width="8" height="8" fill="#1D1B19"/>
-            <circle cx="140" cy="206" r="48" fill="none" stroke="#7B2335" stroke-width="1" opacity=".45"/>
-            <circle cx="140" cy="206" r="34" fill="#7B2335"/>
-            <g stroke="#B9A98F" stroke-width="1"><path d="M46 276h188M46 290h188M46 306h188"/></g>
-          </g>
-          <path d="M46 360V150a94 94 0 01188 0v210" fill="none" stroke="#F3EEE4" stroke-width="1"/>
-          <path d="M36 360V150a104 104 0 01208 0v210" fill="none" stroke="#B9A98F" stroke-width=".6" opacity=".5"/>
-          <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
-          <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 01</text>
-          <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
-          <rect width="280" height="360" filter="url(#grain)"/>
-        </svg></div>
-        <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
+            <!-- 小小心意朝大樹聚集 -->
+            <g fill="none" stroke-width="2.6" stroke-dasharray="1 8" stroke-linecap="round">
+              <path d="M72 172c20-4 38 0 54 8" stroke="#FFFBF3"/><path d="M340 192c-22-8-44-8-62-2" stroke="#FFFBF3"/>
+              <path d="M92 340c26-14 52-22 82-24" stroke="#3B2A20"/><path d="M318 344c-26-16-52-24-84-26" stroke="#3B2A20"/>
+            </g>
+            <g fill="#D6453A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round">
+              <path d="M52 168c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+              <path d="M342 188c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+              <path d="M72 338c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+              <path d="M320 342c0-5 6-8 9-3 3-5 9-2 9 3 0 6-9 11-9 11s-9-5-9-11z"/>
+            </g>
+          </svg>
+          <span class="plate-tag">插畫・非實景</span>
+        </div>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </figure>
       <div class="s-text">
-        <p class="s-kicker"><b>01</b><span>PURPOSE・預設選項</span></p>
-        <h2 class="s-title">不指定<small>由家長會統籌運用</small></h2>
+        <p class="s-kicker"><span class="s-no">01</span><span class="s-tag">預設選項</span></p>
+        <h2 class="s-title"><span class="mark">不指定</span><small>（由家長會統籌運用）</small></h2>
         <p class="s-copy">交給家長會，依校園實際需要統籌運用。回報時未特別指定用途，即歸入此項。</p>
-        <p class="s-meta"><span class="tbd">待家長會確認</span>細項說明待家長會確認後補充。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">細項說明待家長會確認後補充。</span></p>
         <button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
       </div>
     </section>
@@ -404,46 +549,62 @@
     <!-- 02 教師支援費 -->
     <section class="slide" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：教師支援費" data-title="教師支援費" tabindex="-1" aria-hidden="true">
       <figure class="s-fig">
-        <div class="s-plate"><svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：黑板、攤開的書、鉛筆與茶杯">
-          <rect width="280" height="360" fill="#2A2623"/>
-          <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
-          <rect x="36" y="48" width="208" height="288" fill="#E9E1D2"/>
-          <rect x="36" y="268" width="208" height="68" fill="#DCD1BE"/>
-          <rect x="58" y="84" width="164" height="100" fill="#1D1B19"/>
-          <rect x="58" y="84" width="164" height="100" fill="none" stroke="#B9A98F" stroke-width="3"/>
-          <rect x="66" y="184" width="148" height="5" fill="#7B2335"/>
-          <g stroke="#E9E1D2" stroke-width="1.2" opacity=".75" fill="none">
-            <path d="M74 108h56M74 124h80M74 140h40M74 156h64"/>
-            <circle cx="186" cy="132" r="20"/>
-            <path d="M166 160h40M186 112v40"/>
-          </g>
-          <rect x="36" y="262" width="208" height="6" fill="#1D1B19"/>
-          <g stroke="#1D1B19" stroke-width="1">
-            <path d="M88 236q26-10 52 0v26q-26-9-52 0z" fill="#F3EEE4"/>
-            <path d="M140 236q26-10 52 0v26q-26-9-52 0z" fill="#F3EEE4"/>
-          </g>
-          <g stroke="#B9A98F" stroke-width="1"><path d="M96 244q18-6 36 0M96 251q18-6 36 0M148 244q18-6 36 0M148 251q18-6 36 0"/></g>
-          <rect x="54" y="236" width="20" height="26" fill="#B9A98F"/>
-          <path d="M74 242h5a6 6 0 010 12h-5" fill="none" stroke="#B9A98F" stroke-width="2"/>
-          <path d="M60 230c-3-4 3-6 0-10M68 230c-3-4 3-6 0-10" fill="none" stroke="#6F675D" stroke-width="1"/>
-          <g transform="rotate(-24 214 246)">
-            <rect x="196" y="243" width="34" height="7" fill="#7B2335"/>
-            <path d="M230 243l9 3.5-9 3.5z" fill="#B9A98F"/>
-            <rect x="192" y="243" width="4" height="7" fill="#1D1B19"/>
-          </g>
-          <g stroke="#B9A98F" stroke-width="1"><path d="M36 292h208M36 306h208"/></g>
-          <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
-          <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 02</text>
-          <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
-          <rect width="280" height="360" filter="url(#grain)"/>
-        </svg></div>
-        <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
+        <div class="s-plate">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天與綠色海面下，黃色土地上有一塊小黑板、一疊書和一支鉛筆，旁邊是一棵紅色的樹">
+            <rect width="400" height="400" fill="#5BA4D6"/>
+            <circle cx="300" cy="20" r="150" fill="#7FBBE3" opacity=".55"/>
+            <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M80 62v-12M80 146v12M38 104h-12M122 104h12M50 74l-8-8M110 134l8 8M110 74l8-8M50 134l-8 8"/></g>
+            <circle cx="80" cy="104" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
+            <path d="M69 102q3 4 6 0M85 102q3 4 6 0M71 114q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M262 112c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19h-61c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <path d="M176 82q6-6 12 0q6-6 12 0M208 98q5-5 10 0q5-5 10 0" fill="none" stroke="#3B2A20" stroke-width="2.4" stroke-linecap="round"/>
+            <!-- 綠海 -->
+            <path d="M-10 206c50-8 100-8 140 0s100 8 140 0 80-8 140 0V296H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M20 236q8-6 16 0t16 0M150 230q8-6 16 0t16 0M300 244q8-6 16 0t16 0"/></g>
+            <!-- 黃地 -->
+            <path d="M-10 280c70-20 150-22 220-10s140 16 200-4V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#D9A92E"><circle cx="40" cy="352" r="3"/><circle cx="120" cy="364" r="2.5"/><circle cx="356" cy="340" r="3"/><circle cx="300" cy="372" r="2.5"/></g>
+            <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M110 326l4-10 4 10M350 316l4-10 4 10M362 318l3-8 3 8"/></g>
+            <!-- 紅樹 -->
+            <path d="M300 318c3-26 4-52 1-80h18c-3 28-2 54 2 80z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M310 124c32-2 56 18 54 44 18 12 14 44-10 50-8 18-40 21-48 8-20 11-50 2-50-19-19-10-16-38 5-45 2-24 24-38 49-38z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#EF8276"><circle cx="286" cy="160" r="8"/><circle cx="336" cy="150" r="6"/><circle cx="340" cy="196" r="9"/><circle cx="290" cy="204" r="5"/></g>
+            <!-- 小黑板 -->
+            <ellipse cx="182" cy="320" rx="70" ry="7" fill="#D9A92E"/>
+            <g stroke-linecap="round"><path d="M132 318l24-120M232 318l-24-120M182 198v122" stroke="#3B2A20" stroke-width="10"/><path d="M132 318l24-120M232 318l-24-120M182 198v122" stroke="#B9783F" stroke-width="5"/></g>
+            <rect x="96" y="146" width="172" height="112" rx="12" fill="#B9783F" stroke="#3B2A20" stroke-width="3"/>
+            <rect x="106" y="156" width="152" height="92" rx="7" fill="#24614F" stroke="#3B2A20" stroke-width="2"/>
+            <g fill="none" stroke="#FFFBF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"><path d="M120 180h48M120 198h34M120 216h52M120 234h26"/><circle cx="218" cy="202" r="20"/><path d="M208 202l7 8 13-15"/></g>
+            <path d="M246 164l2 5 5 2-5 2-2 5-2-5-5-2 5-2z" fill="#F0C84A"/>
+            <rect x="100" y="256" width="164" height="9" rx="3" fill="#8E5A2E" stroke="#3B2A20" stroke-width="2.5"/>
+            <rect x="122" y="250" width="16" height="6" rx="2" fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.5"/>
+            <rect x="144" y="250" width="12" height="6" rx="2" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.5"/>
+            <!-- 一疊書與蘋果 -->
+            <rect x="26" y="314" width="80" height="16" rx="3" fill="#5BA4D6" stroke="#3B2A20" stroke-width="2.5"/>
+            <rect x="34" y="298" width="68" height="16" rx="3" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5"/>
+            <rect x="30" y="282" width="72" height="16" rx="3" fill="#2F8F74" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M40 290h50M44 306h46M36 322h58" stroke="#FFFBF3" stroke-width="1.6" stroke-linecap="round" opacity=".7"/>
+            <circle cx="66" cy="268" r="13" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M66 256v-6" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M67 252c4-6 10-6 13-4-3 5-8 6-13 4z" fill="#2F8F74" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            <!-- 鉛筆 -->
+            <g transform="rotate(-12 246 340)">
+              <rect x="206" y="332" width="82" height="16" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.5"/>
+              <path d="M288 332l18 8-18 8z" fill="#F3D9B1" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+              <path d="M300 337.4l6 2.6-6 2.6z" fill="#3B2A20"/>
+              <rect x="194" y="332" width="12" height="16" rx="2" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5"/>
+            </g>
+          </svg>
+          <span class="plate-tag">插畫・非實景</span>
+        </div>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：不指定（由家長會統籌運用）"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：校園 iPad 汰換計畫"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </figure>
       <div class="s-text">
-        <p class="s-kicker"><b>02</b><span>PURPOSE・可指定</span></p>
-        <h2 class="s-title">教師支援費</h2>
+        <p class="s-kicker"><span class="s-no">02</span><span class="s-tag">可指定</span></p>
+        <h2 class="s-title"><span class="mark">教師支援費</span></h2>
         <p class="s-copy">支持老師備課與教學所需的支援。</p>
-        <p class="s-meta"><span class="tbd">待家長會確認</span>支用範圍與細項，待家長會確認後說明。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">支用範圍與細項，待家長會確認後說明。</span></p>
         <button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
       </div>
     </section>
@@ -451,50 +612,69 @@
     <!-- 03 校園 iPad 汰換計畫 -->
     <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫" data-title="校園 iPad 汰換計畫" tabindex="-1" aria-hidden="true">
       <figure class="s-fig">
-        <div class="s-plate"><svg viewBox="0 0 280 360" role="img" aria-label="幾何插畫：一台舊平板與一台新平板，外圍有一道循環箭頭">
-          <rect width="280" height="360" fill="#2A2623"/>
-          <g stroke="#3A3531" stroke-width="1"><path d="M20 60h18M242 60h18M20 66h12M248 66h12"/></g>
-          <circle cx="140" cy="196" r="112" fill="#E9E1D2"/>
-          <circle cx="140" cy="196" r="122" fill="none" stroke="#B9A98F" stroke-width=".6" opacity=".5"/>
-          <path d="M42 114A128 128 0 01238 114" fill="none" stroke="#7B2335" stroke-width="2"/>
-          <path d="M242 119l-10.4-4.9 7.6-6.4z" fill="#7B2335"/>
-          <g transform="rotate(-10 108 196)">
-            <rect x="60" y="132" width="92" height="128" rx="8" fill="#B9A98F" opacity=".6"/>
-            <rect x="68" y="142" width="76" height="106" rx="2" fill="#DCD1BE"/>
-            <path d="M76 156h40M76 166h28" stroke="#9A8F80" stroke-width="1"/>
-          </g>
-          <g transform="rotate(6 176 206)">
-            <rect x="124" y="136" width="100" height="140" rx="9" fill="#1D1B19"/>
-            <rect x="132" y="146" width="84" height="118" rx="2" fill="#F3EEE4"/>
-            <rect x="142" y="158" width="18" height="18" fill="#7B2335"/>
-            <rect x="166" y="158" width="18" height="18" fill="#B9A98F"/>
-            <rect x="190" y="158" width="18" height="18" fill="#B9A98F"/>
-            <rect x="142" y="182" width="18" height="18" fill="#B9A98F"/>
-            <rect x="166" y="182" width="18" height="18" fill="#1D1B19"/>
-            <rect x="190" y="182" width="18" height="18" fill="#B9A98F"/>
-            <path d="M142 214h66M142 224h44M142 234h56" stroke="#CDC3B2" stroke-width="2"/>
-            <circle cx="174" cy="270" r="2.4" fill="#4F4A44"/>
-          </g>
-          <g stroke="#B9A98F" stroke-width="1"><path d="M52 296h176M64 308h152"/></g>
-          <rect x="0" y="336" width="280" height="24" fill="#1D1B19"/>
-          <text x="16" y="28" fill="#B9A98F" font-family="Noto Serif TC, serif" font-size="11" letter-spacing="3">PLATE · 03</text>
-          <text x="264" y="352" fill="#9A8F80" font-family="Noto Sans TC, sans-serif" font-size="9" letter-spacing="2" text-anchor="end">插畫・非實景</text>
-          <rect width="280" height="360" filter="url(#grain)"/>
-        </svg></div>
-        <figcaption>圖｜幾何構成插畫，非學校實景照片。</figcaption>
+        <div class="s-plate">
+          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天、綠色海面與黃色土地之間，一台舊平板換成新平板，旁邊有一棵紅色的樹">
+            <defs><clipPath id="p3screen"><rect x="224" y="150" width="108" height="148" rx="6"/></clipPath></defs>
+            <rect width="400" height="400" fill="#5BA4D6"/>
+            <circle cx="140" cy="10" r="150" fill="#7FBBE3" opacity=".55"/>
+            <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M326 56v-12M326 140v12M284 98h-12M368 98h12M296 68l-8-8M356 128l8 8M356 68l8-8M296 128l-8 8"/></g>
+            <circle cx="326" cy="98" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
+            <path d="M315 96q3 4 6 0M331 96q3 4 6 0M317 108q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <path d="M36 104c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H40c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+            <!-- 綠海 -->
+            <path d="M-10 210c46-10 96-10 140-2s96 10 140 0 86-10 140-2V300H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M150 240q8-6 16 0t16 0M24 256q8-6 16 0t16 0M354 236q8-6 16 0t16 0"/></g>
+            <!-- 黃地 -->
+            <path d="M-10 284c70-24 150-26 220-12s140 14 200-6V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#D9A92E"><circle cx="160" cy="350" r="3"/><circle cx="210" cy="372" r="2.5"/><circle cx="370" cy="350" r="3"/><circle cx="40" cy="360" r="2.5"/></g>
+            <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M140 322l4-10 4 10M152 324l3-8 3 8M362 322l4-10 4 10"/></g>
+            <!-- 紅樹 -->
+            <ellipse cx="82" cy="322" rx="44" ry="6" fill="#D9A92E"/>
+            <path d="M72 320c3-26 4-52 1-80h18c-3 28-2 54 2 80z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <path d="M82 128c30-2 52 18 50 42 17 11 13 41-9 47-8 17-38 20-45 8-19 10-47 2-47-18-18-9-15-36 4-42 2-23 22-37 47-37z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
+            <g fill="#EF8276"><circle cx="60" cy="160" r="8"/><circle cx="106" cy="152" r="6"/><circle cx="110" cy="198" r="8"/><circle cx="58" cy="204" r="5"/></g>
+            <!-- 舊平板（虛線、裂痕） -->
+            <g transform="rotate(-12 198 232)">
+              <rect x="150" y="164" width="96" height="134" rx="14" fill="#E6D5BC" stroke="#3B2A20" stroke-width="3" stroke-dasharray="8 6"/>
+              <rect x="160" y="176" width="76" height="106" rx="5" fill="#CDB89A"/>
+              <path d="M178 192l16 22-8 6 16 24" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+            </g>
+            <!-- 新平板（螢幕裡也有藍天、綠海、黃地、紅樹） -->
+            <g transform="rotate(7 278 224)">
+              <rect x="214" y="138" width="128" height="172" rx="18" fill="#3B2A20"/>
+              <g clip-path="url(#p3screen)">
+                <rect x="224" y="150" width="108" height="148" fill="#5BA4D6"/>
+                <circle cx="248" cy="174" r="10" fill="#F0C84A"/>
+                <rect x="224" y="222" width="108" height="30" fill="#2F8F74"/>
+                <path d="M224 258c30-10 70-12 108-4V298H224z" fill="#F0C84A"/>
+                <path d="M300 262v-24" stroke="#8E5A2E" stroke-width="5" stroke-linecap="round"/>
+                <circle cx="300" cy="226" r="17" fill="#D6453A" stroke="#3B2A20" stroke-width="2"/>
+              </g>
+              <circle cx="278" cy="304" r="3" fill="#86705F"/>
+            </g>
+            <!-- 汰換：循環箭頭 -->
+            <path d="M160 152c22-36 82-52 122-30" fill="none" stroke="#D6453A" stroke-width="5" stroke-linecap="round"/>
+            <path d="M272 108l22 18-26 8z" fill="#D6453A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M330 326c-40 18-104 14-140-8" fill="none" stroke="#FFFBF3" stroke-width="5" stroke-linecap="round"/>
+            <path d="M200 332l-20-20 26-4z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/>
+            <path d="M366 156l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
+            <path d="M200 96l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.4" stroke-linejoin="round"/>
+          </svg>
+          <span class="plate-tag">插畫・非實景</span>
+        </div>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁（已是最後一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </figure>
       <div class="s-text">
-        <p class="s-kicker"><b>03</b><span>PURPOSE・可指定</span></p>
-        <h2 class="s-title">校園 iPad 汰換計畫</h2>
+        <p class="s-kicker"><span class="s-no">03</span><span class="s-tag">可指定</span></p>
+        <h2 class="s-title"><span class="mark">校園 iPad 汰換計畫</span></h2>
         <p class="s-copy">協助汰換老舊的校園 iPad，讓教學設備可以接續使用。</p>
-        <p class="s-meta"><span class="tbd">待家長會確認</span>汰換範圍與時程，待家長會確認後公告。</p>
+        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">汰換範圍與時程，待家長會確認後公告。</span></p>
         <button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
       </div>
     </section>
   </div>
 
-  <span class="edge edge-prev" aria-hidden="true">‹</span>
-  <span class="edge edge-next" aria-hidden="true">›</span>
   <p class="sr-only" id="slideStatus" aria-live="polite" aria-atomic="true"></p>
 </section>
 
@@ -504,24 +684,47 @@
 <main class="report" id="report" aria-labelledby="reportTitle" hidden>
   <div class="wrap">
     <header class="mast">
-      <div class="mast-top"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
-      <h1 class="r-title" id="reportTitle" tabindex="-1"><span>REPORT</span>匯款回報</h1>
-      <div class="mast-sub" aria-hidden="true"><span>DONATION</span><span>先匯款・再回報</span><span>VOL. —</span></div>
+      <div class="brand">
+        <div class="brand-l">
+          <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
+          <div class="brand-name"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+        </div>
+      </div>
+      <div class="r-hero">
+        <span class="eyebrow">愛心捐款・先匯款，再回報</span>
+        <h1 class="r-title" id="reportTitle" tabindex="-1">匯款<span class="mark">回報</span></h1>
+        <p>完成匯款後，請在這裡留下對帳資料，家長會才能把入帳紀錄對應到您。</p>
+        <div class="r-art" aria-hidden="true">
+          <svg viewBox="0 0 400 110" preserveAspectRatio="xMidYMid slice" focusable="false">
+            <rect width="400" height="110" fill="#5BA4D6"/>
+            <circle cx="60" cy="34" r="16" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M150 34c1-7 11-10 17-5 4-6 14-5 17 2 8 0 10 8 5 11h-36c-6 0-7-5-3-8z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2"/>
+            <path d="M-10 58c50-6 110-6 160 0s110 6 160 0 70-6 100 0V90H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M-10 84c70-12 160-14 230-6s130 8 190-2V120H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M326 96c2-12 2-24 1-36h12c-1 12-1 24 1 36z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="2.5"/>
+            <path d="M333 12c20-1 34 12 32 28 10 8 6 26-10 28-6 10-28 10-32 2-14 6-32-2-30-16-10-8-6-24 8-26 2-12 16-16 32-16z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+          </svg>
+          <span class="plate-tag">插畫・非實景</span>
+        </div>
+      </div>
     </header>
 
     <aside class="notice" aria-label="本頁狀態">
-      <b>編者註｜本頁尚未正式上線</b>
-      <p>專戶帳號、聯絡方式等仍有待填資料。<strong>在家長會正式公告專戶帳號之前，請先不要依本頁匯款。</strong>專戶資訊請點畫面最下方的三角形查看。</p>
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="#FBEBC0" stroke="#C23B30" stroke-width="2"/><path d="M13 7v7" stroke="#C23B30" stroke-width="2.6" stroke-linecap="round"/><circle cx="13" cy="18.5" r="1.6" fill="#C23B30"/></svg>
+      <div>
+        <b>小提醒｜本頁尚未正式上線</b>
+        <p>專戶帳號、聯絡方式等仍有待填資料。<strong>在家長會正式公告專戶帳號之前，請先不要依本頁匯款。</strong>專戶資訊請點畫面最下方的三角形查看。</p>
+      </div>
     </aside>
 
     <p class="preset-note" id="presetNote" role="status" hidden></p>
 
-    <section class="chap" id="c3" aria-label="匯款回報表單" style="margin-top:28px">
-      <form class="form" id="reportForm" autocomplete="on">
+    <section class="chap" id="c3" aria-label="匯款回報表單" style="margin-top:0">
+      <form class="form-card form" id="reportForm" autocomplete="on">
         <p class="form-intro">標示<span class="req">必填</span>的欄位請務必填寫。約需 2 分鐘。</p>
 
         <fieldset class="part">
-          <legend><i>A.</i>捐款人</legend>
+          <legend><i>A</i>捐款人</legend>
           <div class="field" data-field>
             <label class="lbl" for="donorName">捐款人姓名<span class="req">必填</span></label>
             <input id="donorName" name="donorName" type="text" autocomplete="name" required maxlength="30" placeholder="王大明" data-name="捐款人姓名">
@@ -538,7 +741,7 @@
         </fieldset>
 
         <fieldset class="part">
-          <legend><i>B.</i>子女</legend>
+          <legend><i>B</i>子女</legend>
           <div class="row2">
             <div class="field" data-field>
               <label class="lbl" for="childClass">年級班別<span class="req">必填</span></label>
@@ -565,7 +768,7 @@
         </fieldset>
 
         <fieldset class="part">
-          <legend><i>C.</i>匯款</legend>
+          <legend><i>C</i>匯款</legend>
           <div class="field" data-field>
             <label class="lbl" for="paidAt">匯款日期與時間<span class="req">必填</span></label>
             <input id="paidAt" name="paidAt" type="datetime-local" required data-name="匯款日期與時間" aria-describedby="paidAtHint">
@@ -592,7 +795,7 @@
         </fieldset>
 
         <fieldset class="part">
-          <legend><i>D.</i>收據與徵信</legend>
+          <legend><i>D</i>收據與徵信</legend>
           <fieldset class="field" data-field>
             <legend>收據<span class="req">必填</span></legend>
             <div class="opts">
@@ -644,7 +847,11 @@
       </form>
 
       <div class="thanks" id="thanks" tabindex="-1" hidden>
-        <p class="big" aria-hidden="true">謝謝<i>。</i></p>
+        <svg width="96" height="80" viewBox="0 0 96 80" aria-hidden="true">
+          <g stroke="#3B2A20" stroke-width="2.4" stroke-linecap="round"><path d="M48 4v8M22 14l6 6M74 14l-6 6M10 40h8M78 40h8"/></g>
+          <path d="M48 70S24 56 24 38c0-8 6-14 12-14 5 0 9 3 12 7 3-4 7-7 12-7 6 0 12 6 12 14 0 18-24 32-24 32z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
+          <path d="M36 36c0-4 3-6 6-6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
+        </svg>
         <h3>感謝您完成匯款回報</h3>
         <p>家長會將依「匯款日期、金額、帳號後五碼」與專戶入帳紀錄逐筆對帳；對上之後，再依您的選擇開立收據、列入公開徵信。</p>
         <dl class="summary">
@@ -652,14 +859,18 @@
           <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
           <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
         </dl>
-        <button type="button" class="btn btn-line" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
+        <button type="button" class="btn btn-ghost" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
         <p class="demo">本頁尚未上線：這筆回報僅為前端示意，未傳送、也未儲存任何資料。</p>
       </div>
     </section>
 
     <!-- 精簡 FAQ -->
     <section class="chap" id="c4" aria-labelledby="c4-title">
-      <div class="chap-head"><span class="chap-no">Q</span><h2 id="c4-title"><span>Q &amp; A</span>常見問題</h2></div>
+      <h2 class="sec-title" id="c4-title">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><path d="M5 6h20a3 3 0 013 3v10a3 3 0 01-3 3H13l-6 5v-5H5a3 3 0 01-3-3V9a3 3 0 013-3z" fill="#5BA4D6" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/><path d="M12 12a3 3 0 116 0c0 2-3 2-3 4" fill="none" stroke="#FFFBF3" stroke-width="2" stroke-linecap="round"/></svg>
+        常見問題
+      </h2>
+      <svg class="squiggle" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 6c10-6 18 4 28 0s18-6 28 0 18 4 28 0 18-6 30 0" fill="none" stroke="#5BA4D6" stroke-width="3" stroke-linecap="round"/></svg>
       <div class="faq">
         <details>
           <summary><span class="q">Q1</span><span>匯款之後，為什麼還要回報？</span></summary>
@@ -690,7 +901,11 @@
 
     <!-- 聯絡 -->
     <section class="chap" id="c5" aria-labelledby="c5-title">
-      <div class="chap-head"><span class="chap-no">@</span><h2 id="c5-title"><span>CONTACT</span>聯絡家長會</h2></div>
+      <h2 class="sec-title" id="c5-title">
+        <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="7" width="24" height="17" rx="4" fill="#F0C84A" stroke="#3B2A20" stroke-width="2"/><path d="M4 9l11 8 11-8" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/></svg>
+        聯絡家長會
+      </h2>
+      <svg class="squiggle" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 6c10-6 18 4 28 0s18-6 28 0 18 4 28 0 18-6 30 0" fill="none" stroke="#F0C84A" stroke-width="3" stroke-linecap="round"/></svg>
       <dl class="contact">
         <div><dt>聯絡窗口</dt><dd><span class="tbd">待填</span></dd></div>
         <div><dt>電話</dt><dd><span class="tbd">待填</span></dd></div>
@@ -701,10 +916,10 @@
     </section>
 
     <footer>
+      <svg width="60" height="14" viewBox="0 0 60 14" aria-hidden="true"><path d="M2 8c6-6 10 4 16 0s10-6 16 0 10 4 16 0 6-4 8-2" fill="none" stroke="#2F8F74" stroke-width="2.4" stroke-linecap="round"/></svg>
       <b>和平實驗小學家長會</b>
-      <span class="full">臺北市大安區和平實驗國民小學 家長會</span>
+      臺北市大安區和平實驗國民小學 家長會
       <p>本頁尚未上線。專戶帳號、聯絡方式等仍有待填資料，請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至正式公告的專戶後再回報。</p>
-      <div class="colophon" aria-hidden="true"><span>DONATION REPORT</span><span>— FIN —</span></div>
     </footer>
   </div>
 </main>
@@ -715,11 +930,13 @@
 <button type="button" class="float" id="skipBtn" aria-label="skip：略過，前往回報表單"><span>skip</span><span class="arrow" aria-hidden="true">→</span></button>
 <button type="button" class="float float-line" id="introBtn" hidden><span>捐款項目介紹</span><span class="arrow" aria-hidden="true">↺</span></button>
 
-<button type="button" class="tri" id="triBtn" aria-label="開啟捐款資訊" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
-  <svg viewBox="0 0 176 48" aria-hidden="true" focusable="false">
+<button type="button" class="tri" id="triBtn" aria-label="開啟捐款資訊（點擊或向上滑）" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
+  <svg viewBox="0 0 180 56" aria-hidden="true" focusable="false">
     <g class="tri-shape">
-      <polygon points="18,46 158,46 88,6" fill="url(#triGrad)"/>
-      <text x="88" y="41" text-anchor="middle" fill="#FAF7F0" font-family="Noto Sans TC, sans-serif" font-size="10.5" font-weight="500" letter-spacing="2">捐款資訊</text>
+      <polygon points="14,54 166,54 90,5" fill="url(#triGrad)" stroke="#3B2A20" stroke-opacity=".35" stroke-width="2" stroke-linejoin="round"/>
+      <path class="chev chev-2" d="M81 24l9-7 9 7" fill="none" stroke="#FFFBF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <path class="chev chev-1" d="M79 34l11-8 11 8" fill="none" stroke="#FFFBF3" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+      <text x="90" y="49.5" text-anchor="middle" fill="#FFFBF3" font-family="Noto Sans TC, sans-serif" font-size="11" font-weight="700" letter-spacing="2">捐款資訊</text>
     </g>
   </svg>
 </button>
@@ -730,18 +947,21 @@
   <div class="drawer-head">
     <span class="drawer-grip" aria-hidden="true"></span>
     <div class="drawer-title-row">
-      <h2 id="drawerTitle"><span>ACCOUNT</span>捐款資訊</h2>
+      <h2 id="drawerTitle"><svg width="28" height="28" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="8" width="24" height="16" rx="4" fill="#F0C84A" stroke="#3B2A20" stroke-width="2"/><path d="M3 13h24" stroke="#3B2A20" stroke-width="2"/><path d="M7 19h6" stroke="#3B2A20" stroke-width="2" stroke-linecap="round"/></svg>捐款資訊</h2>
       <button type="button" class="x" id="drawerClose"><span>關閉</span><span aria-hidden="true">×</span></button>
     </div>
   </div>
   <div class="drawer-body" id="drawerBody">
     <aside class="notice" id="drawerWarn">
-      <b>尚未上線</b>
-      <p><strong>本頁尚未上線，專戶帳號公告前請勿依本頁匯款。</strong></p>
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="#FBEBC0" stroke="#C23B30" stroke-width="2"/><path d="M13 7v7" stroke="#C23B30" stroke-width="2.6" stroke-linecap="round"/><circle cx="13" cy="18.5" r="1.6" fill="#C23B30"/></svg>
+      <div>
+        <b>尚未上線</b>
+        <p><strong>本頁尚未上線，專戶帳號公告前請勿依本頁匯款。</strong></p>
+      </div>
     </aside>
 
     <div class="ledger">
-      <div class="ledger-label"><span>ACCOUNT</span><span>待填・尚未公告</span></div>
+      <span class="sticker" aria-hidden="true">待填・尚未公告</span>
       <dl>
         <div class="li">
           <dt>銀行</dt>
@@ -763,7 +983,7 @@
           <dd class="sub" id="acctSub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd>
         </div>
       </dl>
-      <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><span data-label>複製帳號</span><svg width="18" height="18" viewBox="0 0 18 18" aria-hidden="true"><rect x="5.5" y="5.5" width="9" height="10" fill="none" stroke="currentColor" stroke-width="1.3"/><path d="M11.5 3h-8v9" fill="none" stroke="currentColor" stroke-width="1.3"/></svg></button>
+      <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="6" width="11" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 3H6a3 3 0 00-3 3v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-label>複製帳號</span></button>
       <p class="copy-msg" id="copyMsg" role="status" aria-live="polite"></p>
     </div>
 
@@ -787,6 +1007,15 @@
 (function () {
   'use strict';
   var $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- 視窗高度後援：不支援 svh 的舊瀏覽器改用實際可見高度 ---------- */
+  var supportsSvh = !!(window.CSS && CSS.supports && CSS.supports('height', '100svh'));
+  if (!supportsSvh) {
+    var setVh = function () { document.documentElement.style.setProperty('--vh', window.innerHeight + 'px'); };
+    setVh();
+    window.addEventListener('resize', setVh);
+    window.addEventListener('orientationchange', setVh);
+  }
 
   /* =========================================================
    * 專戶帳號設定
@@ -828,6 +1057,7 @@
   var reduceMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
   function motionMs(ms) { return reduceMQ.matches ? 0 : ms; }
   function focusEl(el) { if (el) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } } }
+  function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
 
   /* ---------- 複製帳號 ---------- */
   var copyBtn = $('copyBtn'), acctNo = $('acctNo'), acctSub = $('acctSub'), copyMsg = $('copyMsg');
@@ -900,7 +1130,7 @@
   var receiptExtra = $('receiptExtra'), receiptTitle = $('receiptTitle'), taxId = $('taxId'), receiptNote = $('receiptNote');
   renderPurposeOptions();
   var proof = $('proof'), proofName = $('proofName'), paidAt = $('paidAt');
-  var phone = $('phone'), last5 = $('last5'), amount = $('amount'), seat = $('childSeat');
+  var phone = $('phone'), last5 = $('last5');
   var purposeSel = $('purpose'), presetNote = $('presetNote');
 
   // 有 JS 時改用自訂中文錯誤訊息（仍沿用原生 constraint validation）；無 JS 時退回瀏覽器原生驗證。
@@ -1057,8 +1287,7 @@
     if (c && (c.classList.contains('is-invalid') || t.type === 'radio' || t.type === 'checkbox' || t.tagName === 'SELECT' || t.type === 'file')) validateField(c, true);
   });
   // 離開欄位時驗證；已顯示錯誤的欄位在輸入時即時更新。
-  // 若是因為點按其他元素而離開，等手指／滑鼠放開後再顯示錯誤，
-  // 避免錯誤訊息撐開版面、讓這次點按落空。
+  // 若是因為點按其他元素而離開，等手指／滑鼠放開後再顯示錯誤，避免錯誤訊息撐開版面、讓這次點按落空。
   var pointerIsDown = false, pendingBlur = [];
   function flushBlur() {
     var list = pendingBlur; pendingBlur = [];
@@ -1156,12 +1385,33 @@
   });
 
   /* =========================================================
+   * 背景捲動鎖（只在抽屜打開時使用；關閉時一定完整還原）
+   * ========================================================= */
+  var LOCK_PROPS = ['position', 'top', 'left', 'right', 'width'];
+  var scrollLocked = false, lockY = 0;
+  function lockScroll() {
+    if (scrollLocked) return;
+    lockY = scrollY();
+    var s = document.body.style;
+    s.position = 'fixed'; s.top = (-lockY) + 'px'; s.left = '0'; s.right = '0'; s.width = '100%';
+    scrollLocked = true;
+  }
+  function unlockScroll() {
+    var s = document.body.style;
+    var wasLocked = scrollLocked || s.position === 'fixed';
+    LOCK_PROPS.forEach(function (p) { s.removeProperty(p); });
+    scrollLocked = false;
+    if (wasLocked) window.scrollTo(0, lockY);
+  }
+
+  /* =========================================================
    * 區塊切換：投影片 ⇄ 回報表單
    * ========================================================= */
   var stage = $('stage'), report = $('report'), reportTitle = $('reportTitle');
   var skipBtn = $('skipBtn'), introBtn = $('introBtn');
   var FADE_MS = 320;
   var mode = 'slides', switching = false, reportScrollY = 0;
+  var drawerOpen = false;
 
   function showReport(opts) {
     opts = opts || {};
@@ -1175,6 +1425,7 @@
     skipBtn.hidden = true;
     stage.classList.add('is-fading');
     setTimeout(function () {
+      if (!drawerOpen) unlockScroll(); // 保險：不讓殘留的鎖卡住捲動
       stage.hidden = true;
       stage.classList.remove('is-fading');
       report.classList.add('is-fading');
@@ -1193,14 +1444,15 @@
     if (switching || mode === 'slides') return;
     switching = true;
     introBtn.hidden = true;
-    reportScrollY = window.pageYOffset || document.documentElement.scrollTop || 0;
+    reportScrollY = scrollY();
     report.classList.add('is-fading');
     setTimeout(function () {
+      if (!drawerOpen) unlockScroll();
       report.hidden = true; // 只是隱藏，表單資料保留
       report.classList.remove('is-fading');
-      window.scrollTo(0, 0);
       stage.classList.add('is-fading');
       stage.hidden = false;
+      window.scrollTo(0, 0);
       void stage.offsetWidth;
       stage.classList.remove('is-fading');
       skipBtn.hidden = false;
@@ -1235,7 +1487,8 @@
    * ========================================================= */
   var slides = Array.prototype.slice.call(stage.querySelectorAll('.slide'));
   var pagerBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-go]'));
-  var slideStatus = $('slideStatus');
+  var stepBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-step]'));
+  var slideStatus = $('slideStatus'), pageNow = $('pageNow'), swipeHint = $('swipeHint');
   var N = slides.length, cur = 0;
   // 控件：點擊／滑動起點落在這些元素上時，不切頁
   var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav]';
@@ -1248,6 +1501,19 @@
     b.addEventListener('click', function () { pickPurpose(i); });
   });
 
+  /* ---------- 首次觀看的「左右滑動看更多」提示 ---------- */
+  var HINT_KEY = 'ptaDonationV3.swipeHintSeen';
+  var hintShown = true;
+  try { if (window.sessionStorage && sessionStorage.getItem(HINT_KEY) === '1') hintShown = false; } catch (e) {}
+  if (!hintShown) swipeHint.hidden = true;
+  function dismissHint() {
+    if (!hintShown) return;
+    hintShown = false;
+    try { sessionStorage.setItem(HINT_KEY, '1'); } catch (e) {}
+    swipeHint.classList.add('is-gone');
+    setTimeout(function () { swipeHint.hidden = true; }, motionMs(460));
+  }
+
   function renderSlides(announce) {
     slides.forEach(function (s, i) {
       var on = i === cur;
@@ -1258,6 +1524,12 @@
     pagerBtns.forEach(function (b, i) {
       if (i === cur) b.setAttribute('aria-current', 'true'); else b.removeAttribute('aria-current');
     });
+    // 到邊界停住：第一頁無「上一頁」、最後一頁無「下一頁」
+    stepBtns.forEach(function (b) {
+      var target = slides.indexOf(b.closest('.slide')) + Number(b.getAttribute('data-step'));
+      b.disabled = target < 0 || target >= N;
+    });
+    pageNow.textContent = String(cur + 1);
     stage.classList.toggle('at-first', cur === 0);
     stage.classList.toggle('at-last', cur === N - 1);
     if (announce) {
@@ -1265,23 +1537,32 @@
     }
   }
 
-  // 到第一頁／最後一頁即停住（不循環），頁碼與左右提示會反映邊界
+  // 到第一頁／最後一頁即停住（不循環）
   function go(i) {
     if (i < 0 || i >= N || i === cur) return false;
-    var hadFocus = slides[cur].contains(document.activeElement);
+    var active = document.activeElement;
+    var hadFocus = slides[cur].contains(active);
+    var stepDir = hadFocus && active.hasAttribute('data-step') ? active.getAttribute('data-step') : null;
     stage.style.setProperty('--dir', i > cur ? '1' : '-1');
-    void stage.offsetWidth;
     cur = i;
     renderSlides(true);
-    if (hadFocus) focusEl(slides[cur].querySelector('.s-cta') || slides[cur]);
+    dismissHint();
+    if (hadFocus) {
+      var next = null;
+      if (stepDir) next = slides[cur].querySelector('[data-step="' + stepDir + '"]:not(:disabled)') || slides[cur].querySelector('[data-step]:not(:disabled)');
+      focusEl(next || slides[cur].querySelector('.s-cta') || slides[cur]);
+    }
     return true;
   }
 
   pagerBtns.forEach(function (b) {
     b.addEventListener('click', function () { go(Number(b.getAttribute('data-go'))); });
   });
+  stepBtns.forEach(function (b) {
+    b.addEventListener('click', function () { go(cur + Number(b.getAttribute('data-step'))); });
+  });
 
-  // 電腦：點擊左半＝上一頁、右半＝下一頁（僅滑鼠／觸控筆，觸控以滑動為準）
+  // 電腦：點擊左半＝上一頁、右半＝下一頁（僅滑鼠／觸控筆；觸控以滑動為準）
   var lastPointer = 'mouse';
   stage.addEventListener('pointerdown', function (e) { lastPointer = e.pointerType || 'mouse'; });
   stage.addEventListener('click', function (e) {
@@ -1302,18 +1583,28 @@
   });
   stage.addEventListener('mouseleave', function () { stage.setAttribute('data-hover', ''); });
 
-  // 行動裝置：左滑＝下一頁、右滑＝上一頁；起點在控件上則不處理
-  var tx = null, ty = 0;
+  // 行動裝置：只有「明顯的水平滑動」才切頁。
+  // 所有觸控監聽都是 passive，絕不 preventDefault；垂直手勢一律交給瀏覽器原生捲動。
+  var SWIPE_MIN = 50, SWIPE_RATIO = 1.5;
+  var tx = null, ty = 0, tScroll = 0;
   stage.addEventListener('touchstart', function (e) {
     if (e.touches.length !== 1 || e.target.closest(CONTROL_SEL)) { tx = null; return; }
-    tx = e.touches[0].clientX; ty = e.touches[0].clientY;
+    tx = e.touches[0].clientX; ty = e.touches[0].clientY; tScroll = scrollY();
+  }, { passive: true });
+  stage.addEventListener('touchmove', function (e) {
+    if (tx === null) return;
+    if (e.touches.length !== 1) { tx = null; return; }
+    var dx = e.touches[0].clientX - tx, dy = e.touches[0].clientY - ty;
+    // 一旦看起來是垂直手勢，就放棄這次切頁判斷（不攔截，只是不再追蹤）
+    if (Math.abs(dy) > 12 && Math.abs(dy) >= Math.abs(dx)) tx = null;
   }, { passive: true });
   stage.addEventListener('touchend', function (e) {
     if (tx === null) return;
     var t = e.changedTouches[0];
     var dx = t.clientX - tx, dy = t.clientY - ty;
     tx = null;
-    if (Math.abs(dx) >= 45 && Math.abs(dx) > Math.abs(dy) * 1.3) go(dx < 0 ? cur + 1 : cur - 1);
+    if (Math.abs(scrollY() - tScroll) > 8) return; // 這次手勢其實捲動了頁面
+    if (Math.abs(dx) >= SWIPE_MIN && Math.abs(dx) > Math.abs(dy) * SWIPE_RATIO) go(dx < 0 ? cur + 1 : cur - 1);
   }, { passive: true });
   stage.addEventListener('touchcancel', function () { tx = null; }, { passive: true });
 
@@ -1321,7 +1612,7 @@
    * 捐款資訊抽屜
    * ========================================================= */
   var drawer = $('drawer'), scrim = $('scrim'), triBtn = $('triBtn'), drawerClose = $('drawerClose'), drawerBody = $('drawerBody');
-  var drawerOpen = false, drawerTimer, lockY = 0;
+  var drawerTimer;
   var bgEls = [stage, report, skipBtn, introBtn, triBtn];
 
   function setBackgroundInert(on) {
@@ -1329,16 +1620,8 @@
       el.inert = on;
       if (on) el.setAttribute('aria-hidden', 'true'); else el.removeAttribute('aria-hidden');
     });
-  }
-  function lockScroll() {
-    lockY = window.pageYOffset || document.documentElement.scrollTop || 0;
-    var s = document.body.style;
-    s.position = 'fixed'; s.top = (-lockY) + 'px'; s.left = '0'; s.right = '0'; s.width = '100%';
-  }
-  function unlockScroll() {
-    var s = document.body.style;
-    s.position = ''; s.top = ''; s.left = ''; s.right = ''; s.width = '';
-    window.scrollTo(0, lockY);
+    // 非目前頁的投影片維持 inert / aria-hidden
+    if (!on) renderSlides(false);
   }
 
   function openDrawer() {
@@ -1360,16 +1643,21 @@
   function closeDrawer() {
     if (!drawerOpen) return;
     drawerOpen = false;
-    drawer.classList.remove('is-dragging');
-    scrim.classList.remove('is-open');
-    drawer.classList.remove('is-open');
-    drawer.style.transform = '';
-    triBtn.setAttribute('aria-expanded', 'false');
-    setBackgroundInert(false);
-    unlockScroll();
+    try {
+      drawer.classList.remove('is-dragging');
+      scrim.classList.remove('is-open');
+      drawer.classList.remove('is-open');
+      drawer.style.transform = '';
+      triBtn.setAttribute('aria-expanded', 'false');
+      setBackgroundInert(false);
+    } finally {
+      unlockScroll(); // 無論如何都還原 body inline style 並捲回原位置
+    }
     drawerTimer = setTimeout(function () { drawer.hidden = true; scrim.hidden = true; }, motionMs(360));
     focusEl(triBtn);
   }
+  // 從 bfcache 返回等異常情況：抽屜沒開就不該有任何鎖
+  window.addEventListener('pageshow', function () { if (!drawerOpen) unlockScroll(); });
 
   triBtn.addEventListener('click', openDrawer);
   scrim.addEventListener('click', closeDrawer);
@@ -1405,7 +1693,7 @@
     }
     dDy = Math.max(0, dy);
     drawer.style.transform = 'translateY(' + dDy + 'px)';
-    if (e.cancelable) e.preventDefault();
+    if (e.cancelable) e.preventDefault(); // 只在「正在拖曳抽屜」時攔截，頁面本身的捲動不受影響
   }, { passive: false });
   function endDrawerDrag() {
     if (dDragging) {
@@ -1448,14 +1736,16 @@
   });
 
   /* ---------- 初始狀態 ---------- */
+  unlockScroll();
   renderSlides(false);
-  // 以 #report 連結進入時，直接顯示回報表單
+  // 以 #report / #c3 連結進入時，直接顯示回報表單
   if (location.hash === '#report' || location.hash === '#c3') {
     stage.hidden = true;
     report.hidden = false;
     skipBtn.hidden = true;
     introBtn.hidden = false;
     mode = 'report';
+    if (location.hash === '#c3') $('c3').scrollIntoView({ block: 'start' });
   }
 })();
 </script>
