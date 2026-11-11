@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v13">
+<html lang="zh-Hant" data-build="pta-donation-v14">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -136,16 +136,16 @@
   .edge:disabled{visibility:hidden}
 
   /* 首次觀看：左右滑動提示 */
-  .swipe-hint{position:absolute; top:20px; left:50%; z-index:4; display:flex; align-items:center; gap:6px; padding:5px 14px 5px 8px;
-    font-size:13.5px; font-weight:900; line-height:1.4; letter-spacing:.06em; color:var(--ink); white-space:nowrap;
+  .swipe-hint{position:absolute; top:auto; left:auto; right:10px; bottom:10px; z-index:4; display:flex; align-items:center; gap:6px; padding:3px 10px 3px 6px;
+    font-size:12px; font-weight:900; line-height:1.4; letter-spacing:.06em; color:var(--ink); white-space:nowrap;
     background:rgba(255,251,243,.95); border:2.5px solid var(--ink); border-radius:20px 16px 22px 14px; box-shadow:3px 3px 0 rgba(59,42,32,.28);
-    transform:translateX(-50%); pointer-events:none; transition:opacity .45s ease, transform .45s ease}
-  .swipe-hint.is-gone{opacity:0; transform:translate(-50%, -8px)}
-  .swipe-hint svg{flex:none; display:block; width:52px; height:26px; overflow:visible}
-  .swipe-hint .hand{animation:swipeHand 1.6s ease-in-out infinite}
+    transform:none; pointer-events:none; transition:opacity .45s ease, transform .45s ease}
+  .swipe-hint.is-gone{opacity:0; transform:translateY(8px)}
+  .swipe-hint svg{flex:none; display:block; width:40px; height:20px; overflow:visible}
+  .swipe-hint .hand{animation:swipeHand 1.6s ease-in-out infinite; transform-box:fill-box; transform-origin:50% 50%}
   .swipe-hint .ch-l{animation:chevL 1.6s ease-in-out infinite}
   .swipe-hint .ch-r{animation:chevR 1.6s ease-in-out infinite}
-  @keyframes swipeHand{0%,100%{transform:translateX(-7px) rotate(-8deg)}50%{transform:translateX(7px) rotate(8deg)}}
+  @keyframes swipeHand{0%,100%{transform:translateX(-6px) rotate(-8deg)}50%{transform:translateX(6px) rotate(8deg)}}
   @keyframes chevL{0%,100%{opacity:1}50%{opacity:.25}}
   @keyframes chevR{0%,100%{opacity:.25}50%{opacity:1}}
 
@@ -190,7 +190,6 @@
     .s-copy{margin-top:4px; font-size:14px; line-height:1.6}
     .s-meta{margin-top:4px}
     .s-cta{min-height:44px; margin-top:8px; padding:8px 20px; font-size:16px}
-    .swipe-hint{top:14px; font-size:12.5px}
     .edge{width:40px; height:40px; margin-top:-20px}
   }
   @media (max-height:620px){
@@ -204,7 +203,6 @@
     .slide{flex-direction:row; gap:20px}
     .s-fig{flex:0 0 44%; min-height:200px}
     .s-text{flex:1 1 0; align-self:center}
-    .swipe-hint{left:calc(var(--pad-x) + 22%)}
   }
 
   /* =========================================================
@@ -451,6 +449,19 @@
   .tap-hint.is-gone{opacity:0}
   @keyframes hintpulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   @media (prefers-reduced-motion:reduce){ .play-sky *, .play-tree .tree, .play-sea *, .tap-hint{animation:none !important} .play-land .tuft{animation:none; transform:scale(1)} }
+  .sun{transform-box:fill-box; transform-origin:50% 50%}
+  .face-l{opacity:0}
+  .haha{opacity:0; transform-box:fill-box; transform-origin:50% 100%; pointer-events:none}
+  .play-sun .sun{animation:laugh 2s ease-in-out}
+  .play-sun .face-n{animation:hideface 2s steps(1) }
+  .play-sun .face-l{animation:showface 2s steps(1)}
+  .play-sun .haha{animation:hahapop 2s ease-out}
+  @keyframes laugh{0%,100%{transform:scale(1) rotate(0)}10%{transform:scale(1.15) rotate(-8deg)}20%{transform:scale(1.12) rotate(8deg)}30%{transform:scale(1.15) rotate(-8deg)}40%{transform:scale(1.12) rotate(8deg)}50%{transform:scale(1.15) rotate(-6deg)}60%{transform:scale(1.1) rotate(5deg)}75%{transform:scale(1.05) rotate(-2deg)}}
+  @keyframes hideface{0%{opacity:0}92%,100%{opacity:1}}
+  @keyframes showface{0%{opacity:1}92%,100%{opacity:0}}
+  @keyframes hahapop{0%{opacity:0; transform:translateY(6px) scale(.6)}12%{opacity:1; transform:translateY(0) scale(1.1)}20%,80%{opacity:1; transform:translateY(-4px) scale(1)}100%{opacity:0; transform:translateY(-14px) scale(1)}}
+  @media (prefers-reduced-motion:reduce){ .play-sun .sun, .play-sun .haha{animation:none !important} }
+  .s-plate .swipe-hint svg{position:static; inset:auto; width:40px; height:20px; min-width:0; min-height:0}
 </style>
 <noscript><style>
   /* 無 JS：不顯示投影片與浮動控件，直接顯示回報表單（瀏覽器原生驗證） */
@@ -512,17 +523,6 @@
   </header>
 
   <div class="slides">
-    <p class="swipe-hint" id="swipeHint" aria-hidden="true">
-      <svg viewBox="0 0 52 26" focusable="false">
-        <path class="ch-l" d="M7 8l-5 5 5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <path class="ch-r" d="M45 8l5 5-5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <g class="hand">
-          <circle cx="26" cy="13" r="9" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.4"/>
-          <circle cx="26" cy="13" r="3" fill="#D6453A"/>
-        </g>
-      </svg>
-      <span>左右滑動看更多</span>
-    </p>
 
     <!-- 01 不指定 -->
     <section class="slide is-active" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" data-title="不指定（由家長會統籌運用）" tabindex="-1">
@@ -531,9 +531,11 @@
           <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天下、綠色海面前的黃色土地上，長著一棵紅色大樹，四周小小的心意朝大樹聚集">
             <g class="ix" data-ix="sky"><rect width="400" height="400" fill="#5BA4D6"/>
             <circle cx="120" cy="20" r="150" fill="#7FBBE3" opacity=".55"/>
-            <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M320 58v-12M320 142v12M278 100h-12M362 100h12M290 70l-8-8M350 130l8 8M350 70l8-8M290 130l-8 8"/></g>
+            <g class="ix sun" data-ix="sun"><g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M320 58v-12M320 142v12M278 100h-12M362 100h12M290 70l-8-8M350 130l8 8M350 70l8-8M290 130l-8 8"/></g>
             <circle cx="320" cy="100" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
-            <path d="M309 98q3 4 6 0M325 98q3 4 6 0M311 110q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
+            <g class="face-n"><path d="M309 98q3 4 6 0M325 98q3 4 6 0M311 110q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/></g>
+            <g class="face-l"><path d="M308 99l4-5 4 5M324 99l4-5 4 5" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"/><path d="M308 105h24q-1 15-12 15t-12-15z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.3" stroke-linejoin="round"/><circle cx="305" cy="108" r="3.5" fill="#EF8276"/><circle cx="335" cy="108" r="3.5" fill="#EF8276"/></g></g>
+            <text class="haha" x="322" y="182" text-anchor="middle" font-family="Noto Sans TC, sans-serif" font-size="20" font-weight="900" fill="#FFFBF3" stroke="#3B2A20" stroke-width="4" paint-order="stroke">哈哈哈！</text>
             <path class="cloud c1" d="M40 122c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H44c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
             <path class="cloud c2" d="M180 84c1-8 12-11 19-6 4-7 16-6 19 2 9 0 11 9 6 13h-41c-7 0-8-6-3-9z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.2" stroke-linejoin="round"/>
             <path class="twinkle" d="M110 60l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
@@ -579,7 +581,17 @@
             </g>
             </g>
           </svg>
-          <span class="plate-tag">插畫・非實景</span>
+          <p class="swipe-hint" id="swipeHint" aria-hidden="true">
+      <svg viewBox="0 0 52 26" focusable="false">
+        <path class="ch-l" d="M7 8l-5 5 5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="ch-r" d="M45 8l5 5-5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="hand">
+          <circle cx="26" cy="13" r="9" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.4"/>
+          <circle cx="26" cy="13" r="3" fill="#D6453A"/>
+        </g>
+      </svg>
+      <span>左右滑動看更多</span>
+    </p>
           <span class="tap-hint" aria-hidden="true">點點看 👆</span>
         </div>
         <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -643,7 +655,6 @@
               <rect x="194" y="332" width="12" height="16" rx="2" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5"/>
             </g>
           </svg>
-          <span class="plate-tag">插畫・非實景</span>
         </div>
         <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：不指定（由家長會統籌運用）"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：校園 iPad 汰換計畫"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -708,7 +719,6 @@
             <path d="M366 156l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
             <path d="M200 96l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.4" stroke-linejoin="round"/>
           </svg>
-          <span class="plate-tag">插畫・非實景</span>
         </div>
         <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁（已是最後一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -752,7 +762,6 @@
             <path d="M326 96c2-12 2-24 1-36h12c-1 12-1 24 1 36z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="2.5"/>
             <path d="M333 12c20-1 34 12 32 28 10 8 6 26-10 28-6 10-28 10-32 2-14 6-32-2-30-16-10-8-6-24 8-26 2-12 16-16 32-16z" fill="#D6453A" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
           </svg>
-          <span class="plate-tag">插畫・非實景</span>
         </div>
       </div>
     </header>
