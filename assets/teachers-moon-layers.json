@@ -1,0 +1,52 @@
+{
+  "teachers-moon-bg.webp": {
+    "x": 0,
+    "y": 0,
+    "w": 1000,
+    "h": 750,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "teachers-moon-bg.webp",
+    "bytes": 30598
+  },
+  "teachers-moon-guanyin.webp": {
+    "x": 74,
+    "y": 138,
+    "w": 359,
+    "h": 606,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "teachers-moon-guanyin.webp",
+    "bytes": 49316
+  },
+  "teachers-moon-bear.webp": {
+    "x": 397,
+    "y": 93,
+    "w": 243,
+    "h": 651,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "teachers-moon-bear.webp",
+    "bytes": 44974
+  },
+  "teachers-moon-hat-body.webp": {
+    "x": 613,
+    "y": 320,
+    "w": 240,
+    "h": 424,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "teachers-moon-hat-body.webp",
+    "bytes": 26404
+  },
+  "teachers-moon-hat.webp": {
+    "x": 639,
+    "y": 96,
+    "w": 212,
+    "h": 306,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "teachers-moon-hat.webp",
+    "bytes": 17952
+  }
+}
