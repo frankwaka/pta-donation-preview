@@ -572,11 +572,11 @@
   .i-sprite-right{left:61.8%; top:28.2667%; width:32.4%; height:54.6667%}
   .i-sprite-ipad{left:38.9%; top:67.0667%; width:26.4%; height:22%}
   .i-sprite-hands{left:39.4%; top:61.6%; width:15.3%; height:10.5333%}
-  .i-sprite-broken{left:58.2%; top:81.2%; width:27.9%; height:14.5333%}
+  .i-sprite-broken{left:60.2%; top:83.3333%; width:27.2%; height:14.5333%}
   .i-kid-left{transform-origin:21.35% 86%}     /* 原圖 (213.5,645) 腳下 */
   .i-kid-boy, .i-kid-hands{transform-origin:47.9% 75.3333%} /* 原圖 (479,565)：身體與雙手共用同一軸，一起跳才對得齊 */
   .i-kid-right{transform-origin:78% 83%}       /* 原圖 (780,622) */
-  .i-broken{transform-origin:71.65% 90.6%}     /* 原圖 (716.5,679.5) */
+  .i-broken{transform-origin:73.65% 92.7333%}  /* 原圖 (736.5,695.5)，隨壞平板右下移 */
 
   /* 小朋友：整層輕跳歡呼（約 20px），頭上冒星星／愛心（在該小孩層裡，跟著一起跳） */
   .play-left .i-kid-left, .play-boy .i-kid-boy, .play-boy .i-kid-hands, .play-right .i-kid-right{animation:iHop 1.3s cubic-bezier(.3,1.35,.5,1) .05s both}
@@ -634,7 +634,7 @@
   .i-hit-boy{left:33%; top:15%; width:28%; height:48%}
   .i-hit-right{left:62%; top:22%; width:32%; height:50%}
   .i-hit-ipad{left:39%; top:66%; width:26%; height:23%; z-index:8; border-radius:14px}
-  .i-hit-broken{left:58%; top:81%; width:28%; height:16%; z-index:8; border-radius:14px}
+  .i-hit-broken{left:60%; top:83.0667%; width:27.6%; height:15.6%; z-index:8; border-radius:14px}
 
   /* 只限第 3 張、直式版面：左右箭頭移到格子下緣，不擋小朋友的臉；寬螢幕維持原樣 */
   @media not all and (min-width:860px) and (min-height:560px){
@@ -1129,14 +1129,14 @@
 
               <!-- 壞平板層：精靈圖＋灰色小煙（一起抖） -->
               <div class="i-layer i-broken" aria-hidden="true">
-                <img class="i-sprite-broken" src="assets/ipad-class-broken.webp" alt="" width="279" height="109" draggable="false">
+                <img class="i-sprite-broken" src="assets/ipad-class-broken.webp" alt="" width="272" height="109" draggable="false">
                 <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
                   <g fill="#5A544E" stroke="#2F2B28" stroke-width="2.8">
-                    <circle class="i-smoke" style="--d:.35s;--dx:-14px" cx="672" cy="638" r="15"/>
-                    <circle class="i-smoke" style="--d:.45s;--dx:8px" cx="708" cy="628" r="18"/>
-                    <circle class="i-smoke" style="--d:.55s;--dx:-6px" cx="742" cy="636" r="14"/>
-                    <circle class="i-smoke" style="--d:.65s;--dx:16px" cx="772" cy="630" r="16"/>
-                    <circle class="i-smoke" style="--d:.75s;--dx:-10px" cx="720" cy="648" r="13"/>
+                    <circle class="i-smoke" style="--d:.35s;--dx:-14px" cx="692" cy="654" r="15"/>
+                    <circle class="i-smoke" style="--d:.45s;--dx:8px" cx="728" cy="644" r="18"/>
+                    <circle class="i-smoke" style="--d:.55s;--dx:-6px" cx="762" cy="652" r="14"/>
+                    <circle class="i-smoke" style="--d:.65s;--dx:16px" cx="792" cy="646" r="16"/>
+                    <circle class="i-smoke" style="--d:.75s;--dx:-10px" cx="740" cy="664" r="13"/>
                   </g>
                 </svg>
               </div>
