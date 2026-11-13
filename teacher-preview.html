@@ -649,15 +649,21 @@
      背景（小孩位置已補成地面／樹叢，其餘都是原圖像素）＋各精靈圖依 assets/gate-layers.json?v=f9e803f 的 1000×750 座標絕對定位（x/10%、y/7.5%）；
      z-order：背景 → 左女孩（身體＋揮手的手）→ 兩個牽手男生（同一張圖，一起跳）→ 右女孩（身體＋馬尾）→ 飄葉 → 點擊區。
      待機：每人輕輕走路搖擺、左女孩一直揮手、右女孩馬尾晃；點擊：被點的人（男生是兩個一起）跳起來冒愛心星星。 */
-  #gatePlate{background:linear-gradient(180deg, #3F9BEF 0%, #4AACFD 50%, #BD9984 50%, #AE8B76 100%)} /* 上下空位：接原圖最上排天空色、最下排地磚色 */
+  #gatePlate{background:#BD9984} /* 滿版（cover），正常情況看不到底色 */
   .gate-scene{position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center; overflow:hidden; container-type:size;
     cursor:pointer; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none}
-  .gate-frame{position:relative; flex:none; width:min(100cqw, 133.3333cqh); height:min(100cqh, 75cqw)}
-  @supports not (width:1cqw){ .gate-frame{width:100%; height:75%} }
+  /* 滿版（像 object-fit:cover）：4:3 框放大到蓋滿格子，多出來的裁掉；裁切中心對準小朋友（原圖約 x 49%、y 76%），
+     並夾在 [格子-框, 0] 之間，永遠不露空白；寬框時優先裁天空、保住小朋友的腳。所有圖層／點擊區／特效都在框內，自動對齊。 */
+  .gate-frame{position:absolute; flex:none;
+    --gw:max(100cqw, 133.3333cqh); --gh:max(100cqh, 75cqw);
+    width:var(--gw); height:var(--gh);
+    left:clamp(calc(100cqw - var(--gw)), calc(50cqw - var(--gw) * .49), 0px);
+    top:clamp(calc(100cqh - var(--gh)), calc(50cqh - var(--gh) * .76), 0px)}
+  @supports not (width:1cqw){ .gate-frame{width:100%; height:75%; left:0; top:0} }
   .gate-frame img{position:absolute; max-width:none; display:block; pointer-events:none; -webkit-user-drag:none; user-select:none}
   .gate-bg{inset:0; z-index:0; width:100%; height:100%; object-fit:fill}
   #gatePlate .gate-fx{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none}
-  #gatePlate .tap-hint{z-index:9; left:0; right:0; bottom:12px; width:max-content; margin:0 auto}
+  #gatePlate .tap-hint{z-index:9; left:0; right:0; top:12px; bottom:auto; width:max-content; margin:0 auto} /* 滿版後放天空，不擋小朋友的腳 */
   .g-layer, .g-bob{position:absolute; inset:0; pointer-events:none}
   .g-layer{z-index:1}
   .g-sprite-girl-l{left:21.2%; top:57.6%; width:14.2%; height:38%}
@@ -2474,8 +2480,10 @@
       var fit = function(){
         var w = scene.clientWidth, h = scene.clientHeight;
         if (!w || !h) return;
-        var fw = Math.min(w, h * 4 / 3);
-        frame.style.width = fw + 'px'; frame.style.height = (fw * 3 / 4) + 'px';
+        var fw = Math.max(w, h * 4 / 3), fh = fw * 3 / 4;
+        frame.style.width = fw + 'px'; frame.style.height = fh + 'px';
+        frame.style.left = Math.min(0, Math.max(w - fw, w / 2 - fw * .49)) + 'px';
+        frame.style.top = Math.min(0, Math.max(h - fh, h / 2 - fh * .76)) + 'px';
       };
       fit();
       if (window.ResizeObserver) new ResizeObserver(fit).observe(scene); else window.addEventListener('resize', fit);
