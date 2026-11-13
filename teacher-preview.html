@@ -570,9 +570,9 @@
   .i-sprite-left{left:7.9%; top:28.2667%; width:26.9%; height:57.8667%}
   .i-sprite-boy{left:33%; top:19.0667%; width:29.8%; height:56.2667%}
   .i-sprite-right{left:61.8%; top:28.2667%; width:32.4%; height:54.6667%}
-  .i-sprite-ipad{left:38.9%; top:67.0667%; width:26.4%; height:22%}
-  .i-sprite-hands{left:39.4%; top:61.6%; width:15.3%; height:10.5333%}
-  .i-sprite-broken{left:58.2%; top:81.2%; width:27.9%; height:14.5333%}
+  .i-sprite-ipad{left:41.2%; top:66.1333%; width:23.4%; height:22.8%}
+  .i-sprite-hands{left:39.4%; top:61.6%; width:15.3%; height:10.8%}
+  .i-sprite-broken{left:57.9%; top:81.2%; width:27.5%; height:15.0667%}
   .i-kid-left{transform-origin:21.35% 86%}     /* 原圖 (213.5,645) 腳下 */
   .i-kid-boy, .i-kid-hands{transform-origin:47.9% 75.3333%} /* 原圖 (479,565)：身體與雙手共用同一軸，一起跳才對得齊 */
   .i-kid-right{transform-origin:78% 83%}       /* 原圖 (780,622) */
@@ -595,28 +595,13 @@
   .i-istar{opacity:0; transform-box:fill-box; transform-origin:50% 50%}
   .play-ipad .i-istar{animation:iStar 1.4s ease-out var(--d) both}
   @keyframes iStar{0%{opacity:0; transform:scale(0) rotate(0)}30%{opacity:1; transform:scale(1.25) rotate(20deg)}55%{opacity:1; transform:scale(1) rotate(45deg)}100%{opacity:0; transform:scale(.6) translateY(-10px) rotate(70deg)}}
-  /* 臉部光：只加亮靠 iPad 那側的臉頰與下巴。soft-light 淡暖光，用精靈圖 alpha 遮罩，不改人物不透明度 */
-  .i-char{position:absolute; isolation:isolate; opacity:1}
-  .i-char img{position:absolute; inset:0; width:100%; height:100%; opacity:1}
-  .i-char .i-sprite-left, .i-char .i-sprite-boy, .i-char .i-sprite-right{left:0; top:0; width:100%; height:100%}
-  .i-layer img{opacity:1}
-  .i-faceglow{position:absolute; inset:0; pointer-events:none; opacity:0;
-    mix-blend-mode:soft-light;
-    -webkit-mask-image:var(--spr); mask-image:var(--spr);
-    -webkit-mask-size:100% 100%; mask-size:100% 100%;
-    -webkit-mask-repeat:no-repeat; mask-repeat:no-repeat;
-    background:
-      radial-gradient(ellipse 32% 26% at var(--cx) var(--cy), rgba(255,236,200,.7) 0%, rgba(255,224,170,.32) 48%, rgba(255,224,170,0) 74%),
-      radial-gradient(ellipse 24% 20% at var(--jx) var(--jy), rgba(255,236,200,.55) 0%, rgba(255,224,170,.22) 48%, rgba(255,224,170,0) 74%)}
-  .i-char-left{left:7.9%; top:28.2667%; width:26.9%; height:57.8667%; --spr:url(assets/ipad-class-kid-left.webp)}
-  .i-char-boy{left:33%; top:19.0667%; width:29.8%; height:56.2667%; --spr:url(assets/ipad-class-kid-boy.webp)}
-  .i-char-right{left:61.8%; top:28.2667%; width:32.4%; height:54.6667%; --spr:url(assets/ipad-class-kid-right.webp)}
-  /* 座標相對各精靈圖：只照臉頰與下巴、靠 iPad 的那一側 */
-  .i-faceglow-left{--cx:74.7%; --cy:46.1%; --jx:65.4%; --jy:52.5%}   /* 右臉頰／下巴 (280,412)/(255,440) */
-  .i-faceglow-boy{--cx:47%; --cy:59.7%; --jx:67.1%; --jy:64.5%}       /* 下臉頰／下巴，光從下方 iPad 來 */
-  .i-faceglow-right{--cx:28.4%; --cy:48.8%; --jx:34.6%; --jy:55.1%}   /* 左臉頰／下巴 (710,412)/(730,438) */
+  .i-faceglow{position:absolute; width:17%; aspect-ratio:1/1; border-radius:50%; pointer-events:none; opacity:0; transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(255,240,196,.7) 0%, rgba(255,222,150,.38) 38%, rgba(255,222,150,0) 70%)}
+  .i-faceglow-left{left:26.9%; top:54.9333%}   /* 原圖臉部約 (269,412) */
+  .i-faceglow-boy{left:49.5%; top:49.7333%}    /* 原圖臉部約 (495,373) */
+  .i-faceglow-right{left:74.8%; top:56.2667%}  /* 原圖臉部約 (748,422) */
   .play-ipad .i-faceglow{animation:iFace 2.4s ease-in-out .25s both}
-  @keyframes iFace{0%{opacity:0}25%,55%{opacity:.72}100%{opacity:0}}
+  @keyframes iFace{0%{opacity:0}25%,55%{opacity:1}100%{opacity:0}}
 
   /* 壞平板：螢幕閃爍（亮度／對比）＋小幅抖動，冒灰色小煙（煙在壞平板層裡，跟著一起抖） */
   .play-broken .i-broken{animation:iShake 1.9s ease-in-out both}
@@ -625,7 +610,7 @@
   @keyframes iFlicker{0%{filter:none}6%{filter:brightness(1.7) contrast(1.25)}12%{filter:brightness(.55)}18%{filter:brightness(1.6) contrast(1.2)}24%{filter:none}30%{filter:brightness(1.5)}34%{filter:brightness(.6)}40%{filter:brightness(1.75) contrast(1.3)}46%,100%{filter:none}}
   .i-smoke{opacity:0; transform-box:fill-box; transform-origin:50% 50%}
   .play-broken .i-smoke{animation:iSmoke 1.2s ease-out var(--d) both}
-  @keyframes iSmoke{0%{opacity:0; transform:translate(0,0) scale(.45)}12%{opacity:1; transform:translate(calc(var(--dx) * .15),-8px) scale(.8)}45%{opacity:.95; transform:translate(calc(var(--dx) * .55),-42px) scale(1.35)}100%{opacity:0; transform:translate(var(--dx),-80px) scale(1.9)}}
+  @keyframes iSmoke{0%{opacity:0; transform:translate(0,0) scale(.4)}20%{opacity:.85; transform:translate(calc(var(--dx) * .2),-12px) scale(.8)}100%{opacity:0; transform:translate(var(--dx),-80px) scale(1.9)}}
 
   /* 透明點擊區（role="button"，可 Tab／Enter／空白鍵）；兩台平板的命中框在小孩之上，點平板不會觸發小孩 */
   .i-hit{position:absolute; z-index:7; display:block; margin:0; padding:0; background:transparent; border-radius:24px; cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent}
@@ -633,8 +618,8 @@
   .i-hit-left{left:8%; top:22%; width:27%; height:50%}
   .i-hit-boy{left:33%; top:15%; width:28%; height:48%}
   .i-hit-right{left:62%; top:22%; width:32%; height:50%}
-  .i-hit-ipad{left:39%; top:66%; width:26%; height:23%; z-index:8; border-radius:14px}
-  .i-hit-broken{left:58%; top:81%; width:28%; height:16%; z-index:8; border-radius:14px}
+  .i-hit-ipad{left:41%; top:66%; width:24%; height:23%; z-index:8; border-radius:14px}
+  .i-hit-broken{left:58%; top:81%; width:27.5%; height:16%; z-index:8; border-radius:14px}
 
   /* 只限第 3 張、直式版面：左右箭頭移到格子下緣，不擋小朋友的臉；寬螢幕維持原樣 */
   @media not all and (min-width:860px) and (min-height:560px){
@@ -1067,10 +1052,8 @@
 
               <!-- 左小孩層：精靈圖＋臉光＋頭上的愛心星星（一起跳） -->
               <div class="i-layer i-kid-left" aria-hidden="true">
-                <div class="i-char i-char-left">
-                  <img class="i-sprite-left" src="assets/ipad-class-kid-left.webp" alt="" width="269" height="434" draggable="false">
-                  <div class="i-faceglow i-faceglow-left"></div>
-                </div>
+                <img class="i-sprite-left" src="assets/ipad-class-kid-left.webp" alt="" width="269" height="434" draggable="false">
+                <div class="i-faceglow i-faceglow-left"></div>
                 <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
                   <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
                     <g transform="translate(185 205)"><path class="i-cheer" style="--d:.12s;--r:-12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
@@ -1081,10 +1064,8 @@
 
               <!-- 男孩身體層（雙手另成一層、疊在新 iPad 前面；兩層套同一個 hop） -->
               <div class="i-layer i-kid-boy" aria-hidden="true">
-                <div class="i-char i-char-boy">
-                  <img class="i-sprite-boy" src="assets/ipad-class-kid-boy.webp" alt="" width="298" height="422" draggable="false">
-                  <div class="i-faceglow i-faceglow-boy"></div>
-                </div>
+                <img class="i-sprite-boy" src="assets/ipad-class-kid-boy.webp" alt="" width="298" height="422" draggable="false">
+                <div class="i-faceglow i-faceglow-boy"></div>
                 <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
                   <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
                     <g transform="translate(430 132) scale(1.6)"><path class="i-cheer" style="--d:.1s;--r:-16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
@@ -1095,10 +1076,8 @@
 
               <!-- 右小孩層 -->
               <div class="i-layer i-kid-right" aria-hidden="true">
-                <div class="i-char i-char-right">
-                  <img class="i-sprite-right" src="assets/ipad-class-kid-right.webp" alt="" width="324" height="410" draggable="false">
-                  <div class="i-faceglow i-faceglow-right"></div>
-                </div>
+                <img class="i-sprite-right" src="assets/ipad-class-kid-right.webp" alt="" width="324" height="410" draggable="false">
+                <div class="i-faceglow i-faceglow-right"></div>
                 <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
                   <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
                     <g transform="translate(722 205) scale(1.6)"><path class="i-cheer" style="--d:.12s;--r:-18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
@@ -1110,7 +1089,7 @@
               <!-- 新 iPad 層：外圈暖光（墊在 iPad 後）＋精靈圖＋暖白星星 -->
               <div class="i-layer i-ipad" aria-hidden="true">
                 <div class="i-ipad-glow"></div>
-                <img class="i-sprite-ipad" src="assets/ipad-class-ipad.webp" alt="" width="264" height="165" draggable="false">
+                <img class="i-sprite-ipad" src="assets/ipad-class-ipad.webp" alt="" width="234" height="171" draggable="false">
                 <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
                   <g fill="#FFF4D6" stroke="#B9863A" stroke-width="2.2" stroke-linejoin="round">
                     <g transform="translate(392 515) scale(1.6)"><path class="i-istar" style="--d:.15s" d="M0-15l4.5 10.5 10.5 4.5-10.5 4.5-4.5 10.5-4.5-10.5-10.5-4.5 10.5-4.5z"/></g>
@@ -1124,19 +1103,19 @@
 
               <!-- 男孩雙手層：必須在新 iPad 前面 -->
               <div class="i-layer i-kid-hands" aria-hidden="true">
-                <img class="i-sprite-hands" src="assets/ipad-class-kid-boy-hands.webp" alt="" width="153" height="79" draggable="false">
+                <img class="i-sprite-hands" src="assets/ipad-class-kid-boy-hands.webp" alt="" width="153" height="81" draggable="false">
               </div>
 
               <!-- 壞平板層：精靈圖＋灰色小煙（一起抖） -->
               <div class="i-layer i-broken" aria-hidden="true">
-                <img class="i-sprite-broken" src="assets/ipad-class-broken.webp" alt="" width="279" height="109" draggable="false">
+                <img class="i-sprite-broken" src="assets/ipad-class-broken.webp" alt="" width="275" height="113" draggable="false">
                 <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                  <g fill="#5A544E" stroke="#2F2B28" stroke-width="2.8">
-                    <circle class="i-smoke" style="--d:.35s;--dx:-14px" cx="672" cy="638" r="15"/>
-                    <circle class="i-smoke" style="--d:.45s;--dx:8px" cx="708" cy="628" r="18"/>
-                    <circle class="i-smoke" style="--d:.55s;--dx:-6px" cx="742" cy="636" r="14"/>
-                    <circle class="i-smoke" style="--d:.65s;--dx:16px" cx="772" cy="630" r="16"/>
-                    <circle class="i-smoke" style="--d:.75s;--dx:-10px" cx="720" cy="648" r="13"/>
+                  <g fill="#A39C93" stroke="#6E665E" stroke-width="2.2">
+                    <circle class="i-smoke" style="--d:.35s;--dx:-14px" cx="672" cy="638" r="12"/>
+                    <circle class="i-smoke" style="--d:.45s;--dx:8px" cx="708" cy="628" r="15"/>
+                    <circle class="i-smoke" style="--d:.55s;--dx:-6px" cx="742" cy="636" r="11"/>
+                    <circle class="i-smoke" style="--d:.65s;--dx:16px" cx="772" cy="630" r="13"/>
+                    <circle class="i-smoke" style="--d:.75s;--dx:-10px" cx="720" cy="648" r="10"/>
                   </g>
                 </svg>
               </div>
