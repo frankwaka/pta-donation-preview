@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-Hant" data-build="pta-donation-v24" data-preview="teachers-moon-v4">
+<html lang="zh-Hant" data-build="pta-donation-v24" data-preview="teachers-moon-v5">
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
@@ -550,6 +550,90 @@
   @media (prefers-reduced-motion:reduce){
     .t-layer, .t-layer *, .teacher-glow, .teacher-sky *, #teacherPlate .tap-hint{animation:none !important}
   }
+
+  /* 第 3 張（預覽）v5：校園 iPad 教室「真分層」＋「點誰動誰」
+     背景（無小孩／平板）＋各精靈圖依 assets/ipad-class-layers.json 的 1000×750 座標絕對定位（x/10%、y/7.5%）；
+     z-order：背景 → 左小孩 → 男孩身體 → 右小孩 → 新 iPad → 男孩雙手 → 壞平板 → 點擊區。
+     4:3 #ipadFrame 完整放進格子（contain），空位用教室牆面米色；背景圖永遠靜止，動畫只套在精靈層與特效上。 */
+  #ipadPlate{background:#E8D4B0}
+  .ipad-scene{position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center; overflow:hidden; container-type:size;
+    background:linear-gradient(180deg, #EEDCBB 0%, #E3CBA3 100%); cursor:pointer; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none}
+  .ipad-frame{position:relative; flex:none; width:min(100cqw, 133.3333cqh); height:min(100cqh, 75cqw)}
+  @supports not (width:1cqw){ .ipad-frame{width:100%; height:75%} } /* 舊瀏覽器：JS 會依格子大小改寫寬高 */
+  .ipad-frame img{position:absolute; max-width:none; display:block; pointer-events:none; -webkit-user-drag:none; user-select:none}
+  .ipad-bg{inset:0; z-index:0; width:100%; height:100%; object-fit:fill}
+  #ipadPlate .ipad-fx{position:absolute; inset:0; width:100%; height:100%; overflow:visible; pointer-events:none}
+  #ipadPlate .tap-hint{z-index:9; left:0; right:0; bottom:12px; width:max-content; margin:0 auto}
+
+  /* 精靈層：與框同大（inset:0），依 DOM 順序疊；精靈圖以百分比定位 */
+  .i-layer{position:absolute; inset:0; z-index:1; pointer-events:none}
+  .i-sprite-left{left:7.9%; top:28.2667%; width:26.9%; height:57.8667%}
+  .i-sprite-boy{left:33%; top:19.0667%; width:29.8%; height:56.2667%}
+  .i-sprite-right{left:61.8%; top:28.2667%; width:32.4%; height:54.6667%}
+  .i-sprite-ipad{left:41.2%; top:66.1333%; width:23.4%; height:22.8%}
+  .i-sprite-hands{left:39.4%; top:61.6%; width:15.3%; height:10.8%}
+  .i-sprite-broken{left:57.9%; top:81.2%; width:27.5%; height:15.0667%}
+  .i-kid-left{transform-origin:21.35% 86%}     /* 原圖 (213.5,645) 腳下 */
+  .i-kid-boy, .i-kid-hands{transform-origin:47.9% 75.3333%} /* 原圖 (479,565)：身體與雙手共用同一軸，一起跳才對得齊 */
+  .i-kid-right{transform-origin:78% 83%}       /* 原圖 (780,622) */
+  .i-broken{transform-origin:71.65% 90.6%}     /* 原圖 (716.5,679.5) */
+
+  /* 小朋友：整層輕跳歡呼（約 20px），頭上冒星星／愛心（在該小孩層裡，跟著一起跳） */
+  .play-left .i-kid-left, .play-boy .i-kid-boy, .play-boy .i-kid-hands, .play-right .i-kid-right{animation:iHop 1.3s cubic-bezier(.3,1.35,.5,1) .05s both}
+  @keyframes iHop{0%{transform:none}22%{transform:translateY(-20px) scale(1.04)}44%{transform:translateY(0) scale(1.015)}62%{transform:translateY(-8px) scale(1.03)}82%,100%{transform:none}}
+  .i-cheer{opacity:0; transform-box:fill-box; transform-origin:50% 100%}
+  .play-left .i-kid-left .i-cheer, .play-boy .i-kid-boy .i-cheer, .play-right .i-kid-right .i-cheer{animation:iCheer 1.4s ease-out var(--d) both}
+  @keyframes iCheer{0%{opacity:0; transform:translateY(14px) scale(.3) rotate(0)}18%{opacity:1; transform:translateY(-6px) scale(1.15) rotate(var(--r))}32%{opacity:1; transform:translateY(-14px) scale(1) rotate(var(--r))}100%{opacity:0; transform:translateY(-70px) scale(.85) rotate(calc(var(--r) * 2))}}
+
+  /* 新 iPad：外圈暖光變強、冒暖白星星；三個小朋友臉被照亮（臉光放在各小孩層，跳的時候也對得齊） */
+  .i-ipad-glow{position:absolute; left:53%; top:77.6%; width:42%; aspect-ratio:4/3; border-radius:50%; pointer-events:none; opacity:0; transform:translate(-50%,-50%) scale(.8);
+    background:radial-gradient(ellipse at center, rgba(255,250,228,.95) 0%, rgba(255,236,176,.7) 30%, rgba(252,214,120,.3) 52%, rgba(252,214,120,0) 70%)}
+  .play-ipad .i-ipad-glow{animation:iGlow 2.4s ease-in-out both}
+  @keyframes iGlow{0%{opacity:0; transform:translate(-50%,-50%) scale(.8)}20%{opacity:1; transform:translate(-50%,-50%) scale(1.08)}45%{opacity:.75; transform:translate(-50%,-50%) scale(1)}65%{opacity:1; transform:translate(-50%,-50%) scale(1.1)}100%{opacity:0; transform:translate(-50%,-50%) scale(.9)}}
+  .play-ipad .i-sprite-ipad{animation:iScreen 2.4s ease-in-out both}
+  @keyframes iScreen{0%,100%{filter:none}20%,65%{filter:brightness(1.18)}45%{filter:brightness(1.08)}}
+  .i-istar{opacity:0; transform-box:fill-box; transform-origin:50% 50%}
+  .play-ipad .i-istar{animation:iStar 1.4s ease-out var(--d) both}
+  @keyframes iStar{0%{opacity:0; transform:scale(0) rotate(0)}30%{opacity:1; transform:scale(1.25) rotate(20deg)}55%{opacity:1; transform:scale(1) rotate(45deg)}100%{opacity:0; transform:scale(.6) translateY(-10px) rotate(70deg)}}
+  .i-faceglow{position:absolute; width:17%; aspect-ratio:1/1; border-radius:50%; pointer-events:none; opacity:0; transform:translate(-50%,-50%);
+    background:radial-gradient(circle, rgba(255,240,196,.7) 0%, rgba(255,222,150,.38) 38%, rgba(255,222,150,0) 70%)}
+  .i-faceglow-left{left:26.9%; top:54.9333%}   /* 原圖臉部約 (269,412) */
+  .i-faceglow-boy{left:49.5%; top:49.7333%}    /* 原圖臉部約 (495,373) */
+  .i-faceglow-right{left:74.8%; top:56.2667%}  /* 原圖臉部約 (748,422) */
+  .play-ipad .i-faceglow{animation:iFace 2.4s ease-in-out .25s both}
+  @keyframes iFace{0%{opacity:0}25%,55%{opacity:1}100%{opacity:0}}
+
+  /* 壞平板：螢幕閃爍（亮度／對比）＋小幅抖動，冒灰色小煙（煙在壞平板層裡，跟著一起抖） */
+  .play-broken .i-broken{animation:iShake 1.9s ease-in-out both}
+  @keyframes iShake{0%,52%,100%{transform:none}56%{transform:translate(-3px,0) rotate(-1deg)}61%{transform:translate(3px,-1px) rotate(1deg)}66%{transform:translate(-2px,1px) rotate(-.8deg)}71%{transform:translate(2px,0) rotate(.6deg)}77%{transform:translate(-1px,0) rotate(-.3deg)}84%{transform:none}}
+  .play-broken .i-sprite-broken{animation:iFlicker 1.9s steps(1) both}
+  @keyframes iFlicker{0%{filter:none}6%{filter:brightness(1.7) contrast(1.25)}12%{filter:brightness(.55)}18%{filter:brightness(1.6) contrast(1.2)}24%{filter:none}30%{filter:brightness(1.5)}34%{filter:brightness(.6)}40%{filter:brightness(1.75) contrast(1.3)}46%,100%{filter:none}}
+  .i-smoke{opacity:0; transform-box:fill-box; transform-origin:50% 50%}
+  .play-broken .i-smoke{animation:iSmoke 1.2s ease-out var(--d) both}
+  @keyframes iSmoke{0%{opacity:0; transform:translate(0,0) scale(.4)}20%{opacity:.85; transform:translate(calc(var(--dx) * .2),-12px) scale(.8)}100%{opacity:0; transform:translate(var(--dx),-80px) scale(1.9)}}
+
+  /* 透明點擊區（role="button"，可 Tab／Enter／空白鍵）；兩台平板的命中框在小孩之上，點平板不會觸發小孩 */
+  .i-hit{position:absolute; z-index:7; display:block; margin:0; padding:0; background:transparent; border-radius:24px; cursor:pointer; outline:none; -webkit-tap-highlight-color:transparent}
+  .i-hit:focus-visible{box-shadow:inset 0 0 0 3px #E8873A, inset 0 0 0 5px rgba(255,251,243,.85)}
+  .i-hit-left{left:8%; top:22%; width:27%; height:50%}
+  .i-hit-boy{left:33%; top:15%; width:28%; height:48%}
+  .i-hit-right{left:62%; top:22%; width:32%; height:50%}
+  .i-hit-ipad{left:41%; top:66%; width:24%; height:23%; z-index:8; border-radius:14px}
+  .i-hit-broken{left:58%; top:81%; width:27.5%; height:16%; z-index:8; border-radius:14px}
+
+  /* 只限第 3 張、直式版面：左右箭頭移到格子下緣，不擋小朋友的臉；寬螢幕維持原樣 */
+  @media not all and (min-width:860px) and (min-height:560px){
+    #slide-3 .edge{top:auto; bottom:12px; margin-top:0; width:38px; height:38px; opacity:.75}
+    #slide-3 .edge-prev{left:12px}
+    #slide-3 .edge-next{right:12px}
+    #slide-3 .edge:hover, #slide-3 .edge:focus-visible{opacity:1}
+    #slide-3 .edge svg{width:17px; height:17px}
+  }
+
+  /* 減少動態：只關 #ipadPlate 裡的動畫；背景與精靈圖照常顯示，煙／星／愛心／臉光維持預設隱藏 */
+  @media (prefers-reduced-motion:reduce){
+    #ipadPlate, #ipadPlate *{animation:none !important}
+  }
   .sun{transform-box:fill-box; transform-origin:50% 50%}
   .face-l{opacity:0}
   .haha{opacity:0; transform-box:fill-box; transform-origin:50% 100%; pointer-events:none}
@@ -960,54 +1044,91 @@
     <!-- 03 校園 iPad 汰換計畫 -->
     <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫" data-title="校園 iPad 汰換計畫" tabindex="-1" aria-hidden="true">
       <figure class="s-fig">
-        <div class="s-plate">
-          <svg viewBox="0 0 400 400" preserveAspectRatio="xMidYMid slice" role="img" aria-label="插畫・非實景：藍天、綠色海面與黃色土地之間，一台舊平板換成新平板，旁邊有一棵紅色的樹">
-            <defs><clipPath id="p3screen"><rect x="224" y="150" width="108" height="148" rx="6"/></clipPath></defs>
-            <rect width="400" height="400" fill="#5BA4D6"/>
-            <circle cx="140" cy="10" r="150" fill="#7FBBE3" opacity=".55"/>
-            <g stroke="#3B2A20" stroke-width="3" stroke-linecap="round"><path d="M326 56v-12M326 140v12M284 98h-12M368 98h12M296 68l-8-8M356 128l8 8M356 68l8-8M296 128l-8 8"/></g>
-            <circle cx="326" cy="98" r="30" fill="#F0C84A" stroke="#3B2A20" stroke-width="3"/>
-            <path d="M315 96q3 4 6 0M331 96q3 4 6 0M317 108q9 7 18 0" fill="none" stroke="#3B2A20" stroke-width="2.5" stroke-linecap="round"/>
-            <path d="M36 104c2-12 18-17 28-9 6-10 24-9 28 3 13 0 17 13 9 19H40c-10 0-12-8-4-13z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2.5" stroke-linejoin="round"/>
-            <!-- 綠海 -->
-            <path d="M-10 210c46-10 96-10 140-2s96 10 140 0 86-10 140-2V300H-10z" fill="#2F8F74" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
-            <g fill="none" stroke="#9FD6C2" stroke-width="3" stroke-linecap="round"><path d="M150 240q8-6 16 0t16 0M24 256q8-6 16 0t16 0M354 236q8-6 16 0t16 0"/></g>
-            <!-- 黃地 -->
-            <path d="M-10 284c70-24 150-26 220-12s140 14 200-6V410H-10z" fill="#F0C84A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
-            <g fill="#D9A92E"><circle cx="160" cy="350" r="3"/><circle cx="210" cy="372" r="2.5"/><circle cx="370" cy="350" r="3"/><circle cx="40" cy="360" r="2.5"/></g>
-            <g fill="none" stroke="#2F8F74" stroke-width="3" stroke-linecap="round"><path d="M140 322l4-10 4 10M152 324l3-8 3 8M362 322l4-10 4 10"/></g>
-            <!-- 紅樹 -->
-            <ellipse cx="82" cy="322" rx="44" ry="6" fill="#D9A92E"/>
-            <path d="M72 320c3-26 4-52 1-80h18c-3 28-2 54 2 80z" fill="#8E5A2E" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
-            <path d="M82 128c30-2 52 18 50 42 17 11 13 41-9 47-8 17-38 20-45 8-19 10-47 2-47-18-18-9-15-36 4-42 2-23 22-37 47-37z" fill="#D6453A" stroke="#3B2A20" stroke-width="3" stroke-linejoin="round"/>
-            <g fill="#EF8276"><circle cx="60" cy="160" r="8"/><circle cx="106" cy="152" r="6"/><circle cx="110" cy="198" r="8"/><circle cx="58" cy="204" r="5"/></g>
-            <!-- 舊平板（虛線、裂痕） -->
-            <g transform="rotate(-12 198 232)">
-              <rect x="150" y="164" width="96" height="134" rx="14" fill="#E6D5BC" stroke="#3B2A20" stroke-width="3" stroke-dasharray="8 6"/>
-              <rect x="160" y="176" width="76" height="106" rx="5" fill="#CDB89A"/>
-              <path d="M178 192l16 22-8 6 16 24" fill="none" stroke="#3B2A20" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
-            </g>
-            <!-- 新平板（螢幕裡也有藍天、綠海、黃地、紅樹） -->
-            <g transform="rotate(7 278 224)">
-              <rect x="214" y="138" width="128" height="172" rx="18" fill="#3B2A20"/>
-              <g clip-path="url(#p3screen)">
-                <rect x="224" y="150" width="108" height="148" fill="#5BA4D6"/>
-                <circle cx="248" cy="174" r="10" fill="#F0C84A"/>
-                <rect x="224" y="222" width="108" height="30" fill="#2F8F74"/>
-                <path d="M224 258c30-10 70-12 108-4V298H224z" fill="#F0C84A"/>
-                <path d="M300 262v-24" stroke="#8E5A2E" stroke-width="5" stroke-linecap="round"/>
-                <circle cx="300" cy="226" r="17" fill="#D6453A" stroke="#3B2A20" stroke-width="2"/>
-              </g>
-              <circle cx="278" cy="304" r="3" fill="#86705F"/>
-            </g>
-            <!-- 汰換：循環箭頭 -->
-            <path d="M160 152c22-36 82-52 122-30" fill="none" stroke="#D6453A" stroke-width="5" stroke-linecap="round"/>
-            <path d="M272 108l22 18-26 8z" fill="#D6453A" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M330 326c-40 18-104 14-140-8" fill="none" stroke="#FFFBF3" stroke-width="5" stroke-linecap="round"/>
-            <path d="M200 332l-20-20 26-4z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="2" stroke-linejoin="round"/>
-            <path d="M366 156l3 8 8 3-8 3-3 8-3-8-8-3 8-3z" fill="#F0C84A" stroke="#3B2A20" stroke-width="1.6" stroke-linejoin="round"/>
-            <path d="M200 96l2 6 6 2-6 2-2 6-2-6-6-2 6-2z" fill="#FFFBF3" stroke="#3B2A20" stroke-width="1.4" stroke-linejoin="round"/>
-          </svg>
+        <div class="s-plate" id="ipadPlate">
+          <div class="ipad-scene" id="ipadScene">
+            <div class="ipad-frame" id="ipadFrame">
+              <!-- 背景（沒有小孩／平板）：永遠靜止，不套任何動畫 -->
+              <img class="ipad-bg" src="assets/ipad-class-bg.webp" alt="插畫・非實景：三個小朋友在教室裡圍著梯形桌看新的 iPad，旁邊有一台壞掉的舊平板" width="1000" height="750" draggable="false">
+
+              <!-- 左小孩層：精靈圖＋臉光＋頭上的愛心星星（一起跳） -->
+              <div class="i-layer i-kid-left" aria-hidden="true">
+                <img class="i-sprite-left" src="assets/ipad-class-kid-left.webp" alt="" width="269" height="434" draggable="false">
+                <div class="i-faceglow i-faceglow-left"></div>
+                <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
+                    <g transform="translate(185 205)"><path class="i-cheer" style="--d:.12s;--r:-12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
+                    <g transform="translate(268 188) scale(1.6)"><path class="i-cheer" style="--d:.28s;--r:18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 男孩身體層（雙手另成一層、疊在新 iPad 前面；兩層套同一個 hop） -->
+              <div class="i-layer i-kid-boy" aria-hidden="true">
+                <img class="i-sprite-boy" src="assets/ipad-class-kid-boy.webp" alt="" width="298" height="422" draggable="false">
+                <div class="i-faceglow i-faceglow-boy"></div>
+                <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
+                    <g transform="translate(430 132) scale(1.6)"><path class="i-cheer" style="--d:.1s;--r:-16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                    <g transform="translate(535 120)"><path class="i-cheer" style="--d:.26s;--r:12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 右小孩層 -->
+              <div class="i-layer i-kid-right" aria-hidden="true">
+                <img class="i-sprite-right" src="assets/ipad-class-kid-right.webp" alt="" width="324" height="410" draggable="false">
+                <div class="i-faceglow i-faceglow-right"></div>
+                <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
+                    <g transform="translate(722 205) scale(1.6)"><path class="i-cheer" style="--d:.12s;--r:-18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                    <g transform="translate(812 196)"><path class="i-cheer" style="--d:.28s;--r:14deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 新 iPad 層：外圈暖光（墊在 iPad 後）＋精靈圖＋暖白星星 -->
+              <div class="i-layer i-ipad" aria-hidden="true">
+                <div class="i-ipad-glow"></div>
+                <img class="i-sprite-ipad" src="assets/ipad-class-ipad.webp" alt="" width="234" height="171" draggable="false">
+                <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g fill="#FFF4D6" stroke="#B9863A" stroke-width="2.2" stroke-linejoin="round">
+                    <g transform="translate(392 515) scale(1.6)"><path class="i-istar" style="--d:.15s" d="M0-15l4.5 10.5 10.5 4.5-10.5 4.5-4.5 10.5-4.5-10.5-10.5-4.5 10.5-4.5z"/></g>
+                    <g transform="translate(668 520) scale(1.6)"><path class="i-istar" style="--d:.4s" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/></g>
+                    <g transform="translate(612 478) scale(1.4)"><path class="i-istar" style="--d:.65s" d="M0-13l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/></g>
+                    <g transform="translate(380 640) scale(1.4)"><path class="i-istar" style="--d:.9s" d="M0-12l3.5 8.5 8.5 3.5-8.5 3.5-3.5 8.5-3.5-8.5-8.5-3.5 8.5-3.5z"/></g>
+                    <g transform="translate(674 642) scale(1.5)"><path class="i-istar" style="--d:1.15s" d="M0-13l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/></g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 男孩雙手層：必須在新 iPad 前面 -->
+              <div class="i-layer i-kid-hands" aria-hidden="true">
+                <img class="i-sprite-hands" src="assets/ipad-class-kid-boy-hands.webp" alt="" width="153" height="81" draggable="false">
+              </div>
+
+              <!-- 壞平板層：精靈圖＋灰色小煙（一起抖） -->
+              <div class="i-layer i-broken" aria-hidden="true">
+                <img class="i-sprite-broken" src="assets/ipad-class-broken.webp" alt="" width="275" height="113" draggable="false">
+                <svg class="ipad-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g fill="#A39C93" stroke="#6E665E" stroke-width="2.2">
+                    <circle class="i-smoke" style="--d:.35s;--dx:-14px" cx="672" cy="638" r="12"/>
+                    <circle class="i-smoke" style="--d:.45s;--dx:8px" cx="708" cy="628" r="15"/>
+                    <circle class="i-smoke" style="--d:.55s;--dx:-6px" cx="742" cy="636" r="11"/>
+                    <circle class="i-smoke" style="--d:.65s;--dx:16px" cx="772" cy="630" r="13"/>
+                    <circle class="i-smoke" style="--d:.75s;--dx:-10px" cx="720" cy="648" r="10"/>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 透明點擊區（原圖座標換算成百分比）：兩台平板的命中框疊在小孩之上 -->
+              <div class="i-hit i-hit-left" role="button" tabindex="0" data-who="left" aria-label="左邊短髮的小朋友，點一下看她跳起來歡呼"></div>
+              <div class="i-hit i-hit-boy" role="button" tabindex="0" data-who="boy" aria-label="中間的小朋友，點一下看他跳起來歡呼"></div>
+              <div class="i-hit i-hit-right" role="button" tabindex="0" data-who="right" aria-label="右邊綁馬尾的小朋友，點一下看她跳起來歡呼"></div>
+              <div class="i-hit i-hit-ipad" role="button" tabindex="0" data-who="ipad" aria-label="桌上的新 iPad，點一下看它發光"></div>
+              <div class="i-hit i-hit-broken" role="button" tabindex="0" data-who="broken" aria-label="桌上壞掉的舊平板，點一下看它閃爍冒煙"></div>
+            </div>
+          </div>
+          <span class="tap-hint" aria-hidden="true">點點看</span>
         </div>
         <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁（已是最後一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
@@ -2203,6 +2324,50 @@
       if (moved) return;
       var hit = e.target.closest('[data-who]');
       play(hit ? hit.getAttribute('data-who') : 'moon'); // 框外的夜空空位也算背景
+    });
+    plate.addEventListener('keydown', function (e) {
+      var hit = e.target.closest && e.target.closest('[data-who]');
+      if (!hit || (e.key !== 'Enter' && e.key !== ' ' && e.key !== 'Spacebar')) return;
+      e.preventDefault();
+      if (!e.repeat) play(hit.getAttribute('data-who'));
+    });
+  })();
+
+  // 第 3 張（預覽 v5）校園 iPad 教室「點誰動誰」：只播被點到的那一個；點空白教室不播。
+  // 寫法比照第 2 張：滑動超過 10px 不觸發、攔下 click 不讓舞台換頁；點擊區用 role="button" 讓手機在插畫上仍可滑動換頁。
+  (function(){
+    var plate = document.getElementById('ipadPlate'), scene = document.getElementById('ipadScene'), frame = document.getElementById('ipadFrame');
+    if (!plate || !scene || !frame) return;
+    var hint = plate.querySelector('.tap-hint'), sx = null, sy = 0, timers = {};
+    var DUR = { broken: 2100, ipad: 2800, left: 1800, boy: 1800, right: 1800 }; // 皆略長於對應 CSS 動畫
+    // 不支援 cqw/cqh 的舊瀏覽器：由 JS 把 4:3 框完整放進格子並置中
+    if (!(window.CSS && CSS.supports && CSS.supports('width', '1cqw'))) {
+      var fit = function(){
+        var w = scene.clientWidth, h = scene.clientHeight;
+        if (!w || !h) return;
+        var fw = Math.min(w, h * 4 / 3);
+        frame.style.width = fw + 'px'; frame.style.height = (fw * 3 / 4) + 'px';
+      };
+      fit();
+      if (window.ResizeObserver) new ResizeObserver(fit).observe(scene); else window.addEventListener('resize', fit);
+    }
+    function play(who){
+      if (!DUR[who]) return;
+      var k = 'play-' + who;
+      frame.classList.remove(k); void frame.getBoundingClientRect(); frame.classList.add(k);
+      clearTimeout(timers[who]);
+      timers[who] = setTimeout(function(){ frame.classList.remove(k); }, DUR[who]);
+      if (hint) hint.classList.add('is-gone');
+    }
+    plate.addEventListener('pointerdown', function (e) { sx = e.clientX; sy = e.clientY; });
+    plate.addEventListener('click', function (e) {
+      if (!scene.contains(e.target)) return;
+      e.stopPropagation(); // 不讓舞台的「點左右半邊換頁」接手
+      var moved = sx !== null && (Math.abs(e.clientX - sx) > 10 || Math.abs(e.clientY - sy) > 10);
+      sx = null;
+      if (moved) return;
+      var hit = e.target.closest('[data-who]');
+      if (hit) play(hit.getAttribute('data-who')); // 點空白教室：不播任何動畫
     });
     plate.addEventListener('keydown', function (e) {
       var hit = e.target.closest && e.target.closest('[data-who]');

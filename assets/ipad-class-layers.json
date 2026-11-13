@@ -1,0 +1,72 @@
+{
+  "ipad-class-bg.webp": {
+    "x": 0,
+    "y": 0,
+    "w": 1000,
+    "h": 750,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "ipad-class-bg.webp",
+    "bytes": 36984
+  },
+  "ipad-class-kid-left.webp": {
+    "x": 79,
+    "y": 212,
+    "w": 269,
+    "h": 434,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "ipad-class-kid-left.webp",
+    "bytes": 17898
+  },
+  "ipad-class-kid-boy.webp": {
+    "x": 330,
+    "y": 143,
+    "w": 298,
+    "h": 422,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "ipad-class-kid-boy.webp",
+    "bytes": 18212
+  },
+  "ipad-class-kid-boy-hands.webp": {
+    "x": 394,
+    "y": 462,
+    "w": 153,
+    "h": 81,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "ipad-class-kid-boy-hands.webp",
+    "bytes": 2438
+  },
+  "ipad-class-kid-right.webp": {
+    "x": 618,
+    "y": 212,
+    "w": 324,
+    "h": 410,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "ipad-class-kid-right.webp",
+    "bytes": 20246
+  },
+  "ipad-class-ipad.webp": {
+    "x": 412,
+    "y": 496,
+    "w": 234,
+    "h": 171,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "ipad-class-ipad.webp",
+    "bytes": 3338
+  },
+  "ipad-class-broken.webp": {
+    "x": 579,
+    "y": 609,
+    "w": 275,
+    "h": 113,
+    "frameW": 1000,
+    "frameH": 750,
+    "file": "ipad-class-broken.webp",
+    "bytes": 6526
+  }
+}
