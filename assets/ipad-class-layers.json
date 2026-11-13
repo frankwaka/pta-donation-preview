@@ -7,7 +7,7 @@
     "frameW": 1000,
     "frameH": 750,
     "file": "ipad-class-bg.webp",
-    "bytes": 32562
+    "bytes": 35128
   },
   "ipad-class-kid-left.webp": {
     "x": 79,
@@ -57,16 +57,16 @@
     "frameW": 1000,
     "frameH": 750,
     "file": "ipad-class-ipad.webp",
-    "bytes": 3926
+    "bytes": 4526
   },
   "ipad-class-broken.webp": {
-    "x": 602,
-    "y": 625,
-    "w": 272,
+    "x": 582,
+    "y": 609,
+    "w": 279,
     "h": 109,
     "frameW": 1000,
     "frameH": 750,
     "file": "ipad-class-broken.webp",
-    "bytes": 6560
+    "bytes": 6866
   }
 }
