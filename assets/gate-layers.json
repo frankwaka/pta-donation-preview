@@ -1,47 +1,65 @@
 {
  "gate-girl-l.webp": {
-  "x": 212,
-  "y": 432,
-  "w": 142,
-  "h": 285,
+  "x": 203,
+  "y": 437,
+  "w": 153,
+  "h": 295,
   "frameW": 1000,
   "frameH": 750,
   "file": "gate-girl-l.webp"
  },
  "gate-girl-l-hand.webp": {
-  "x": 211,
-  "y": 473,
-  "w": 54,
-  "h": 58,
+  "x": 205,
+  "y": 485,
+  "w": 41,
+  "h": 45,
   "frameW": 1000,
   "frameH": 750,
   "file": "gate-girl-l-hand.webp"
  },
  "gate-boys.webp": {
   "x": 354,
-  "y": 412,
-  "w": 261,
-  "h": 299,
+  "y": 417,
+  "w": 266,
+  "h": 314,
   "frameW": 1000,
   "frameH": 750,
   "file": "gate-boys.webp"
  },
  "gate-girl-r.webp": {
-  "x": 612,
-  "y": 435,
-  "w": 155,
-  "h": 278,
+  "x": 621,
+  "y": 437,
+  "w": 159,
+  "h": 291,
   "frameW": 1000,
   "frameH": 750,
   "file": "gate-girl-r.webp"
  },
  "gate-girl-r-pony.webp": {
-  "x": 721,
-  "y": 439,
-  "w": 46,
-  "h": 115,
+  "x": 729,
+  "y": 450,
+  "w": 51,
+  "h": 97,
   "frameW": 1000,
   "frameH": 750,
   "file": "gate-girl-r-pony.webp"
+ },
+ "gate-ball.webp": {
+  "x": 556,
+  "y": 568,
+  "w": 57,
+  "h": 58,
+  "frameW": 1000,
+  "frameH": 750,
+  "file": "gate-ball.webp"
+ },
+ "gate-boy-arm.webp": {
+  "x": 579,
+  "y": 566,
+  "w": 38,
+  "h": 63,
+  "frameW": 1000,
+  "frameH": 750,
+  "file": "gate-boy-arm.webp"
  }
 }
