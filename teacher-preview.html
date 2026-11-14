@@ -31,7 +31,7 @@
     --safe-r:env(safe-area-inset-right, 0px);
     --pad-x:18px;
 
-    /* 底部浮動控件尺寸與保留空間（skip／介紹鈕在三角形上方，間距 ≥ 12px） */
+    /* 底部三角形尺寸與保留空間 */
     --tri-h:54px;
     --float-h:42px;
     --float-gap:14px;
@@ -286,6 +286,17 @@
    * ========================================================= */
   .report .wrap{padding-bottom:calc(var(--bottom-reserve) + 24px)}
   .mast{padding-top:calc(var(--safe-t) + 14px)}
+  /* 細項頁（回報頁）左上角固定的「‹ 返回」：iOS 慣例，點擊區 ≥ 44px */
+  .report .mast{padding-top:calc(var(--safe-t) + 64px)}
+  .sub-bar{position:fixed; top:0; left:0; right:0; z-index:40; display:flex; align-items:center; height:calc(var(--safe-t) + 60px); padding:var(--safe-t) calc(var(--safe-r) + 10px) 0 calc(var(--safe-l) + 10px);
+    background:rgba(251,244,230,.94); border-bottom:2px solid rgba(59,42,32,.12); -webkit-backdrop-filter:blur(8px); backdrop-filter:blur(8px)}
+  .sub-bar[hidden]{display:none}
+  .sub-back{display:inline-flex; align-items:center; gap:2px; min-width:44px; min-height:44px; padding:0 14px 0 8px;
+    font:inherit; font-size:16px; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; box-shadow:2px 3px 0 var(--ink); cursor:pointer}
+    .sub-back:active{transform:translate(2px,2px); box-shadow:0 1px 0 var(--ink)}
+  /* 左緣往右滑返回：拖曳中的頁面跟著手指 */
+  .is-swiping{transition:none !important; box-shadow:-12px 0 24px rgba(59,42,32,.18); will-change:transform}
+  .is-swipe-out{transition:transform .2s ease-out !important}
   .r-hero{position:relative; margin-top:16px; padding:22px 20px 0; overflow:hidden; background:var(--paper); border:2.5px solid var(--ink); border-radius:var(--wobble); box-shadow:5px 6px 0 var(--sky-l)}
   .r-hero::before{content:""; position:absolute; top:-6px; left:50%; width:90px; height:22px; background:rgba(240,200,74,.75); border-radius:3px; transform:translateX(-50%) rotate(-3deg)}
   .eyebrow{display:inline-block; padding:2px 12px; font-size:13px; font-weight:700; letter-spacing:.06em; color:var(--sea-d); background:var(--sea-l); border-radius:14px 20px 12px 18px}
@@ -297,7 +308,13 @@
   .r-hero p{margin:0; font-size:15px; color:var(--ink-2)}
   .r-art{position:relative; height:104px; margin:14px -20px 0; border-top:2.5px solid var(--ink)}
   .r-art svg{position:absolute; inset:0; width:100%; height:100%; display:block}
-  .preset-note{margin:18px 0 0; padding:10px 14px; background:var(--sun-l); border:2px dashed var(--red-d); border-radius:var(--wobble-2); font-size:14.5px; font-weight:500; line-height:1.65}
+  .preset-note{margin:14px 0 0; padding:10px 14px; background:var(--sun-l); border:2px dashed var(--red-d); border-radius:var(--wobble-2); font-size:14.5px; font-weight:500; line-height:1.65}
+  .preset-note p{margin:0}
+  .preset-change{display:flex; align-items:center; gap:8px; margin-top:8px; font-size:14px; font-weight:700}
+  .preset-change > span{flex:none; white-space:nowrap}
+  .preset-change select{flex:1 1 auto; min-width:0; min-height:40px; padding:6px 10px; font:inherit; font-size:14.5px; font-weight:500; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px}
+  .quick-report{display:inline-flex; align-items:center; gap:6px; margin:10px 0 0; padding:6px 2px; font:inherit; font-size:15px; font-weight:700; color:var(--sky-d, #2B6FA8); background:none; border:0; text-decoration:underline; text-underline-offset:3px; cursor:pointer}
+  .quick-report[hidden]{display:none}
 
   .chap{margin-top:44px; scroll-margin-top:16px}
   .sec-title{display:flex; align-items:center; gap:10px; margin:0 0 4px; font-size:22px; font-weight:900; line-height:1.4}
@@ -417,12 +434,9 @@
     .s-text{transform:none !important}
   }
   #c2,#c3{scroll-margin-top:72px}
-  .cta-row{display:flex; gap:10px; margin-top:10px}
-  .cta-row .s-cta{flex:1 1 0; width:auto; margin-top:0; padding:10px 8px; font-size:15px; gap:6px; white-space:nowrap}
-  .cta-row .s-cta .arrow{font-size:15px}
-  .s-direct{color:var(--ink); background:var(--sun-l, #FBE7A1)}
-  .s-direct:hover{background:#F6D978}
-  #skipBtn{display:none !important}
+  /* 每張卡只有一顆「我要捐這項」：撐滿文字欄寬，好按也好看 */
+  .cta-row{display:flex; margin-top:10px}
+  .cta-row .s-cta{flex:1 1 auto; width:100%; max-width:420px; margin-top:0; padding:10px 18px; gap:8px; white-space:nowrap}
   @media (max-width:420px){ .stage-top .logo{width:46px; height:46px} .stage-h{font-size:15.5px; letter-spacing:0} .brand-l{gap:8px} }
   @media (max-width:365px){ .stage-h{font-size:14.5px} }
   /* 主視覺小彩蛋：點天空、海、地、樹 */
@@ -782,8 +796,9 @@
   .goal-view[hidden]{display:none}
   @keyframes gvIn{from{opacity:0; transform:translateY(16px)}to{opacity:1; transform:none}}
   .gv-wrap{max-width:520px; margin:0 auto; padding:14px 18px 40px}
-  .gv-top{display:flex; justify-content:space-between; align-items:center}
-  .gv-back{padding:6px 12px; font:inherit; font-size:15px; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; cursor:pointer}
+  .gv-top{position:sticky; top:0; z-index:2; display:flex; justify-content:space-between; align-items:center; margin:-14px -18px 0; padding:calc(var(--safe-t) + 8px) 18px 8px; background:var(--cream)}
+  .gv-back{display:inline-flex; align-items:center; gap:2px; min-width:44px; min-height:44px; padding:0 14px 0 8px; font:inherit; font-size:16px; font-weight:700; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; cursor:pointer}
+  .gv-back span, .sub-back span{font-size:26px; line-height:1; margin-top:-3px}
   .gv-title{margin:16px 0 14px; font-size:24px; font-weight:900; line-height:1.3; text-align:center}
   .gv-hero{padding:16px 16px 12px; background:var(--paper); border:2px solid var(--ink); border-radius:16px 12px 16px 12px; box-shadow:3px 3px 0 var(--ink); text-align:center}
   .gv-label{margin:0; font-size:13px; color:var(--ink-3)}
@@ -961,7 +976,7 @@
         <h2 class="s-title"><span class="mark">不指定</span><small>（由家長會統籌運用）</small></h2>
         <p class="s-copy">交給家長會，依校園實際需要統籌運用。回報時未特別指定用途，即歸入此項。</p>
         <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">細項說明待家長會確認後補充。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button></div>
       </div>
     </section>
 
@@ -1142,7 +1157,7 @@
         <h2 class="s-title"><span class="mark">教師支援費</span></h2>
         <p class="s-copy">支持老師備課與教學所需的支援。</p>
         <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">支用範圍與細項，待家長會確認後說明。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button></div>
       </div>
     </section>
 
@@ -1249,7 +1264,7 @@
         <h2 class="s-title"><span class="mark">校園 iPad 汰換計畫</span></h2>
         <p class="s-copy">協助汰換老舊的校園 iPad，讓教學設備可以接續使用。</p>
         <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">汰換範圍與時程，待家長會確認後公告。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn s-cta s-direct"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button></div>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button></div>
       </div>
     </section>
   </div>
@@ -1262,7 +1277,7 @@
 <section class="goal-view" id="goalView" role="dialog" aria-modal="true" aria-labelledby="gvTitle" hidden>
   <div class="gv-wrap">
     <header class="gv-top">
-      <button type="button" class="gv-back" data-goal-close aria-label="返回">‹ 返回</button>
+      <button type="button" class="gv-back sub-back-inline" data-goal-close aria-label="返回上一頁"><span aria-hidden="true">‹</span>返回</button>
       <span class="goal-sample" data-goal-sample>範例數字</span>
     </header>
     <h2 class="gv-title" id="gvTitle">115 學年度家長會<br>募款進度</h2>
@@ -1343,7 +1358,11 @@
         <svg width="30" height="30" viewBox="0 0 30 30" aria-hidden="true"><rect x="3" y="8" width="24" height="16" rx="4" fill="#F0C84A" stroke="#3B2A20" stroke-width="2"/><path d="M3 13h24" stroke="#3B2A20" stroke-width="2"/><path d="M7 19h6" stroke="#3B2A20" stroke-width="2" stroke-linecap="round"/></svg>
         第一步｜捐款資訊
       </h2>
-      <p class="preset-note" id="presetNote" role="status" hidden></p>
+      <button type="button" class="quick-report" id="quickBtn"><span>已經匯好了？直接回報</span><span class="arrow" aria-hidden="true">→</span></button>
+      <div class="preset-note" id="presetNote" hidden>
+        <p id="presetText" role="status" aria-live="polite"></p>
+        <label class="preset-change"><span>改選</span><select id="purposeMini" aria-label="改選捐款用途"></select></label>
+      </div>
       <div class="ledger">
         <span class="sticker" aria-hidden="true">待填・尚未公告</span>
         <dl>
@@ -1371,8 +1390,22 @@
       <form class="form-card form" id="reportForm" autocomplete="on">
         <p class="form-intro">標示<span class="req">必填</span>的欄位請務必填寫。約需 2 分鐘。</p>
 
+        <fieldset class="part part-purpose" id="purposePart">
+          <legend><i>A</i>捐款用途</legend>
+          <div class="field" data-field>
+            <label class="lbl" for="purpose">捐款指定用途<span class="req">必填</span></label>
+            <select id="purpose" name="purpose" required data-name="捐款指定用途" data-msg-required="請選擇捐款指定用途" aria-describedby="purposeHint">
+              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準，新增用途時改該陣列並同步此處與投影片。name 與選項值是送出欄位，不要改。 -->
+              <option value="不指定（由家長會統籌運用）" selected>不指定（由家長會統籌運用）</option>
+              <option value="教師支援費">教師支援費</option>
+              <option value="校園 iPad 汰換計畫">校園 iPad 汰換計畫</option>
+            </select>
+            <span class="hint" id="purposeHint">已依您看的項目帶入，可以改選。</span>
+          </div>
+        </fieldset>
+
         <fieldset class="part">
-          <legend><i>A</i>捐款人</legend>
+          <legend><i>B</i>捐款人</legend>
           <div class="field" data-field>
             <label class="lbl" for="donorName">捐款人姓名<span class="req">必填</span></label>
             <input id="donorName" name="donorName" type="text" autocomplete="name" required maxlength="30" placeholder="王大明" data-name="捐款人姓名">
@@ -1389,7 +1422,7 @@
         </fieldset>
 
         <fieldset class="part">
-          <legend><i>B</i>子女</legend>
+          <legend><i>C</i>子女</legend>
           <div class="row2">
             <div class="field" data-field>
               <label class="lbl" for="childClass">年級班別<span class="req">必填</span></label>
@@ -1416,7 +1449,7 @@
         </fieldset>
 
         <fieldset class="part">
-          <legend><i>C</i>匯款</legend>
+          <legend><i>D</i>匯款</legend>
           <div class="field" data-field>
             <label class="lbl" for="paidAt">匯款日期與時間<span class="req">必填</span></label>
             <input id="paidAt" name="paidAt" type="datetime-local" required data-name="匯款日期與時間" aria-describedby="paidAtHint">
@@ -1431,19 +1464,10 @@
             <input id="last5" name="last5" type="text" inputmode="numeric" autocomplete="off" required minlength="5" maxlength="5" pattern="[0-9]{5}" placeholder="12345" aria-describedby="last5Hint" data-name="轉出帳號後五碼">
             <span class="hint" id="last5Hint">請填您自己轉出帳戶的後五碼，方便對帳。</span>
           </div>
-          <div class="field" data-field>
-            <label class="lbl" for="purpose">捐款指定用途<span class="req">必填</span></label>
-            <select id="purpose" name="purpose" required data-name="捐款指定用途" data-msg-required="請選擇捐款指定用途">
-              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準，新增用途時改該陣列並同步此處與投影片。 -->
-              <option value="不指定（由家長會統籌運用）" selected>不指定（由家長會統籌運用）</option>
-              <option value="教師支援費">教師支援費</option>
-              <option value="校園 iPad 汰換計畫">校園 iPad 汰換計畫</option>
-            </select>
-          </div>
         </fieldset>
 
         <fieldset class="part">
-          <legend><i>D</i>收據與徵信</legend>
+          <legend><i>E</i>收據與徵信</legend>
           <fieldset class="field" data-field>
             <legend>收據<span class="req">必填</span></legend>
             <div class="opts">
@@ -1506,6 +1530,7 @@
           <div><dt>匯款時間</dt><dd id="sumDate">—</dd></div>
           <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
           <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
+          <div><dt>捐款用途</dt><dd id="sumPurpose">—</dd></div>
         </dl>
         <button type="button" class="btn btn-ghost" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
         <p class="demo">本頁尚未上線：這筆回報僅為前端示意，未傳送、也未儲存任何資料。</p>
@@ -1538,10 +1563,9 @@
 </main>
 
 <!-- =====================================================
-     底部浮動控件（skip／捐款項目介紹 二擇一 + 三角形）
+     回報頁左上角「‹ 返回」+ 底部三角形
      ===================================================== -->
-<button type="button" class="float" id="skipBtn" aria-label="霸氣捐款直接回報"><span>霸氣捐款直接回報</span><span class="arrow" aria-hidden="true">→</span></button>
-<button type="button" class="float float-line" id="introBtn" hidden><span>捐款項目介紹</span><span class="arrow" aria-hidden="true">↺</span></button>
+<nav class="sub-bar" id="reportBar" aria-label="回報頁導覽" hidden><button type="button" class="sub-back" id="reportBack" aria-label="返回上一頁"><span aria-hidden="true">‹</span>返回</button></nav>
 
 <button type="button" class="tri" id="triBtn" aria-label="開啟捐款資訊（點擊或向上滑）" aria-haspopup="dialog" aria-controls="drawer" aria-expanded="false">
   <svg viewBox="0 0 180 56" aria-hidden="true" focusable="false">
@@ -1658,13 +1682,36 @@
       o.textContent = opt.label;
       sel.appendChild(o);
     });
+    var mini = $('purposeMini');
+    if (mini) {
+      mini.innerHTML = '';
+      PURPOSE_OPTIONS.forEach(function (opt) {
+        var o = document.createElement('option');
+        o.value = opt.value; o.textContent = opt.label; mini.appendChild(o);
+      });
+    }
     var match = PURPOSE_OPTIONS.some(function (opt) { return opt.value === current; });
     if (match) sel.value = current;
     else {
       var def = PURPOSE_OPTIONS.filter(function (opt) { return opt.selected; })[0] || PURPOSE_OPTIONS[0];
       if (def) sel.value = def.value;
     }
+    if (mini) mini.value = sel.value;
   }
+  function defaultPurpose() { return (PURPOSE_OPTIONS.filter(function (opt) { return opt.selected; })[0] || PURPOSE_OPTIONS[0]).value; }
+  function purposeLabel(v) { var o = PURPOSE_OPTIONS.filter(function (opt) { return opt.value === v; })[0]; return o ? o.label : v; }
+
+  /* ---------- 細項頁的瀏覽紀錄：開啟時 pushState，返回一律走 history.back()，避免退兩次或直接離開網站 ---------- */
+  if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
+  window.__ptaBackPending = false;
+  window.ptaState = function () { return history.state && history.state.pta; };
+  window.ptaHistoryBack = function () {
+    if (window.__ptaBackPending) return;
+    window.__ptaBackPending = true;
+    history.back();
+    setTimeout(function () { window.__ptaBackPending = false; }, 900);
+  };
+  window.addEventListener('popstate', function () { window.__ptaBackPending = false; window.__ptaPopSeq = (window.__ptaPopSeq || 0) + 1; });
 
   /* ---------- 動態偏好 ---------- */
   var reduceMQ = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
@@ -1895,7 +1942,7 @@
   form.addEventListener('change', function (e) {
     var t = e.target;
     if (t.name === 'receipt') syncReceipt();
-    if (t === purposeSel) presetNote.hidden = true; // 家長自行改用途後，移除「已預選」提示
+    if (t === purposeSel) syncPurposeUI(); // 家長自行改用途：第一步的提示與小選單跟著更新
     var c = t.closest('[data-field]');
     if (c && (c.classList.contains('is-invalid') || t.type === 'radio' || t.type === 'checkbox' || t.tagName === 'SELECT' || t.type === 'file')) validateField(c, true);
   });
@@ -1970,6 +2017,7 @@
     $('sumDate').textContent = fmtDateTime(String(data.get('paidAt') || ''));
     $('sumAmount').textContent = 'NT$ ' + Number(data.get('amount')).toLocaleString('zh-TW');
     $('sumLast5').textContent = String(data.get('last5') || '—');
+    $('sumPurpose').textContent = purposeLabel(String(data.get('purpose') || '')) || '—';
 
     form.hidden = true;
     presetNote.hidden = true;
@@ -1992,12 +2040,15 @@
   }
 
   function openStep2(smooth) {
-    $('c3').hidden = false; $('doneBtn').hidden = true;
+    $('c3').hidden = false; $('doneBtn').hidden = true; $('quickBtn').hidden = true;
     $('c3').scrollIntoView({ behavior: (smooth && !reduceMQ.matches) ? 'smooth' : 'auto', block: 'start' });
   }
-  $('doneBtn').addEventListener('click', function () { openStep2(true); setTimeout(function(){ focusEl($('donorName')); }, 400); });
+  function goStep2() { openStep2(true); setTimeout(function(){ focusEl($('donorName')); }, 400); }
+  $('doneBtn').addEventListener('click', goStep2);
+  $('quickBtn').addEventListener('click', goStep2); // 「已經匯好了？直接回報」＝按「我匯好了」，用途沿用目前帶入的項目
   $('againBtn').addEventListener('click', function () {
     resetForm();
+    if (lastPick !== null && PURPOSE_OPTIONS[lastPick]) { purposeSel.value = PURPOSE_OPTIONS[lastPick].value; syncPurposeUI(true); } // 再填一筆：沿用剛才看的卡
     $('c3').scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
     focusEl($('donorName'));
   });
@@ -2026,7 +2077,7 @@
    * 區塊切換：投影片 ⇄ 回報表單
    * ========================================================= */
   var stage = $('stage'), report = $('report'), reportTitle = $('reportTitle');
-  var skipBtn = $('skipBtn'), introBtn = $('introBtn');
+  var reportBack = $('reportBack'), reportBar = $('reportBar');
   var FADE_MS = 320;
   var mode = 'slides', switching = false, reportScrollY = 0;
   var drawerOpen = false;
@@ -2034,6 +2085,7 @@
   function showReport(opts) {
     opts = opts || {};
     if (switching) return;
+    if (mode !== 'report' && !opts.fromPop && ptaState() !== 'report') history.pushState({ pta: 'report' }, '', '#report');
     if (mode === 'report') {
       if (opts.anchor && $(opts.anchor)) $(opts.anchor).scrollIntoView({ behavior: reduceMQ.matches ? 'auto' : 'smooth', block: 'start' });
       else if (opts.top) window.scrollTo(0, 0);
@@ -2041,7 +2093,6 @@
       return;
     }
     switching = true;
-    skipBtn.hidden = true;
     stage.classList.add('is-fading');
     setTimeout(function () {
       if (!drawerOpen) unlockScroll(); // 保險：不讓殘留的鎖卡住捲動
@@ -2053,7 +2104,7 @@
       if (opts.anchor) { var a = $(opts.anchor); if (a) a.scrollIntoView({ block: 'start' }); }
       void report.offsetWidth; // 觸發 reflow，讓淡入動畫生效
       report.classList.remove('is-fading');
-      introBtn.hidden = false;
+      reportBar.hidden = false;
       mode = 'report';
       switching = false;
       focusEl(reportTitle);
@@ -2063,7 +2114,7 @@
   function showSlides() {
     if (switching || mode === 'slides') return;
     switching = true;
-    introBtn.hidden = true;
+    reportBar.hidden = true;
     reportScrollY = scrollY();
     report.classList.add('is-fading');
     setTimeout(function () {
@@ -2075,33 +2126,54 @@
       window.scrollTo(0, 0);
       void stage.offsetWidth;
       stage.classList.remove('is-fading');
-      skipBtn.hidden = false;
       mode = 'slides';
       switching = false;
       focusEl(slides[cur]);
     }, motionMs(FADE_MS));
   }
 
-  function goDirect() { $('c3').hidden = false; $('doneBtn').hidden = true; showReport({ anchor: 'c3' }); }
-  document.addEventListener('click', function (e) { if (e.target.closest && e.target.closest('.s-direct')) goDirect(); });
-  skipBtn.addEventListener('click', function () { $('c3').hidden = false; $('doneBtn').hidden = true; showReport({ anchor: 'c3' }); });
-  introBtn.addEventListener('click', showSlides);
+  // 回報頁「‹ 返回」：有自己推的紀錄就 history.back()（瀏覽器／Android 返回鍵同一條路）；直連進來的就原地回投影片，不離開網站
+  reportBack.addEventListener('click', function () {
+    if (ptaState() === 'report') { ptaHistoryBack(); return; }
+    history.replaceState(null, '', location.pathname + location.search);
+    showSlides();
+  });
+  function syncToHistory() {
+    var st = ptaState();
+    if (drawerOpen && st !== 'info') closeDrawerNow();
+    if (switching) { setTimeout(syncToHistory, motionMs(FADE_MS) + 40); return; }
+    if (mode === 'report' && st !== 'report' && st !== 'progress' && st !== 'info') showSlides();
+    else if (mode === 'slides' && st === 'report') showReport({ fromPop: true });
+  }
+  window.addEventListener('popstate', syncToHistory);
 
-  /* ---------- 「我要捐這項」：預選用途 ---------- */
+  /* ---------- 「我要捐這項」：帶入用途（表單內與第一步都可改選） ---------- */
+  var lastPick = null;
+  var presetText = $('presetText'), purposeMini = $('purposeMini'), purposeHint = $('purposeHint');
+  function syncPurposeUI(show) {
+    presetText.textContent = '已帶入「' + purposeLabel(purposeSel.value) + '」，下方表單可隨時改選。';
+    if (purposeMini.value !== purposeSel.value) purposeMini.value = purposeSel.value;
+    purposeHint.textContent = lastPick === null ? '預設為「' + purposeLabel(defaultPurpose()) + '」，可以改選。' : '已依您看的項目帶入，可以改選。';
+    if (show !== undefined) presetNote.hidden = !show;
+  }
+  purposeMini.addEventListener('change', function () {
+    purposeSel.value = purposeMini.value;
+    var c = purposeSel.closest('[data-field]');
+    if (c) validateField(c, true);
+    syncPurposeUI();
+  });
   function pickPurpose(i) {
     var opt = PURPOSE_OPTIONS[i];
     if (!opt) { showReport({ top: true }); return; }
     if (!thanks.hidden) resetForm(); // 已送出：開始新的一筆
+    lastPick = i;
     if (!purposeSel.querySelector('option')) renderPurposeOptions();
     purposeSel.value = opt.value;
     if (purposeSel.value !== opt.value) renderPurposeOptions(); // 保險：選項不同步時還原預設
     var c = purposeSel.closest('[data-field]');
     if (c) clearField(c);
-    if (purposeSel.value === opt.value) {
-      presetNote.textContent = '您選擇捐給：「' + opt.label + '」。匯款完成後按「我匯好了，去回報」，用途會自動帶入。';
-      presetNote.hidden = false;
-    }
-    showReport({ anchor: 'c2' });
+    syncPurposeUI(true); // 每次都重設用途與提示
+    showReport({ anchor: $('c3').hidden ? 'c2' : 'c3' }); // 表單已打開就直接捲到表單
   }
 
   /* =========================================================
@@ -2235,7 +2307,7 @@
    * ========================================================= */
   var drawer = $('drawer'), scrim = $('scrim'), triBtn = $('triBtn'), drawerClose = $('drawerClose'), drawerBody = $('drawerBody');
   var drawerTimer;
-  var bgEls = [stage, report, skipBtn, introBtn, triBtn];
+  var bgEls = [stage, report, reportBar, triBtn];
 
   function setBackgroundInert(on) {
     bgEls.forEach(function (el) {
@@ -2261,8 +2333,15 @@
     triBtn.setAttribute('aria-expanded', 'true');
     setBackgroundInert(true);
     focusEl(drawerClose);
+    if (ptaState() !== 'info') history.pushState({ pta: 'info', under: ptaState() || null }, '');
   }
+  // 關閉抽屜：有推紀錄就 history.back()，由 popstate 收起，Android 返回鍵也會關抽屜
   function closeDrawer() {
+    if (!drawerOpen) return;
+    if (ptaState() === 'info') { ptaHistoryBack(); return; }
+    closeDrawerNow();
+  }
+  function closeDrawerNow() {
     if (!drawerOpen) return;
     drawerOpen = false;
     try {
@@ -2364,9 +2443,11 @@
   if (location.hash === '#report' || location.hash === '#c3') {
     stage.hidden = true;
     report.hidden = false;
-    skipBtn.hidden = true;
-    introBtn.hidden = false;
+    reportBar.hidden = false;
     mode = 'report';
+    // 直連時先補一筆「投影片」紀錄，按返回／Android 返回鍵會回到投影片而不是離開網站
+    if (ptaState() !== 'report') { var h0 = location.hash; history.replaceState(null, '', location.pathname + location.search); history.pushState({ pta: 'report' }, '', h0); }
+    purposeSel.value = defaultPurpose(); syncPurposeUI(false); // 直連：用途預設「不指定」
     if (location.hash === '#c3') openStep2(false);
   }
 })();
@@ -2577,12 +2658,15 @@
       document.querySelectorAll('#goalView [data-goal-bar], #goalView [data-goal-tree]').forEach(function(e){ e.style.transition=''; });
       render(window.__goalData.d, window.__goalData.sample);
       var b = view.querySelector('.gv-back'); if (b) b.focus({preventScroll:true});
-      if (location.hash !== '#progress') history.pushState(null, '', '#progress');
+      if (window.ptaState && ptaState() !== 'progress') {
+        if (!history.state && location.hash === '#progress') history.replaceState(null, '', location.pathname + location.search); // 直連 #progress：先補底層紀錄
+        history.pushState({ pta: 'progress' }, '', '#progress');
+      }
     }
     function closeGoal(fromPop){
       if (view.hidden) return;
       view.hidden = true; document.body.classList.remove('gv-open');
-      if (!fromPop && location.hash === '#progress') history.back();
+      if (!fromPop && window.ptaState && ptaState() === 'progress') ptaHistoryBack();
       if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
     }
     document.addEventListener('click', function(ev){
@@ -2590,7 +2674,8 @@
       var c = ev.target.closest('[data-goal-close]'); if (c){ ev.preventDefault(); var donate = c.hasAttribute('data-goal-donate'); closeGoal(false);
         if (donate) { var st = document.getElementById('stage'); if (st && !st.hidden) st.scrollIntoView({behavior:'smooth'}); } }
     }, true);
-    window.addEventListener('popstate', function(){ if (location.hash !== '#progress') closeGoal(true); });
+    window.addEventListener('popstate', function(){ if (!(window.ptaState && ptaState() === 'progress')) closeGoal(true); });
+    window.__ptaGoal = { view: view, isOpen: function(){ return !view.hidden; } };
     document.addEventListener('keydown', function(ev){ if (ev.key === 'Escape') closeGoal(false); });
     if (location.hash === '#progress') openGoal();
     if (GOAL_STATS_URL) {
@@ -2598,6 +2683,56 @@
         if (d && typeof d.confirmed === 'number' && typeof d.target === 'number') { window.__goalData = { d: d, sample: false }; render(d, false); }
       }).catch(function(){});
     }
+  })();
+
+  /* ---------- iPhone 左緣往右滑返回（只在細項頁：募款進度、回報頁） ---------- */
+  (function(){
+    var EDGE = 44, TH = 80;
+    var rm = window.matchMedia ? window.matchMedia('(prefers-reduced-motion: reduce)') : { matches: false };
+    var t = null;
+    function layer(){
+      var g = window.__ptaGoal;
+      if (g && g.isOpen()) return { el: g.view, back: g.view.querySelector('.gv-back') };
+      var dr = document.getElementById('drawer'); if (dr && !dr.hidden) return null;
+      var rp = document.getElementById('report'), bar = document.getElementById('reportBar'), rb = document.getElementById('reportBack');
+      if (rp && !rp.hidden && bar && !bar.hidden) return { el: rp, back: rb };
+      return null;
+    }
+    function reset(el){ if (!el) return; el.classList.remove('is-swiping', 'is-swipe-out'); el.style.transform = ''; }
+    document.addEventListener('touchstart', function(e){
+      t = null;
+      if (e.touches.length !== 1) return;
+      var x = e.touches[0].clientX; if (x > EDGE) return;
+      if (e.target.closest && e.target.closest('input, select, textarea, [contenteditable], .no-swipe-back')) return;
+      var L = layer(); if (!L) return;
+      t = { L: L, x: x, y: e.touches[0].clientY, dx: 0, dir: null, pop: window.__ptaPopSeq || 0 };
+    }, { passive: true });
+    document.addEventListener('touchmove', function(e){
+      if (!t) return;
+      var dx = e.touches[0].clientX - t.x, dy = e.touches[0].clientY - t.y;
+      if (!t.dir) {
+        if (Math.abs(dx) < 10 && Math.abs(dy) < 10) return;
+        if (dx > 0 && dx > Math.abs(dy) * 1.2) t.dir = 'h'; else { t = null; return; } // 垂直捲動：放手不管
+      }
+      e.preventDefault();
+      t.dx = Math.max(0, dx);
+      if (!rm.matches) { t.L.el.classList.add('is-swiping'); t.L.el.style.transform = 'translateX(' + t.dx + 'px)'; }
+    }, { passive: false });
+    function end(cancel){
+      if (!t) return; var c = t; t = null;
+      var popped = (window.__ptaPopSeq || 0) !== c.pop; // Safari 自己的邊緣返回已經退過一頁：不要再退
+      if (cancel || popped || c.dir !== 'h' || c.dx <= TH) {
+        if (!rm.matches && c.dir === 'h' && !popped) { c.L.el.classList.remove('is-swiping'); c.L.el.classList.add('is-swipe-out'); c.L.el.style.transform = ''; setTimeout(function(){ reset(c.L.el); }, 220); }
+        else reset(c.L.el);
+        return;
+      }
+      if (rm.matches) { reset(c.L.el); c.L.back.click(); return; }
+      c.L.el.classList.remove('is-swiping'); c.L.el.classList.add('is-swipe-out');
+      c.L.el.style.transform = 'translateX(' + window.innerWidth + 'px)';
+      setTimeout(function(){ c.L.back.click(); setTimeout(function(){ reset(c.L.el); }, 420); }, 200);
+    }
+    document.addEventListener('touchend', function(){ end(false); }, { passive: true });
+    document.addEventListener('touchcancel', function(){ end(true); }, { passive: true });
   })();
 </script>
 </body>
