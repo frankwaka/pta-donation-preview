@@ -328,6 +328,7 @@
   .ac-copy{min-width:64px; min-height:44px; padding:0 12px; font:inherit; font-size:14.5px; font-weight:900; color:var(--ink); background:var(--sun); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; box-shadow:2px 2px 0 var(--ink); cursor:pointer}
   .ac-copy:active{transform:translate(2px,2px); box-shadow:0 0 0 var(--ink)}
   .ac-copy.is-done{background:#BFE7CF}
+  .drawer .acct-card{margin-top:12px}
   .ac-toast{position:absolute; left:50%; top:10px; transform:translateX(-50%); margin:0; padding:4px 14px; font-size:14px; font-weight:900; color:#fff; background:var(--ink); border-radius:999px; opacity:0; pointer-events:none; transition:opacity .15s}
   .ac-toast.is-on{opacity:1}
   .ac-next{margin:12px 0 0; font-size:15px; font-weight:700; line-height:1.7}
@@ -461,6 +462,36 @@
   }
   #c2,#c3{scroll-margin-top:72px}
   /* 每張卡只有一顆「我要捐這項」：撐滿文字欄寬，好按也好看 */
+  /* 第 3 張特別任務：深藍底＋金色標題與細邊框，跟前兩張一眼區分 */
+  #slide-3{--navy:#12264a; --gold:#E9C46A; --gold-l:#F6DFA0}
+  #slide-3 .s-text{padding:14px 16px 16px; color:#F3F6FB; background:var(--navy); border:1.5px solid var(--gold); border-radius:18px 14px 18px 14px; box-shadow:0 0 0 3px rgba(233,196,106,.18)}
+  #slide-3 .s-no{color:var(--navy); background:var(--gold); border-color:var(--gold)}
+  #slide-3 .s-tag{color:var(--navy); background:var(--gold-l)}
+  #slide-3 .s-special{border-color:var(--gold); box-shadow:none}
+  #slide-3 .s-title{color:var(--gold)}
+  #slide-3 .s-title .mark::after{display:none}
+  #slide-3 .s-title .s-pre{color:var(--gold-l)}
+  #slide-3 .s-copy{color:#E3E9F3}
+  #slide-3 .s-meta{color:#B9C6DA}
+  #slide-3 .s-goal{color:var(--gold)}
+  #slide-3 .cta-row .s-cta{color:var(--navy); background:var(--gold); border-color:var(--gold); box-shadow:0 3px 0 rgba(0,0,0,.45)}
+  #slide-3 .cta-row .s-cta:hover{background:#F2D37F}
+  #slide-3 .cta-row .s-more{color:#fff; background:transparent; border-color:var(--gold-l); box-shadow:0 3px 0 rgba(0,0,0,.45)}
+  #slide-3 .cta-row .s-more:hover{background:rgba(233,196,106,.16)}
+  #slide-3 .cta-row .btn:focus-visible{outline:3px solid #fff; outline-offset:2px}
+  .ribbon{position:absolute; z-index:12; top:20px; right:-40px; width:160px; padding:5px 0; font-size:13.5px; font-weight:900; letter-spacing:.18em; line-height:1.3; text-align:center; color:#fff;
+    background:#C8102E; border-top:1.5px solid #E9C46A; border-bottom:1.5px solid #E9C46A; box-shadow:0 2px 6px rgba(0,0,0,.35); transform:rotate(45deg); pointer-events:none}
+  /* 滑到第 3 張：頂部進度條用金色呼應 */
+  .stage[data-cur="ipad"] .goal-mini{color:#F3F6FB; background:#12264a; border-color:#E9C46A}
+  .stage[data-cur="ipad"] .gm-top em{color:#E9C46A}
+  .stage[data-cur="ipad"] .gm-more{color:#C9D3E3}
+  .stage[data-cur="ipad"] .goal-mini .goal-track{background:#2A3E63; border-color:#E9C46A}
+  .stage[data-cur="ipad"] .goal-mini .goal-track i{background:linear-gradient(90deg,#C9A227,#F2D37F); border-right-color:#E9C46A}
+  /* iPad 詳情頁：標題區同樣深藍金色 */
+  #detail-ipad .gv-title{margin:8px 0 0; padding:14px 12px 10px; color:#E9C46A; background:#12264a; border:1.5px solid #E9C46A; border-bottom:0; border-radius:16px 12px 0 0}
+  #detail-ipad .dv-hero{margin-top:0; color:#F3F6FB; background:#12264a; border:1.5px solid #E9C46A; border-top:1px dashed rgba(233,196,106,.5); border-radius:0 0 16px 12px; box-shadow:0 4px 0 rgba(18,38,74,.35)}
+  #detail-ipad .dv-hero p, #detail-ipad .dv-hero small{color:#C9D3E3}
+  #detail-ipad .dv-hero b{color:#E9C46A}
   /* 每張卡兩顆鈕：「我要捐這項」（主）＋「了解詳情 ›」（次） */
   .cta-row{display:flex; gap:10px; max-width:440px; margin-top:10px}
   .cta-row .s-cta{flex:1.45 1 0; width:auto; margin-top:0; padding:10px 12px; gap:6px; white-space:nowrap}
@@ -1235,6 +1266,7 @@
     <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：特別任務 校園 iPad 汰換計畫" data-title="特別任務 校園 iPad 汰換計畫" data-key="ipad" tabindex="-1" aria-hidden="true">
       <figure class="s-fig">
         <div class="s-plate" id="ipadPlate">
+          <span class="ribbon" aria-hidden="true">特別任務</span>
           <div class="ipad-scene" id="ipadScene">
             <div class="ipad-frame" id="ipadFrame">
               <!-- 背景（沒有小孩／平板）：永遠靜止，不套任何動畫 -->
@@ -1544,7 +1576,7 @@
           <span class="ac-v"><span class="ac-name">臺北市和平實驗國民小學學生家長會蘇珮儀</span></span>
           <button type="button" class="ac-copy" data-copy="臺北市和平實驗國民小學學生家長會蘇珮儀" data-what="戶名" aria-label="複製戶名"><span data-copy-label>複製</span></button>
         </div>
-        <p class="ac-toast" id="acctToast" role="status" aria-live="polite"></p>
+        <p class="ac-toast" role="status" aria-live="polite"></p>
       </div>
       <p class="ac-next">匯款後記下帳號末五碼，回來按<button type="button" class="ac-link" id="acctNextBtn">『我匯好了，去回報』</button></p>
       <ol class="how">
@@ -1770,28 +1802,24 @@
       </div>
     </aside>
 
-    <div class="ledger">
-      <dl>
-        <div class="li">
-          <dt>銀行</dt>
-          <dd>013 國泰世華</dd>
-        </div>
-        <div class="li">
-          <dt>分行</dt>
-          <dd>敦化分行</dd>
-        </div>
-        <div class="li">
-          <dt>戶名</dt>
-          <dd class="name">臺北市和平實驗國民小學學生家長會蘇珮儀</dd>
-        </div>
-        <div class="li">
-          <dt>帳號</dt>
-          <dd class="acct is-tbd" id="acctNo" aria-label="帳號">———— ——— ———</dd>
-          <dd class="sub" id="acctSub"></dd>
-        </div>
-      </dl>
-      <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="6" width="11" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 3H6a3 3 0 00-3 3v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-label>複製帳號</span></button>
-      <p class="copy-msg" id="copyMsg" role="status" aria-live="polite"></p>
+    <div class="acct-card" id="drawerAcct" aria-labelledby="drawerAcctTitle">
+      <p class="ac-title" id="drawerAcctTitle">匯款帳號</p>
+      <div class="ac-row">
+        <span class="ac-k">銀行代碼</span>
+        <span class="ac-v"><b>013</b> 國泰世華<small>敦化分行</small></span>
+        <button type="button" class="ac-copy" data-copy="013" data-what="銀行代碼" aria-label="複製銀行代碼"><span data-copy-label>複製</span></button>
+      </div>
+      <div class="ac-row">
+        <span class="ac-k">帳號</span>
+        <span class="ac-v"><b class="ac-no">212-03-500424-3</b></span>
+        <button type="button" class="ac-copy" data-copy="212035004243" data-what="帳號" aria-label="複製帳號"><span data-copy-label>複製</span></button>
+      </div>
+      <div class="ac-row">
+        <span class="ac-k">戶名</span>
+        <span class="ac-v"><span class="ac-name">臺北市和平實驗國民小學學生家長會蘇珮儀</span></span>
+        <button type="button" class="ac-copy" data-copy="臺北市和平實驗國民小學學生家長會蘇珮儀" data-what="戶名" aria-label="複製戶名"><span data-copy-label>複製</span></button>
+      </div>
+      <p class="ac-toast" role="status" aria-live="polite"></p>
     </div>
 
     <ol class="how">
@@ -1826,8 +1854,8 @@
 
   /* =========================================================
    * 專戶帳號設定
-   * ACCOUNT_NUMBER 照抄家長會 Google 表單（Lin 同意公開）；抽屜的「複製帳號」只複製數字。
-   * 第一步的「匯款帳號卡」是寫在 HTML 裡的同一組資料，改帳號時兩邊一起改。
+   * 帳號照抄家長會 Google 表單（Lin 同意公開）。第一步與「捐款資訊」抽屜各有一張同樣的帳號卡（HTML），
+   * 改帳號時兩張卡與這裡一起改；複製時代碼只取 013、帳號只取數字。
    * ========================================================= */
   var ACCOUNT_NUMBER = '212-03-500424-3'; // 照抄家長會 Google 表單：國泰世華銀行敦化分行(013)，戶名「臺北市和平實驗國民小學學生家長會蘇珮儀」
 
@@ -1893,23 +1921,7 @@
   function focusEl(el) { if (el) { try { el.focus({ preventScroll: true }); } catch (e) { el.focus(); } } }
   function scrollY() { return window.pageYOffset || document.documentElement.scrollTop || 0; }
 
-  /* ---------- 複製帳號 ---------- */
-  var copyBtn = $('copyBtn'), acctNo = $('acctNo'), acctSub = $('acctSub'), copyMsg = $('copyMsg');
-  var label = copyBtn.querySelector('[data-label]');
-  var hasAccount = /\d/.test(ACCOUNT_NUMBER);
-  var copyTimer;
-
-  if (hasAccount) {
-    acctNo.textContent = ACCOUNT_NUMBER;
-    acctNo.classList.remove('is-tbd');
-    acctNo.classList.add('is-ready');
-    acctNo.removeAttribute('aria-label');
-    acctSub.hidden = true;
-  } else {
-    copyBtn.setAttribute('aria-disabled', 'true');
-    label.innerHTML = '複製帳號 <small>（尚未公告）</small>';
-  }
-
+  /* ---------- 複製（帳號卡、LINE ID 共用） ---------- */
   function legacyCopy(text) {
     var ta = document.createElement('textarea');
     ta.value = text; ta.setAttribute('readonly', '');
@@ -1920,47 +1932,8 @@
     document.body.removeChild(ta);
     return ok;
   }
-  function selectAccount() {
-    var range = document.createRange(); range.selectNodeContents(acctNo);
-    var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
-  }
-  function copyDone(ok) {
-    clearTimeout(copyTimer);
-    if (ok) {
-      label.textContent = '已複製';
-      copyBtn.classList.add('is-done');
-      copyMsg.textContent = '帳號已複製，可貼到網路銀行或 App。';
-    } else {
-      selectAccount();
-      copyMsg.textContent = '無法自動複製，已幫您選取帳號，請長按後選「拷貝」。';
-    }
-    copyTimer = setTimeout(function () {
-      label.textContent = '複製帳號';
-      copyBtn.classList.remove('is-done');
-      copyMsg.textContent = '';
-    }, ok ? 2000 : 5000);
-  }
-  copyBtn.addEventListener('click', function () {
-    if (!hasAccount) {
-      // 帳號仍待填：不複製任何數字，只提示
-      clearTimeout(copyTimer);
-      copyMsg.textContent = '帳號尚未公告，請先向家長會確認。';
-      copyTimer = setTimeout(function () { copyMsg.textContent = ''; }, 5000);
-      return;
-    }
-    var text = ACCOUNT_NUMBER.replace(/\D/g, ''); // 只複製數字
-    if (navigator.clipboard && window.isSecureContext) {
-      navigator.clipboard.writeText(text).then(
-        function () { copyDone(true); },
-        function () { copyDone(legacyCopy(text)); }
-      );
-    } else {
-      copyDone(legacyCopy(text));
-    }
-  });
 
   /* ---------- 匯款帳號卡：各列「複製」（代碼只複製 013、帳號只複製數字） ---------- */
-  var acctToast = $('acctToast'), acctToastTimer;
   function copyText(text) {
     if (navigator.clipboard && window.isSecureContext) {
       return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return legacyCopy(text); });
@@ -1973,12 +1946,13 @@
       var what = b.getAttribute('data-what'), text = b.getAttribute('data-copy');
       if (what === '帳號' || what === '銀行代碼') text = text.replace(/\D/g, '');
       copyText(text).then(function (ok) {
-        clearTimeout(t); clearTimeout(acctToastTimer);
-        acctToast.textContent = ok ? '已複製' + what : '無法自動複製，請長按文字自行拷貝';
-        acctToast.classList.add('is-on');
+        var toast = b.closest('.acct-card').querySelector('.ac-toast'); // 第一步與抽屜各自的「已複製」提示
+        clearTimeout(t); clearTimeout(toast._t);
+        toast.textContent = ok ? '已複製' + what : '無法自動複製，請長按文字自行拷貝';
+        toast.classList.add('is-on');
         if (ok) { lbl.textContent = '已複製'; b.classList.add('is-done'); }
         t = setTimeout(function () { lbl.textContent = '複製'; b.classList.remove('is-done'); }, 1500);
-        acctToastTimer = setTimeout(function () { acctToast.classList.remove('is-on'); }, ok ? 1500 : 3000);
+        toast._t = setTimeout(function () { toast.classList.remove('is-on'); }, ok ? 1500 : 3000);
       });
     });
   });
@@ -2481,6 +2455,7 @@
       b.disabled = target < 0 || target >= N;
     });
     pageNow.textContent = String(cur + 1);
+    stage.setAttribute('data-cur', slides[cur].getAttribute('data-key'));
     if (window.ptaGoalMini) window.ptaGoalMini(slides[cur].getAttribute('data-key'));
     stage.classList.toggle('at-first', cur === 0);
     stage.classList.toggle('at-last', cur === N - 1);
@@ -2717,13 +2692,6 @@
   }
 })();
 
-  // 第一步區塊的複製鈕：沿用抽屜裡的複製邏輯，並同步提示文字
-  (function(){
-    var b2=document.getElementById('copyBtn2'), m2=document.getElementById('copyMsg2'), m1=document.getElementById('copyMsg'), b1=document.getElementById('copyBtn');
-    if(!b2||!b1) return;
-    b2.addEventListener('click', function(){ b1.click(); });
-    new MutationObserver(function(){ m2.textContent=m1.textContent; }).observe(m1,{childList:true,characterData:true,subtree:true});
-  })();
 
   // 主視覺小彩蛋：點一下（不是滑動）才播放；電腦版點這些區塊不會換頁
   (function(){
