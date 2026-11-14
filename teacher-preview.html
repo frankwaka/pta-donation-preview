@@ -315,6 +315,23 @@
   .preset-change select{flex:1 1 auto; min-width:0; min-height:40px; padding:6px 10px; font:inherit; font-size:14.5px; font-weight:500; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px}
   .quick-report{display:inline-flex; align-items:center; gap:6px; margin:10px 0 0; padding:6px 2px; font:inherit; font-size:15px; font-weight:700; color:var(--sky-d, #2B6FA8); background:none; border:0; text-decoration:underline; text-underline-offset:3px; cursor:pointer}
   .quick-report[hidden]{display:none}
+  /* 匯款帳號卡：一進第一步就看得到；三列各自一顆「複製」 */
+  .acct-card{position:relative; margin:14px 0 0; padding:14px 14px 10px; background:var(--paper); border:3px solid var(--ink); border-radius:18px 14px 20px 14px; box-shadow:4px 5px 0 var(--sun)}
+  .ac-title{margin:0 0 6px; font-size:17px; font-weight:900; letter-spacing:.06em}
+  .ac-row{display:grid; grid-template-columns:4.2em 1fr auto; align-items:center; gap:4px 8px; padding:10px 0; border-top:2px dashed var(--line)}
+  .ac-k{font-size:13px; font-weight:700; color:var(--ink-3)}
+  .ac-v{min-width:0; font-size:16px; font-weight:700; line-height:1.45; overflow-wrap:anywhere}
+  .ac-v b{font-size:20px; font-weight:900; font-variant-numeric:tabular-nums}
+  .ac-v small{display:block; font-size:12.5px; font-weight:500; color:var(--ink-3)}
+  .ac-v b.ac-no{font-size:18px; letter-spacing:.02em; white-space:nowrap; user-select:all; -webkit-user-select:all}
+  .ac-name{font-size:15px}
+  .ac-copy{min-width:64px; min-height:44px; padding:0 12px; font:inherit; font-size:14.5px; font-weight:900; color:var(--ink); background:var(--sun); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; box-shadow:2px 2px 0 var(--ink); cursor:pointer}
+  .ac-copy:active{transform:translate(2px,2px); box-shadow:0 0 0 var(--ink)}
+  .ac-copy.is-done{background:#BFE7CF}
+  .ac-toast{position:absolute; left:50%; top:10px; transform:translateX(-50%); margin:0; padding:4px 14px; font-size:14px; font-weight:900; color:#fff; background:var(--ink); border-radius:999px; opacity:0; pointer-events:none; transition:opacity .15s}
+  .ac-toast.is-on{opacity:1}
+  .ac-next{margin:12px 0 0; font-size:15px; font-weight:700; line-height:1.7}
+  .ac-link{padding:0 2px; font:inherit; font-weight:900; color:var(--red-d); background:none; border:0; text-decoration:underline; text-underline-offset:3px; cursor:pointer}
 
   .chap{margin-top:44px; scroll-margin-top:16px}
   .sec-title{display:flex; align-items:center; gap:10px; margin:0 0 4px; font-size:22px; font-weight:900; line-height:1.4}
@@ -1486,7 +1503,7 @@
       <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="#FBEBC0" stroke="#C23B30" stroke-width="2"/><path d="M13 7v7" stroke="#C23B30" stroke-width="2.6" stroke-linecap="round"/><circle cx="13" cy="18.5" r="1.6" fill="#C23B30"/></svg>
       <div>
         <b>小提醒｜本頁尚未正式上線</b>
-        <p>專戶帳號、聯絡方式等仍有待填資料。<strong>在家長會正式公告專戶帳號之前，請先不要依本頁匯款。</strong>請先看下方「第一步：捐款資訊」，匯款完成後再按「我匯好了，去回報」。</p>
+        <p>聯絡方式等仍有待填資料。匯款帳號在下方「第一步：捐款資訊」，匯款完成後再按「我匯好了，去回報」。</p>
       </div>
     </aside>
 
@@ -1501,21 +1518,30 @@
         <p id="presetText" role="status" aria-live="polite"></p>
         <label class="preset-change"><span>改選</span><select id="purposeMini" aria-label="改選捐款用途"></select></label>
       </div>
-      <div class="ledger">
-        <span class="sticker" aria-hidden="true">待填・尚未公告</span>
-        <dl>
-          <div class="li"><dt>銀行</dt><dd><span class="tbd">待填</span></dd><dd class="sub">銀行名稱與代碼尚未公告。</dd></div>
-          <div class="li"><dt>分行</dt><dd><span class="tbd">待填</span></dd></div>
-          <div class="li"><dt>戶名</dt><dd class="name">臺北市大安區和平實驗國民小學學生家長會</dd><dd class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</dd></div>
-          <div class="li"><dt>帳號</dt><dd class="acct is-tbd" aria-label="帳號待填，尚未公告">———— ——— ———</dd><dd class="sub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd></div>
-        </dl>
-        <button type="button" class="btn" id="copyBtn2" aria-describedby="copyMsg2"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="6" width="11" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 3H6a3 3 0 00-3 3v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span>複製帳號</span></button>
-        <p class="copy-msg" id="copyMsg2" role="status" aria-live="polite"></p>
+      <div class="acct-card" id="acctCard" aria-labelledby="acctCardTitle">
+        <p class="ac-title" id="acctCardTitle">匯款帳號</p>
+        <div class="ac-row">
+          <span class="ac-k">銀行代碼</span>
+          <span class="ac-v"><b>013</b> 國泰世華<small>敦化分行</small></span>
+          <button type="button" class="ac-copy" data-copy="013" data-what="銀行代碼" aria-label="複製銀行代碼"><span data-copy-label>複製</span></button>
+        </div>
+        <div class="ac-row">
+          <span class="ac-k">帳號</span>
+          <span class="ac-v"><b class="ac-no">212-03-500424-3</b></span>
+          <button type="button" class="ac-copy" data-copy="212035004243" data-what="帳號" aria-label="複製帳號"><span data-copy-label>複製</span></button>
+        </div>
+        <div class="ac-row">
+          <span class="ac-k">戶名</span>
+          <span class="ac-v"><span class="ac-name">臺北市和平實驗國民小學學生家長會蘇珮儀</span></span>
+          <button type="button" class="ac-copy" data-copy="臺北市和平實驗國民小學學生家長會蘇珮儀" data-what="戶名" aria-label="複製戶名"><span data-copy-label>複製</span></button>
+        </div>
+        <p class="ac-toast" id="acctToast" role="status" aria-live="polite"></p>
       </div>
+      <p class="ac-next">匯款後記下帳號末五碼，回來按<button type="button" class="ac-link" id="acctNextBtn">『我匯好了，去回報』</button></p>
       <ol class="how">
         <li><b>自行匯款</b>先用自己的帳戶匯款至專戶。</li>
         <li><b>保留證明</b>截圖或保留交易明細。</li>
-        <li><b>回來回報</b>匯好後按下方按鈕填寫對帳資料。</li>
+        <li><b>回來回報</b>匯好後按「我匯好了，去回報」填寫對帳資料。</li>
       </ol>
       <button type="button" class="btn s-cta" id="doneBtn" style="width:100%;justify-content:center;margin-top:16px"><span>我匯好了，去回報</span><span class="arrow" aria-hidden="true">→</span></button>
     </section>
@@ -1696,7 +1722,7 @@
       <svg width="60" height="14" viewBox="0 0 60 14" aria-hidden="true"><path d="M2 8c6-6 10 4 16 0s10-6 16 0 10 4 16 0 6-4 8-2" fill="none" stroke="#2F8F74" stroke-width="2.4" stroke-linecap="round"/></svg>
       <b>和平實驗小學家長會</b>
       臺北市大安區和平實驗國民小學 家長會
-      <p>本頁尚未上線。專戶帳號、聯絡方式等仍有待填資料，請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至正式公告的專戶後再回報。</p>
+      <p>本頁尚未上線。聯絡方式等仍有待填資料，請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至家長會專戶後再回報。</p>
     </footer>
   </div>
 </main>
@@ -1732,31 +1758,28 @@
       <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="#FBEBC0" stroke="#C23B30" stroke-width="2"/><path d="M13 7v7" stroke="#C23B30" stroke-width="2.6" stroke-linecap="round"/><circle cx="13" cy="18.5" r="1.6" fill="#C23B30"/></svg>
       <div>
         <b>尚未上線</b>
-        <p><strong>本頁尚未上線，專戶帳號公告前請勿依本頁匯款。</strong></p>
+        <p>本頁為預覽版，匯款帳號照家長會 Google 表單公告。</p>
       </div>
     </aside>
 
     <div class="ledger">
-      <span class="sticker" aria-hidden="true">待填・尚未公告</span>
       <dl>
         <div class="li">
           <dt>銀行</dt>
-          <dd><span class="tbd">待填</span></dd>
-          <dd class="sub">銀行名稱與代碼尚未公告。</dd>
+          <dd>013 國泰世華</dd>
         </div>
         <div class="li">
           <dt>分行</dt>
-          <dd><span class="tbd">待填</span></dd>
+          <dd>敦化分行</dd>
         </div>
         <div class="li">
           <dt>戶名</dt>
-          <dd class="name">臺北市大安區和平實驗國民小學學生家長會</dd>
-          <dd class="sub"><span class="tbd">待填／請家長會確認</span>　戶名以存摺登記為準。</dd>
+          <dd class="name">臺北市和平實驗國民小學學生家長會蘇珮儀</dd>
         </div>
         <div class="li">
           <dt>帳號</dt>
-          <dd class="acct is-tbd" id="acctNo" aria-label="帳號待填，尚未公告">———— ——— ———</dd>
-          <dd class="sub" id="acctSub"><span class="tbd solid">待填</span>　帳號尚未公告，請勿依本頁匯款。</dd>
+          <dd class="acct is-tbd" id="acctNo" aria-label="帳號">———— ——— ———</dd>
+          <dd class="sub" id="acctSub"></dd>
         </div>
       </dl>
       <button type="button" class="btn" id="copyBtn" aria-describedby="copyMsg"><svg width="20" height="20" viewBox="0 0 20 20" aria-hidden="true"><rect x="6" y="6" width="11" height="12" rx="3" fill="none" stroke="currentColor" stroke-width="2"/><path d="M13 3H6a3 3 0 00-3 3v8" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg><span data-label>複製帳號</span></button>
@@ -1795,11 +1818,10 @@
 
   /* =========================================================
    * 專戶帳號設定
-   * 帳號正式公告後，把家長會確認過的帳號字串填入 ACCOUNT_NUMBER（可含連字號），
-   * 頁面會自動顯示帳號並啟用「複製帳號」。
-   * 目前尚未公告，請保持空字串，不要填入假數字。
+   * ACCOUNT_NUMBER 照抄家長會 Google 表單（Lin 同意公開）；抽屜的「複製帳號」只複製數字。
+   * 第一步的「匯款帳號卡」是寫在 HTML 裡的同一組資料，改帳號時兩邊一起改。
    * ========================================================= */
-  var ACCOUNT_NUMBER = ''; // 待填
+  var ACCOUNT_NUMBER = '212-03-500424-3'; // 照抄家長會 Google 表單：國泰世華銀行敦化分行(013)，戶名「臺北市和平實驗國民小學學生家長會蘇珮儀」
 
   /* 捐款指定用途（115 學年度新架構，三項，沒有預設值）。
    * 用途值變更紀錄（日後對應 Google Sheet）：
@@ -1927,6 +1949,30 @@
     } else {
       copyDone(legacyCopy(text));
     }
+  });
+
+  /* ---------- 匯款帳號卡：各列「複製」（代碼只複製 013、帳號只複製數字） ---------- */
+  var acctToast = $('acctToast'), acctToastTimer;
+  function copyText(text) {
+    if (navigator.clipboard && window.isSecureContext) {
+      return navigator.clipboard.writeText(text).then(function () { return true; }, function () { return legacyCopy(text); });
+    }
+    return Promise.resolve(legacyCopy(text));
+  }
+  Array.prototype.forEach.call(document.querySelectorAll('.ac-copy[data-copy]'), function (b) {
+    var lbl = b.querySelector('[data-copy-label]'), t;
+    b.addEventListener('click', function () {
+      var what = b.getAttribute('data-what'), text = b.getAttribute('data-copy');
+      if (what === '帳號' || what === '銀行代碼') text = text.replace(/\D/g, '');
+      copyText(text).then(function (ok) {
+        clearTimeout(t); clearTimeout(acctToastTimer);
+        acctToast.textContent = ok ? '已複製' + what : '無法自動複製，請長按文字自行拷貝';
+        acctToast.classList.add('is-on');
+        if (ok) { lbl.textContent = '已複製'; b.classList.add('is-done'); }
+        t = setTimeout(function () { lbl.textContent = '複製'; b.classList.remove('is-done'); }, 1500);
+        acctToastTimer = setTimeout(function () { acctToast.classList.remove('is-on'); }, ok ? 1500 : 3000);
+      });
+    });
   });
 
   /* ---------- 表單元素 ---------- */
@@ -2189,7 +2235,8 @@
   }
   function goStep2() { openStep2(true); setTimeout(function(){ focusEl($('donorName')); }, 400); }
   $('doneBtn').addEventListener('click', goStep2);
-  $('quickBtn').addEventListener('click', goStep2); // 「已經匯好了？直接回報」＝按「我匯好了」，用途沿用目前帶入的項目
+  $('quickBtn').addEventListener('click', goStep2);
+  $('acctNextBtn').addEventListener('click', goStep2); // 帳號卡下方的「我匯好了，去回報」 // 「已經匯好了？直接回報」＝按「我匯好了」，用途沿用目前帶入的項目
   $('againBtn').addEventListener('click', function () {
     resetForm();
     if (lastPick !== null && PURPOSE_OPTIONS[lastPick]) { purposeSel.value = PURPOSE_OPTIONS[lastPick].value; syncPurposeUI(true); } // 再填一筆：沿用剛才看的卡
