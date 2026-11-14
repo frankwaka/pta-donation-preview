@@ -964,7 +964,7 @@
 <!-- =====================================================
      區塊 1：滿版投影片（捐款項目介紹）
      ===================================================== -->
-<section class="stage" id="stage" aria-roledescription="carousel" aria-labelledby="stageTitle">
+<section class="stage" id="stage" data-cur="common" aria-roledescription="carousel" aria-labelledby="stageTitle">
   <header class="stage-top">
     <div class="brand">
       <div class="brand-l">
@@ -976,15 +976,15 @@
       </div>
       <div class="pager" role="group" aria-label="切換捐款項目">
         <div class="dots">
-          <button type="button" class="dot" data-go="0" aria-controls="slide-1" aria-label="第 1 頁，共 3 頁：教師支援費" aria-current="true"><i></i></button>
-          <button type="button" class="dot" data-go="1" aria-controls="slide-2" aria-label="第 2 頁，共 3 頁：校園共好基金"><i></i></button>
+          <button type="button" class="dot" data-go="0" aria-controls="slide-1" aria-label="第 1 頁，共 3 頁：教師支援費"><i></i></button>
+          <button type="button" class="dot" data-go="1" aria-controls="slide-2" aria-label="第 2 頁，共 3 頁：校園共好基金" aria-current="true"><i></i></button>
           <button type="button" class="dot" data-go="2" aria-controls="slide-3" aria-label="第 3 頁，共 3 頁：特別任務 校園 iPad 汰換計畫"><i></i></button>
         </div>
-        <span class="count" aria-hidden="true"><b id="pageNow">1</b> / 3</span>
+        <span class="count" aria-hidden="true"><b id="pageNow">2</b> / 3</span>
       </div>
     </div>
         <button type="button" class="goal-mini" data-goal-open aria-label="看三項募款進度詳情">
-        <span class="gm-top"><b data-gm-label>教師支援費進度</b><span class="gm-more">看詳情 ›</span><span><em data-gm-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
+        <span class="gm-top"><b data-gm-label>校園共好基金進度</b><span class="gm-more">看詳情 ›</span><span><em data-gm-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
         <span class="goal-track" aria-hidden="true"><i data-gm-bar></i></span>
       </button>
   </header>
@@ -992,7 +992,7 @@
   <div class="slides">
 
     <!-- 01 教師支援費 -->
-    <section class="slide is-active" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：教師支援費" data-title="教師支援費" data-key="teacher" tabindex="-1">
+    <section class="slide" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：教師支援費" data-title="教師支援費" data-key="teacher" tabindex="-1" aria-hidden="true">
       <figure class="s-fig">
         <div class="s-plate" id="teacherPlate">
           <div class="teacher-scene" id="teacherScene">
@@ -1173,7 +1173,7 @@
     </section>
 
     <!-- 02 校園共好基金 -->
-    <section class="slide" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：校園共好基金" data-title="校園共好基金" data-key="common" tabindex="-1" aria-hidden="true">
+    <section class="slide is-active" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：校園共好基金" data-title="校園共好基金" data-key="common" tabindex="-1">
       <figure class="s-fig">
         <div class="s-plate" id="gatePlate">
           <div class="gate-scene" id="gateScene">
@@ -2394,7 +2394,7 @@
   var pagerBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-go]'));
   var stepBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-step]'));
   var slideStatus = $('slideStatus'), pageNow = $('pageNow'), swipeHint = $('swipeHint');
-  var N = slides.length, cur = 0; // 第 1 頁：教師支援費（三位變裝老師），由 renderSlides 同步狀態
+  var N = slides.length, cur = 1; // 一進來停在第 2 頁：校園共好基金（校門口），HTML 也預先標好，不會先閃第 1 頁；只是停在這張，不代表選了這一項
   // 控件：點擊／滑動起點落在這些元素上時，不切頁
   var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav], .ix';
 
@@ -2900,7 +2900,7 @@
       document.querySelectorAll('[data-goal-sample]').forEach(function(e){ e.hidden = !isSample; });
       if (d.updated) document.querySelectorAll('[data-goal-updated]').forEach(function(e){ e.textContent = '更新於 ' + d.updated; });
       var act = document.querySelector('.slide.is-active');
-      window.ptaGoalMini(act ? act.getAttribute('data-key') : 'teacher');
+      window.ptaGoalMini(act ? act.getAttribute('data-key') : 'common');
       requestAnimationFrame(function(){ requestAnimationFrame(bars); });
     }
     window.__goalData = { d: SAMPLE, sample: true };
