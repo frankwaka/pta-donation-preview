@@ -329,6 +329,9 @@
   .ac-copy:active{transform:translate(2px,2px); box-shadow:0 0 0 var(--ink)}
   .ac-copy.is-done{background:#BFE7CF}
   .drawer .acct-card{margin-top:12px}
+  .receipt-fixed .lbl{margin:0}
+  .receipt-val{margin:4px 0 0; font-size:15px; line-height:1.6; color:var(--ink-2)}
+  .receipt-val b{color:var(--ink)}
   .ac-toast{position:absolute; left:50%; top:10px; transform:translateX(-50%); margin:0; padding:4px 14px; font-size:14px; font-weight:900; color:#fff; background:var(--ink); border-radius:999px; opacity:0; pointer-events:none; transition:opacity .15s}
   .ac-toast.is-on{opacity:1}
   .ac-next{margin:12px 0 0; font-size:15px; font-weight:700; line-height:1.7}
@@ -1625,6 +1628,11 @@
             <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="0912-345-678" aria-describedby="phoneHint" data-name="電話">
             <span class="hint" id="phoneHint">手機 09 開頭共 10 碼，或含區碼的市話（例如 <span class="nw">02-2345-6789</span>）。</span>
           </div>
+          <div class="field" data-field>
+            <label class="lbl" for="email">Email<span class="req">必填</span></label>
+            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required maxlength="100" placeholder="name@example.com" aria-describedby="emailHint" data-name="Email" data-msg-required="請填寫 Email，用來寄送電子收據">
+            <span class="hint" id="emailHint">用來寄送電子收據。</span>
+          </div>
         </fieldset>
 
         <fieldset class="part">
@@ -1669,24 +1677,22 @@
 
         <fieldset class="part">
           <legend><i>E</i>收據與徵信</legend>
-          <fieldset class="field" data-field>
-            <legend>收據<span class="req">必填</span></legend>
-            <div class="opts">
-              <label><input type="radio" name="receipt" value="不需要" required data-msg-required="請選擇是否需要收據"><span>不需要</span></label>
-              <label><input type="radio" name="receipt" value="電子收據"><span>電子收據</span></label>
-              <label><input type="radio" name="receipt" value="紙本收據"><span>紙本收據</span></label>
-            </div>
-          </fieldset>
-          <div class="indent" id="receiptExtra" hidden>
+          <!-- 會長要求每筆捐款都開收據：統一電子收據，不讓家長選；receipt 欄位照送固定值，Sheet 欄位不變 -->
+          <div class="field receipt-fixed">
+            <p class="lbl">收據</p>
+            <p class="receipt-val"><b>電子收據</b>（每筆捐款都會開立）</p>
+            <input type="hidden" name="receipt" value="電子收據">
+          </div>
+          <div class="indent" id="receiptExtra">
             <div class="field" data-field>
               <label class="lbl" for="receiptTitle">收據抬頭<span class="req">必填</span></label>
-              <input id="receiptTitle" name="receiptTitle" type="text" maxlength="40" placeholder="個人姓名或公司名稱" data-name="收據抬頭">
+              <input id="receiptTitle" name="receiptTitle" type="text" required maxlength="40" placeholder="個人姓名或公司名稱" data-name="收據抬頭">
             </div>
             <div class="field" data-field>
               <label class="lbl" for="taxId">統一編號<span class="opt">選填</span></label>
               <input id="taxId" name="taxId" type="text" inputmode="numeric" autocomplete="off" maxlength="8" pattern="[0-9]{8}" placeholder="8 位數字" data-name="統一編號">
             </div>
-            <span class="hint" id="receiptNote"></span>
+            <span class="hint" id="receiptNote">家長會確認款項入帳後，會將電子收據寄到您填的 Email。</span>
           </div>
           <fieldset class="field" data-field>
             <legend>公開徵信<span class="req">必填</span></legend>
@@ -1726,7 +1732,7 @@
           <path d="M36 36c0-4 3-6 6-6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
         </svg>
         <h3>感謝您完成匯款回報</h3>
-        <p>家長會將依「金額、帳號後五碼」與專戶入帳紀錄逐筆對帳；對上之後，再依您的選擇開立收據、列入公開徵信。</p>
+        <p>家長會將依「金額、帳號後五碼」與專戶入帳紀錄逐筆對帳；家長會確認款項入帳後，會將電子收據寄到您填的 Email，並依您的選擇列入公開徵信。</p>
         <dl class="summary">
           <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
           <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
@@ -2052,6 +2058,7 @@
       return '請填寫' + name;
     }
     if (s.customError) return el.validationMessage;
+    if (s.typeMismatch && el.type === 'email') return 'Email 格式不正確，例如 name@example.com';
     if (s.badInput) return name + '請輸入數字';
     if (s.patternMismatch || s.tooShort || s.tooLong) return name + '格式不正確';
     if (s.rangeUnderflow || s.rangeOverflow || s.stepMismatch) return name + '超出可填範圍';
@@ -2086,16 +2093,11 @@
   var fields = Array.prototype.slice.call(form.querySelectorAll('[data-field]'));
 
   /* ---------- 條件欄位 ---------- */
+  // 收據固定為電子收據（每筆都開），收據抬頭必填、統一編號選填
   function syncReceipt() {
-    var checked = form.querySelector('input[name="receipt"]:checked');
-    var v = checked ? checked.value : '';
-    var need = v === '電子收據' || v === '紙本收據';
-    receiptExtra.hidden = !need;
-    receiptTitle.required = need;
-    receiptNote.textContent = v === '電子收據'
-      ? '電子收據於對帳完成後開立，家長會將以您填的電話聯繫寄送方式。'
-      : (v === '紙本收據' ? '紙本收據的領取方式，待家長會另行公告。' : '');
-    if (!need) { receiptTitle.value = ''; taxId.value = ''; }
+    receiptExtra.hidden = false;
+    receiptTitle.required = true;
+    receiptNote.textContent = '家長會確認款項入帳後，會將電子收據寄到您填的 Email。';
   }
 
   /* ---------- 即時互動 ---------- */
@@ -2113,7 +2115,6 @@
 
   form.addEventListener('change', function (e) {
     var t = e.target;
-    if (t.name === 'receipt') syncReceipt();
     if (t === purposeSel) syncPurposeUI(); // 家長自行改用途：第一步的提示與小選單跟著更新
     var c = t.closest('[data-field]');
     if (c && (c.classList.contains('is-invalid') || t.type === 'radio' || t.type === 'checkbox' || t.tagName === 'SELECT' || t.type === 'file')) validateField(c, true);
@@ -2172,10 +2173,10 @@
 
     // TODO: 之後改為 POST 到 Google Apps Script Web App，寫入 Google 試算表。
     // FormData 欄位 → Sheet 欄位對照（name 不要改，改了 Sheet 要一起改）：
-    //   purpose 捐款指定用途｜donorName 捐款人姓名｜phone 電話｜childClass 年級班別｜childSeat 座號｜
-    //   childName 子女姓名｜amount 金額｜last5 轉出帳號後五碼｜receipt 收據｜receiptTitle 收據抬頭｜
+    //   purpose 捐款指定用途｜donorName 捐款人姓名｜phone 電話｜email Email（寄電子收據）｜childClass 年級班別｜childSeat 座號｜
+    //   childName 子女姓名｜amount 金額｜last5 轉出帳號後五碼｜receipt 收據（固定「電子收據」）｜receiptTitle 收據抬頭｜
     //   taxId 統一編號｜disclose 公開徵信方式｜proof 轉帳截圖（選填）｜agree 確認勾選
-    // 已移除 email、paidAt：不再收 Email 與匯款日期時間；Sheet 會自動記錄送出時間（時間戳記），不必另外送。
+    // 已移除 paidAt（匯款日期時間）；email 已加回（每筆都寄電子收據）；Sheet 會自動記錄送出時間（時間戳記），不必另外送。
     // 將下方 URL 換成部署後的 Web App 網址：
     // const GAS_WEB_APP_URL = '';
     // 現在僅前端示意，不傳送資料。
