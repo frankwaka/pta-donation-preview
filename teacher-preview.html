@@ -1621,10 +1621,6 @@
             <input id="phone" name="phone" type="tel" inputmode="tel" autocomplete="tel" required maxlength="20" placeholder="0912-345-678" aria-describedby="phoneHint" data-name="電話">
             <span class="hint" id="phoneHint">手機 09 開頭共 10 碼，或含區碼的市話（例如 <span class="nw">02-2345-6789</span>）。</span>
           </div>
-          <div class="field" data-field>
-            <label class="lbl" for="email">Email<span class="req">必填</span></label>
-            <input id="email" name="email" type="email" inputmode="email" autocomplete="email" autocapitalize="off" spellcheck="false" required maxlength="100" placeholder="name@example.com" data-name="Email" data-msg-required="請填寫 Email">
-          </div>
         </fieldset>
 
         <fieldset class="part">
@@ -1656,11 +1652,6 @@
 
         <fieldset class="part">
           <legend><i>D</i>匯款</legend>
-          <div class="field" data-field>
-            <label class="lbl" for="paidAt">匯款日期與時間<span class="req">必填</span></label>
-            <input id="paidAt" name="paidAt" type="datetime-local" required data-name="匯款日期與時間" aria-describedby="paidAtHint">
-            <span class="hint" id="paidAtHint">請填轉帳成功的時間，約略到分鐘即可；不可晚於現在。</span>
-          </div>
           <div class="field" data-field>
             <label class="lbl" for="amount">金額（新台幣）<span class="req">必填</span></label>
             <div class="unit"><input id="amount" name="amount" type="number" inputmode="numeric" required min="1" step="1" placeholder="1000" data-name="金額"></div>
@@ -1731,9 +1722,8 @@
           <path d="M36 36c0-4 3-6 6-6" stroke="#fff" stroke-width="2.4" fill="none" stroke-linecap="round"/>
         </svg>
         <h3>感謝您完成匯款回報</h3>
-        <p>家長會將依「匯款日期、金額、帳號後五碼」與專戶入帳紀錄逐筆對帳；對上之後，再依您的選擇開立收據、列入公開徵信。</p>
+        <p>家長會將依「金額、帳號後五碼」與專戶入帳紀錄逐筆對帳；對上之後，再依您的選擇開立收據、列入公開徵信。</p>
         <dl class="summary">
-          <div><dt>匯款時間</dt><dd id="sumDate">—</dd></div>
           <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
           <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
           <div><dt>捐款用途</dt><dd id="sumPurpose">—</dd></div>
@@ -1976,7 +1966,7 @@
   var form = $('reportForm'), thanks = $('thanks'), formErr = $('formErr');
   var receiptExtra = $('receiptExtra'), receiptTitle = $('receiptTitle'), taxId = $('taxId'), receiptNote = $('receiptNote');
   renderPurposeOptions();
-  var proof = $('proof'), proofName = $('proofName'), paidAt = $('paidAt');
+  var proof = $('proof'), proofName = $('proofName');
   var phone = $('phone'), last5 = $('last5');
   var purposeSel = $('purpose'), presetNote = $('presetNote');
 
@@ -1986,11 +1976,6 @@
   /* ---------- 小工具 ---------- */
   function toHalfWidth(s) {
     return s.replace(/[０-９]/g, function (c) { return String.fromCharCode(c.charCodeAt(0) - 0xFEE0); });
-  }
-  function localNow() {
-    var d = new Date();
-    d.setMinutes(d.getMinutes() - d.getTimezoneOffset());
-    return d.toISOString().slice(0, 16);
   }
   function phoneDigits(v) { return toHalfWidth(v).replace(/[\s\-()（）．.]/g, ''); }
   function isValidPhone(v) {
@@ -2045,9 +2030,6 @@
       case 'childSeat':
         if (v && (!/^\d+$/.test(v) || Number(v) < 1 || Number(v) > 60)) return '座號請填 1 到 60 之間的整數。';
         break;
-      case 'paidAt':
-        if (v && v > localNow()) return '匯款時間不可晚於現在，請確認日期與時間。';
-        break;
       case 'proof':
         var f = el.files && el.files[0];
         if (f && f.type && f.type.indexOf('image/') !== 0) return '請選擇圖片檔（例如 JPG、PNG）。';
@@ -2067,7 +2049,6 @@
     }
     if (s.customError) return el.validationMessage;
     if (s.badInput) return name + '請輸入數字';
-    if (s.typeMismatch && el.type === 'email') return 'Email 格式不正確，例如 name@example.com';
     if (s.patternMismatch || s.tooShort || s.tooLong) return name + '格式不正確';
     if (s.rangeUnderflow || s.rangeOverflow || s.stepMismatch) return name + '超出可填範圍';
     return name + '格式不正確';
@@ -2108,7 +2089,7 @@
     receiptExtra.hidden = !need;
     receiptTitle.required = need;
     receiptNote.textContent = v === '電子收據'
-      ? '電子收據將寄至您填寫的 Email（對帳完成後開立）。'
+      ? '電子收據於對帳完成後開立，家長會將以您填的電話聯繫寄送方式。'
       : (v === '紙本收據' ? '紙本收據的領取方式，待家長會另行公告。' : '');
     if (!need) { receiptTitle.value = ''; taxId.value = ''; }
   }
@@ -2161,19 +2142,10 @@
     var f = proof.files && proof.files[0];
     proofName.textContent = f ? '已選擇：' + f.name : '尚未選擇檔案';
   });
-  function refreshMax() { paidAt.max = localNow(); }
-  paidAt.addEventListener('focus', refreshMax);
-  refreshMax();
 
   /* ---------- 送出 ---------- */
-  function fmtDateTime(v) {
-    var m = /^(\d{4})-(\d{2})-(\d{2})T(\d{2}):(\d{2})/.exec(v || '');
-    return m ? m[1] + '/' + m[2] + '/' + m[3] + '　' + m[4] + ':' + m[5] : '—';
-  }
-
   form.addEventListener('submit', function (e) {
     e.preventDefault();
-    refreshMax();
 
     var firstBad = null, badCount = 0;
     fields.forEach(function (c) {
@@ -2195,13 +2167,17 @@
     var data = new FormData(form);
 
     // TODO: 之後改為 POST 到 Google Apps Script Web App，寫入 Google 試算表。
+    // FormData 欄位 → Sheet 欄位對照（name 不要改，改了 Sheet 要一起改）：
+    //   purpose 捐款指定用途｜donorName 捐款人姓名｜phone 電話｜childClass 年級班別｜childSeat 座號｜
+    //   childName 子女姓名｜amount 金額｜last5 轉出帳號後五碼｜receipt 收據｜receiptTitle 收據抬頭｜
+    //   taxId 統一編號｜disclose 公開徵信方式｜proof 轉帳截圖（選填）｜agree 確認勾選
+    // 已移除 email、paidAt：不再收 Email 與匯款日期時間；Sheet 會自動記錄送出時間（時間戳記），不必另外送。
     // 將下方 URL 換成部署後的 Web App 網址：
     // const GAS_WEB_APP_URL = '';
     // 現在僅前端示意，不傳送資料。
     // 例：fetch(GAS_WEB_APP_URL, { method: 'POST', body: data })
     // 截圖檔案需另行處理（例如轉 base64 或改傳到雲端硬碟），上線前再規劃。
 
-    $('sumDate').textContent = fmtDateTime(String(data.get('paidAt') || ''));
     $('sumAmount').textContent = 'NT$ ' + Number(data.get('amount')).toLocaleString('zh-TW');
     $('sumLast5').textContent = String(data.get('last5') || '—');
     $('sumPurpose').textContent = purposeLabel(String(data.get('purpose') || '')) || '—';
@@ -2220,7 +2196,6 @@
     syncReceipt();
     renderPurposeOptions();
     proofName.textContent = '尚未選擇檔案';
-    refreshMax();
     presetNote.hidden = true;
     thanks.hidden = true;
     form.hidden = false;
