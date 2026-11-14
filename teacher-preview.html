@@ -432,6 +432,13 @@
   .contact dt{font-size:13.5px; font-weight:700; color:var(--ink-2)}
   .contact dd{margin:0}
   .contact dd .tbd{margin-left:0}
+  .line-dd{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px}
+  .line-id{font-size:17px; font-weight:900; letter-spacing:.02em; user-select:all; -webkit-user-select:all}
+  .line-copy{min-height:44px; padding:0 14px; font:inherit; font-size:14.5px; font-weight:900; color:#fff; background:#06C755; border:2px solid var(--ink); border-radius:12px 9px 12px 9px; box-shadow:2px 2px 0 var(--ink); cursor:pointer}
+  .line-copy:active{transform:translate(2px,2px); box-shadow:0 0 0 var(--ink)}
+  .line-copy.is-done{background:#2F8F74}
+  .line-msg{flex-basis:100%; font-size:12.5px; color:var(--ink-3); min-height:0}
+  .line-msg:empty{display:none}
 
   footer{margin-top:52px; padding:20px 0 0; text-align:center; font-size:13px; color:var(--ink-2); line-height:1.8}
   footer svg{display:block; margin:0 auto 8px}
@@ -1710,12 +1717,11 @@
       </h2>
       <svg class="squiggle" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 6c10-6 18 4 28 0s18-6 28 0 18 4 28 0 18-6 30 0" fill="none" stroke="#F0C84A" stroke-width="3" stroke-linecap="round"/></svg>
       <dl class="contact">
-        <div><dt>聯絡窗口</dt><dd><span class="tbd">待填</span></dd></div>
-        <div><dt>電話</dt><dd><span class="tbd">待填</span></dd></div>
-        <div><dt>Email</dt><dd><span class="tbd">待填</span></dd></div>
+        <div><dt>聯絡窗口</dt><dd>會長 林愷昕</dd></div>
+        <div><dt>LINE</dt><dd class="line-dd"><span class="line-id">kathylin_0707</span><button type="button" class="line-copy" id="lineCopy" data-copy="kathylin_0707" aria-label="複製 LINE ID kathylin_0707"><span data-copy-label>複製 LINE ID</span></button><span class="line-msg" id="lineMsg" role="status" aria-live="polite"></span></dd></div>
         <div><dt>可聯絡時段</dt><dd><span class="tbd">待填</span></dd></div>
       </dl>
-      <p class="hint">以上聯絡資訊待家長會確認後公告。</p>
+      <p class="hint">複製 LINE ID 後，到 LINE「加入好友」用 ID 搜尋。其他聯絡資訊待家長會確認後公告。</p>
     </section>
 
     <footer>
@@ -1974,6 +1980,21 @@
       });
     });
   });
+
+  /* ---------- 聯絡家長會：複製 LINE ID（照 Google 表單原文，沒有公開網址就不組連結） ---------- */
+  (function () {
+    var b = $('lineCopy'), msg = $('lineMsg'); if (!b) return;
+    var lbl = b.querySelector('[data-copy-label]'), t;
+    b.addEventListener('click', function () {
+      copyText(b.getAttribute('data-copy')).then(function (ok) {
+        clearTimeout(t);
+        lbl.textContent = ok ? '已複製' : '複製 LINE ID';
+        b.classList.toggle('is-done', ok);
+        msg.textContent = ok ? '已複製 LINE ID，到 LINE 加入好友用 ID 搜尋。' : '無法自動複製，請長按 ID 自行拷貝。';
+        t = setTimeout(function () { lbl.textContent = '複製 LINE ID'; b.classList.remove('is-done'); msg.textContent = ''; }, ok ? 1500 : 3000);
+      });
+    });
+  })();
 
   /* ---------- 表單元素 ---------- */
   var form = $('reportForm'), thanks = $('thanks'), formErr = $('formErr');
