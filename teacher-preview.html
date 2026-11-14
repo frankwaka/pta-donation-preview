@@ -112,8 +112,8 @@
   @keyframes slideIn{from{opacity:0}to{opacity:1}}
   @keyframes textIn{from{transform:translateX(calc(var(--dir, 1) * 14px))}to{transform:none}}
 
-  #slide-1{--accent:var(--red-d); --accent-l:var(--red-l); --accent-d:var(--red-d)}
-  #slide-2{--accent:var(--sea-d); --accent-l:var(--sea-l); --accent-d:var(--sea-d)}
+  #slide-1{--accent:var(--sea-d); --accent-l:var(--sea-l); --accent-d:var(--sea-d)} /* 教師支援費 */
+  #slide-2{--accent:var(--red-d); --accent-l:var(--red-l); --accent-d:var(--red-d)} /* 校園共好基金（校門） */
   #slide-3{--accent:var(--sky-d); --accent-l:var(--sky-l); --accent-d:var(--sky-d)}
 
   /* 大主視覺：佔滿剩餘高度，至少 30% 可見高度 */
@@ -435,8 +435,15 @@
   }
   #c2,#c3{scroll-margin-top:72px}
   /* 每張卡只有一顆「我要捐這項」：撐滿文字欄寬，好按也好看 */
-  .cta-row{display:flex; margin-top:10px}
-  .cta-row .s-cta{flex:1 1 auto; width:100%; max-width:420px; margin-top:0; padding:10px 18px; gap:8px; white-space:nowrap}
+  /* 每張卡兩顆鈕：「我要捐這項」（主）＋「了解詳情 ›」（次） */
+  .cta-row{display:flex; gap:10px; max-width:440px; margin-top:10px}
+  .cta-row .s-cta{flex:1.45 1 0; width:auto; margin-top:0; padding:10px 12px; gap:6px; white-space:nowrap}
+  .cta-row .s-more{flex:1 1 0; color:var(--ink); background:var(--paper)}
+  .cta-row .s-more:hover{background:var(--sun-l)}
+  .cta-row .s-more .arrow{font-size:20px; margin-top:-2px}
+  .s-goal{font-weight:900; color:var(--accent-d); margin-right:8px}
+  .s-special{padding:1px 10px; font-size:12.5px; font-weight:900; line-height:1.6; color:#fff; background:var(--red-d, #C23B30); border:2px solid var(--ink); border-radius:12px 18px 10px 16px; transform:rotate(-3deg)}
+  .s-title .s-pre{display:block; margin:0 0 -2px; font-size:.5em; font-weight:900; letter-spacing:.12em; color:var(--accent-d); vertical-align:0}
   @media (max-width:420px){ .stage-top .logo{width:46px; height:46px} .stage-h{font-size:15.5px; letter-spacing:0} .brand-l{gap:8px} }
   @media (max-width:365px){ .stage-h{font-size:14.5px} }
   /* 主視覺小彩蛋：點天空、海、地、樹 */
@@ -553,11 +560,11 @@
 
   /* 只限第 2 張、直式版面：左右箭頭移到格子下緣（照片下方的夜空空位），不擋老師的臉；寬螢幕箭頭本來就在格子外，維持原樣 */
   @media not all and (min-width:860px) and (min-height:560px){
-    #slide-2 .edge{top:auto; bottom:12px; margin-top:0; width:38px; height:38px; opacity:.75}
-    #slide-2 .edge-prev{left:12px}
-    #slide-2 .edge-next{right:12px}
-    #slide-2 .edge:hover, #slide-2 .edge:focus-visible{opacity:1}
-    #slide-2 .edge svg{width:17px; height:17px}
+    #slide-1 .edge{top:auto; bottom:12px; margin-top:0; width:38px; height:38px; opacity:.75}
+    #slide-1 .edge-prev{left:12px}
+    #slide-1 .edge-next{right:12px}
+    #slide-1 .edge:hover, #slide-1 .edge:focus-visible{opacity:1}
+    #slide-1 .edge svg{width:17px; height:17px}
   }
 
   /* 減少動態：只關動畫；角色精靈平常就看得見，不可藏起來（疊加的柳枝／鍊子／眼皮維持隱藏，用精靈圖本身） */
@@ -820,6 +827,43 @@
   .gv-note b{font-size:14px}
   .gv-note p{margin:4px 0 0; font-size:13.5px; line-height:1.7; color:var(--ink-2)}
   .gv-cta{width:100%; margin-top:18px}
+  .gv-pct small{margin-left:10px; font-size:13px; color:var(--ink-3)}
+  .gv-sub{margin:20px 0 8px; font-size:16px; font-weight:900}
+  .gv-items{display:grid; gap:10px}
+  .gv-item{padding:12px 14px; background:var(--paper); border:2px solid var(--ink); border-radius:14px 10px 14px 10px}
+  .gv-item.is-special{background:#EEF6FC; border-style:dashed}
+  .gi-top{display:flex; align-items:center; gap:8px; margin-bottom:8px; font-size:15px}
+  .gi-top em{margin-left:auto; font-style:normal; font-weight:900; font-size:18px; color:#2F8F74}
+  .gi-nums{margin:8px 0 0; font-size:13.5px; color:var(--ink-2); line-height:1.6}
+  .gi-nums b{color:#2F8F74}
+  .gi-nums small{font-size:12px; color:var(--ink-3)}
+  .gv-aside{margin:0; font-size:12.5px; color:var(--ink-3); line-height:1.6}
+  .s-special.sm{font-size:11px; padding:0 8px; border-width:1.5px}
+  .gc-rows{display:grid; gap:10px; margin:4px 0 0}
+  .gc-row-top{display:flex; justify-content:space-between; align-items:baseline; gap:8px; margin-bottom:4px; font-size:14px}
+  .gc-row-top em{font-style:normal; font-weight:900; color:#2F8F74; margin-right:6px}
+  .gc-row-top small{font-size:12px; color:var(--ink-3)}
+  /* 了解詳情分頁（沿用募款進度分頁的外觀與返回機制） */
+  .dv-kicker{display:flex; justify-content:center; gap:8px; margin:14px 0 0}
+  .detail-view .gv-title{margin-top:8px}
+  .dv-hero{padding:14px 16px; background:var(--paper); border:2px solid var(--ink); border-radius:16px 12px 16px 12px; box-shadow:3px 3px 0 var(--ink); text-align:center}
+  .dv-hero p{margin:0; font-size:13px; color:var(--ink-3)}
+  .dv-hero b{display:block; font-size:30px; font-weight:900; color:#2F8F74; line-height:1.3}
+  .dv-hero small{display:block; margin-top:2px; font-size:13px; color:var(--ink-2)}
+  .dv-intro{margin:14px 0 0; font-size:15px; line-height:1.8; color:var(--ink-2)}
+  .dv-group{margin-top:16px; padding:12px 14px; background:var(--paper); border:2px solid var(--ink); border-radius:14px 10px 14px 10px}
+  .dv-group h3{display:flex; flex-wrap:wrap; align-items:baseline; gap:6px 10px; margin:0; font-size:16px; font-weight:900}
+  .dv-group h3 .amt{margin-left:auto; color:#2F8F74; font-variant-numeric:tabular-nums}
+  .dv-group > p{margin:6px 0 0; font-size:14px; line-height:1.75; color:var(--ink-2)}
+  .dv-list{margin:10px 0 0; padding:0; list-style:none}
+  .dv-list li{display:grid; grid-template-columns:1fr auto; gap:2px 12px; padding:9px 0; border-top:1.5px dashed var(--line)}
+  .dv-list li:first-child{border-top:0}
+  .dv-list .nm{font-size:15px; font-weight:700}
+  .dv-list .amt{font-size:15px; font-weight:900; font-variant-numeric:tabular-nums; text-align:right}
+  .dv-list .dv-how{grid-column:1 / -1; font-size:13px; line-height:1.65; color:var(--ink-3)}
+  .dv-total{display:flex; justify-content:space-between; margin-top:14px; padding:12px 14px; font-size:16px; font-weight:900; background:var(--sun-l); border:2px solid var(--ink); border-radius:12px 9px 12px 9px}
+  .dv-warn{margin:8px 0 0; padding:8px 10px; font-size:13px; line-height:1.6; color:var(--red-d); background:#FDECEA; border:1.5px dashed var(--red-d); border-radius:10px}
+  .dv-foot{margin:14px 0 0; font-size:12.5px; color:var(--ink-3); text-align:center}
   body.gv-open{overflow:hidden}
 </style>
 <noscript><style>
@@ -872,116 +916,23 @@
       </div>
       <div class="pager" role="group" aria-label="切換捐款項目">
         <div class="dots">
-          <button type="button" class="dot" data-go="0" aria-controls="slide-1" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" aria-current="true"><i></i></button>
-          <button type="button" class="dot" data-go="1" aria-controls="slide-2" aria-label="第 2 頁，共 3 頁：教師支援費"><i></i></button>
-          <button type="button" class="dot" data-go="2" aria-controls="slide-3" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫"><i></i></button>
+          <button type="button" class="dot" data-go="0" aria-controls="slide-1" aria-label="第 1 頁，共 3 頁：教師支援費" aria-current="true"><i></i></button>
+          <button type="button" class="dot" data-go="1" aria-controls="slide-2" aria-label="第 2 頁，共 3 頁：校園共好基金"><i></i></button>
+          <button type="button" class="dot" data-go="2" aria-controls="slide-3" aria-label="第 3 頁，共 3 頁：特別任務 校園 iPad 汰換計畫"><i></i></button>
         </div>
         <span class="count" aria-hidden="true"><b id="pageNow">1</b> / 3</span>
       </div>
     </div>
-        <button type="button" class="goal-mini" data-goal-open aria-label="看募款進度詳情">
-        <span class="gm-top"><b>募款進度</b><span class="gm-more">看詳情 ›</span><span><em data-goal-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
-        <span class="goal-track" aria-hidden="true"><i data-goal-bar></i></span>
+        <button type="button" class="goal-mini" data-goal-open aria-label="看三項募款進度詳情">
+        <span class="gm-top"><b data-gm-label>教師支援費進度</b><span class="gm-more">看詳情 ›</span><span><em data-gm-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
+        <span class="goal-track" aria-hidden="true"><i data-gm-bar></i></span>
       </button>
   </header>
 
   <div class="slides">
 
-    <!-- 01 不指定 -->
-    <section class="slide is-active" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：不指定（由家長會統籌運用）" data-title="不指定（由家長會統籌運用）" tabindex="-1">
-      <figure class="s-fig">
-        <div class="s-plate" id="gatePlate">
-          <div class="gate-scene" id="gateScene">
-            <div class="gate-frame" id="gateFrame">
-              <!-- 背景：原圖像素，只有小孩所在位置補成地面／樹叢；永遠靜止 -->
-              <img class="gate-bg" src="assets/gate-bg.webp?v=f0557a6" alt="插畫・非實景：臺北市和平實驗國民小學校門前，四個穿便服的小朋友放學，揹著書包手牽手開心地走出來，其中一個穿球衣的男生夾著足球" width="1000" height="750" draggable="false">
-
-              <!-- 左女孩：身體＋揮手的手（一起跳） -->
-              <div class="g-layer g-kid-girl-l" aria-hidden="true">
-                <div class="g-bob">
-                  <img class="g-sprite-girl-l" src="assets/gate-girl-l.webp?v=f0557a6" alt="" width="153" height="295" draggable="false">
-                  <img class="g-sprite-hand" src="assets/gate-girl-l-hand.webp?v=f0557a6" alt="" width="41" height="45" draggable="false">
-                </div>
-                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
-                    <g transform="translate(255 400) scale(1.35)"><path class="g-cheer" style="--d:0.1s;--r:-12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
-                    <g transform="translate(330 385) scale(2)"><path class="g-cheer" style="--d:0.26s;--r:18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                    <g transform="translate(230 430) scale(2)"><path class="g-cheer" style="--d:0.42s;--r:-20deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- 兩個牽手的男生（同一張圖：點任一個，兩個一起跳） -->
-              <div class="g-layer g-kid-boys" aria-hidden="true">
-                <div class="g-bob">
-                  <img class="g-sprite-boys" src="assets/gate-boys.webp?v=f0557a6" alt="" width="266" height="314" draggable="false">
-                  <img class="g-sprite-ball" src="assets/gate-ball.webp?v=f0557a6" alt="" width="57" height="58" draggable="false">
-                  <img class="g-sprite-boy-arm" src="assets/gate-boy-arm.webp?v=f0557a6" alt="" width="38" height="63" draggable="false">
-                </div>
-                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
-                    <g transform="translate(398 395) scale(2)"><path class="g-cheer" style="--d:0.1s;--r:-16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                    <g transform="translate(618 372) scale(2)"><path class="g-cheer" style="--d:0.34s;--r:16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- 右女孩：身體＋馬尾 -->
-              <div class="g-layer g-kid-girl-r" aria-hidden="true">
-                <div class="g-bob">
-                  <img class="g-sprite-girl-r" src="assets/gate-girl-r.webp?v=f0557a6" alt="" width="159" height="291" draggable="false">
-                  <img class="g-sprite-pony" src="assets/gate-girl-r-pony.webp?v=f0557a6" alt="" width="51" height="97" draggable="false">
-                </div>
-                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
-                    <g transform="translate(665 405) scale(1.35)"><path class="g-cheer" style="--d:0.1s;--r:12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
-                    <g transform="translate(745 392) scale(2)"><path class="g-cheer" style="--d:0.26s;--r:-18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                    <g transform="translate(780 430) scale(2)"><path class="g-cheer" style="--d:0.42s;--r:20deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- 飄葉（天空裡，只疊在上面） -->
-              <svg class="gate-fx g-leaves" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="z-index:2">
-                  <g transform="translate(250 190)"><path class="g-leaf" style="--d:0s;--t:9s;--dx:520px;--dy:240px;--dy1:110px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#8CC152" stroke="#3B2A20" stroke-width="2"/></g>
-                  <g transform="translate(150 260)"><path class="g-leaf" style="--d:3.5s;--t:11s;--dx:620px;--dy:300px;--dy1:150px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#A8D46F" stroke="#3B2A20" stroke-width="2"/></g>
-                  <g transform="translate(300 120)"><path class="g-leaf" style="--d:7s;--t:10s;--dx:560px;--dy:260px;--dy1:90px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#6FAE3E" stroke="#3B2A20" stroke-width="2"/></g>
-              </svg>
-
-              <!-- 透明點擊區 -->
-              <div class="g-hit g-hit-girl-l" role="button" tabindex="0" data-who="girl-l" aria-label="左邊揮手、穿條紋上衣和牛仔裙的小朋友，點一下看她跳起來"></div>
-              <div class="g-hit g-hit-boy-l" role="button" tabindex="0" data-who="boys" aria-label="穿綠色帽T的男生，點一下看他跟牽手的好朋友一起跳起來"></div>
-              <div class="g-hit g-hit-boy-r" role="button" tabindex="0" data-who="boys" aria-label="穿阿根廷 10 號球衣、夾著足球的男生，點一下看他頂球"></div>
-              <div class="g-hit g-hit-girl-r" role="button" tabindex="0" data-who="girl-r" aria-label="右邊綁馬尾、穿粉紅外套和格子裙的小朋友，點一下看她跳起來"></div>
-            </div>
-          </div>
-          <p class="swipe-hint" id="swipeHint" aria-hidden="true">
-      <svg viewBox="0 0 52 26" focusable="false">
-        <path class="ch-l" d="M7 8l-5 5 5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <path class="ch-r" d="M45 8l5 5-5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
-        <g class="hand">
-          <circle cx="26" cy="13" r="9" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.4"/>
-          <circle cx="26" cy="13" r="3" fill="#D6453A"/>
-        </g>
-      </svg>
-      <span>左右滑動看更多</span>
-    </p>
-          <span class="tap-hint" aria-hidden="true">點小朋友看看</span>
-        </div>
-        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      </figure>
-      <div class="s-text">
-        <p class="s-kicker"><span class="s-no">01</span><span class="s-tag">預設選項</span></p>
-        <h2 class="s-title"><span class="mark">不指定</span><small>（由家長會統籌運用）</small></h2>
-        <p class="s-copy">交給家長會，依校園實際需要統籌運用。回報時未特別指定用途，即歸入此項。</p>
-        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">細項說明待家長會確認後補充。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button></div>
-      </div>
-    </section>
-
-    <!-- 02 教師支援費 -->
-    <section class="slide" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：教師支援費" data-title="教師支援費" tabindex="-1" aria-hidden="true">
+    <!-- 01 教師支援費 -->
+    <section class="slide is-active" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：教師支援費" data-title="教師支援費" data-key="teacher" tabindex="-1">
       <figure class="s-fig">
         <div class="s-plate" id="teacherPlate">
           <div class="teacher-scene" id="teacherScene">
@@ -1149,20 +1100,113 @@
           </div>
           <span class="tap-hint" aria-hidden="true">點老師看看</span>
         </div>
-        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：不指定（由家長會統籌運用）"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：校園 iPad 汰換計畫"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：校園共好基金"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </figure>
       <div class="s-text">
-        <p class="s-kicker"><span class="s-no">02</span><span class="s-tag">可指定</span></p>
+        <p class="s-kicker"><span class="s-no">01</span><span class="s-tag">目標 51.8 萬</span></p>
         <h2 class="s-title"><span class="mark">教師支援費</span></h2>
-        <p class="s-copy">支持老師備課與教學所需的支援。</p>
-        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">支用範圍與細項，待家長會確認後說明。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button></div>
+        <p class="s-copy">補足四位導師的導師費、假期備課餐點、謝師心意，以及老師的增能與校外教學。</p>
+        <p class="s-meta"><span class="s-goal">目標 NT$518,000</span><span class="more">共 6 個項目，明細請看「了解詳情」。</span></p>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn btn-ghost s-more" data-detail="teacher" aria-label="了解詳情：教師支援費" aria-haspopup="dialog" aria-controls="detail-teacher"><span>了解詳情</span><span class="arrow" aria-hidden="true">›</span></button></div>
+      </div>
+    </section>
+
+    <!-- 02 校園共好基金 -->
+    <section class="slide" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：校園共好基金" data-title="校園共好基金" data-key="common" tabindex="-1" aria-hidden="true">
+      <figure class="s-fig">
+        <div class="s-plate" id="gatePlate">
+          <div class="gate-scene" id="gateScene">
+            <div class="gate-frame" id="gateFrame">
+              <!-- 背景：原圖像素，只有小孩所在位置補成地面／樹叢；永遠靜止 -->
+              <img class="gate-bg" src="assets/gate-bg.webp?v=f0557a6" alt="校園共好基金插畫・非實景：臺北市和平實驗國民小學校門前，四個穿便服的小朋友放學，揹著書包手牽手開心地走出來，其中一個穿球衣的男生夾著足球；共好基金支持圖書館、情緒教育、校園環境與十周年志工" width="1000" height="750" draggable="false">
+
+              <!-- 左女孩：身體＋揮手的手（一起跳） -->
+              <div class="g-layer g-kid-girl-l" aria-hidden="true">
+                <div class="g-bob">
+                  <img class="g-sprite-girl-l" src="assets/gate-girl-l.webp?v=f0557a6" alt="" width="153" height="295" draggable="false">
+                  <img class="g-sprite-hand" src="assets/gate-girl-l-hand.webp?v=f0557a6" alt="" width="41" height="45" draggable="false">
+                </div>
+                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
+                    <g transform="translate(255 400) scale(1.35)"><path class="g-cheer" style="--d:0.1s;--r:-12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
+                    <g transform="translate(330 385) scale(2)"><path class="g-cheer" style="--d:0.26s;--r:18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                    <g transform="translate(230 430) scale(2)"><path class="g-cheer" style="--d:0.42s;--r:-20deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 兩個牽手的男生（同一張圖：點任一個，兩個一起跳） -->
+              <div class="g-layer g-kid-boys" aria-hidden="true">
+                <div class="g-bob">
+                  <img class="g-sprite-boys" src="assets/gate-boys.webp?v=f0557a6" alt="" width="266" height="314" draggable="false">
+                  <img class="g-sprite-ball" src="assets/gate-ball.webp?v=f0557a6" alt="" width="57" height="58" draggable="false">
+                  <img class="g-sprite-boy-arm" src="assets/gate-boy-arm.webp?v=f0557a6" alt="" width="38" height="63" draggable="false">
+                </div>
+                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
+                    <g transform="translate(398 395) scale(2)"><path class="g-cheer" style="--d:0.1s;--r:-16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                    <g transform="translate(618 372) scale(2)"><path class="g-cheer" style="--d:0.34s;--r:16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 右女孩：身體＋馬尾 -->
+              <div class="g-layer g-kid-girl-r" aria-hidden="true">
+                <div class="g-bob">
+                  <img class="g-sprite-girl-r" src="assets/gate-girl-r.webp?v=f0557a6" alt="" width="159" height="291" draggable="false">
+                  <img class="g-sprite-pony" src="assets/gate-girl-r-pony.webp?v=f0557a6" alt="" width="51" height="97" draggable="false">
+                </div>
+                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
+                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
+                    <g transform="translate(665 405) scale(1.35)"><path class="g-cheer" style="--d:0.1s;--r:12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
+                    <g transform="translate(745 392) scale(2)"><path class="g-cheer" style="--d:0.26s;--r:-18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                    <g transform="translate(780 430) scale(2)"><path class="g-cheer" style="--d:0.42s;--r:20deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
+                  </g>
+                </svg>
+              </div>
+
+              <!-- 飄葉（天空裡，只疊在上面） -->
+              <svg class="gate-fx g-leaves" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="z-index:2">
+                  <g transform="translate(250 190)"><path class="g-leaf" style="--d:0s;--t:9s;--dx:520px;--dy:240px;--dy1:110px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#8CC152" stroke="#3B2A20" stroke-width="2"/></g>
+                  <g transform="translate(150 260)"><path class="g-leaf" style="--d:3.5s;--t:11s;--dx:620px;--dy:300px;--dy1:150px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#A8D46F" stroke="#3B2A20" stroke-width="2"/></g>
+                  <g transform="translate(300 120)"><path class="g-leaf" style="--d:7s;--t:10s;--dx:560px;--dy:260px;--dy1:90px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#6FAE3E" stroke="#3B2A20" stroke-width="2"/></g>
+              </svg>
+
+              <!-- 透明點擊區 -->
+              <div class="g-hit g-hit-girl-l" role="button" tabindex="0" data-who="girl-l" aria-label="左邊揮手、穿條紋上衣和牛仔裙的小朋友，點一下看她跳起來"></div>
+              <div class="g-hit g-hit-boy-l" role="button" tabindex="0" data-who="boys" aria-label="穿綠色帽T的男生，點一下看他跟牽手的好朋友一起跳起來"></div>
+              <div class="g-hit g-hit-boy-r" role="button" tabindex="0" data-who="boys" aria-label="穿阿根廷 10 號球衣、夾著足球的男生，點一下看他頂球"></div>
+              <div class="g-hit g-hit-girl-r" role="button" tabindex="0" data-who="girl-r" aria-label="右邊綁馬尾、穿粉紅外套和格子裙的小朋友，點一下看她跳起來"></div>
+            </div>
+          </div>
+          <p class="swipe-hint" id="swipeHint" aria-hidden="true">
+      <svg viewBox="0 0 52 26" focusable="false">
+        <path class="ch-l" d="M7 8l-5 5 5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <path class="ch-r" d="M45 8l5 5-5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
+        <g class="hand">
+          <circle cx="26" cy="13" r="9" fill="#F0C84A" stroke="#3B2A20" stroke-width="2.4"/>
+          <circle cx="26" cy="13" r="3" fill="#D6453A"/>
+        </g>
+      </svg>
+      <span>左右滑動看更多</span>
+    </p>
+          <span class="tap-hint" aria-hidden="true">點小朋友看看</span>
+        </div>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：特別任務 校園 iPad 汰換計畫"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+      </figure>
+      <div class="s-text">
+        <p class="s-kicker"><span class="s-no">02</span><span class="s-tag">目標 33.68 萬</span></p>
+        <h2 class="s-title"><span class="mark">校園共好基金</span></h2>
+        <p class="s-copy">圖書館與情緒教育、校園環境與生態、十周年應援與志工，一起把校園照顧好。</p>
+        <p class="s-meta"><span class="s-goal">目標 NT$336,800</span><span class="more">共 3 個方向，明細請看「了解詳情」。</span></p>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn btn-ghost s-more" data-detail="common" aria-label="了解詳情：校園共好基金" aria-haspopup="dialog" aria-controls="detail-common"><span>了解詳情</span><span class="arrow" aria-hidden="true">›</span></button></div>
       </div>
     </section>
 
     <!-- 03 校園 iPad 汰換計畫 -->
-    <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：校園 iPad 汰換計畫" data-title="校園 iPad 汰換計畫" tabindex="-1" aria-hidden="true">
+    <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：特別任務 校園 iPad 汰換計畫" data-title="特別任務 校園 iPad 汰換計畫" data-key="ipad" tabindex="-1" aria-hidden="true">
       <figure class="s-fig">
         <div class="s-plate" id="ipadPlate">
           <div class="ipad-scene" id="ipadScene">
@@ -1256,15 +1300,15 @@
           </div>
           <span class="tap-hint" aria-hidden="true">點點看</span>
         </div>
-        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：校園共好基金"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁（已是最後一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </figure>
       <div class="s-text">
-        <p class="s-kicker"><span class="s-no">03</span><span class="s-tag">可指定</span></p>
-        <h2 class="s-title"><span class="mark">校園 iPad 汰換計畫</span></h2>
-        <p class="s-copy">協助汰換老舊的校園 iPad，讓教學設備可以接續使用。</p>
-        <p class="s-meta"><span class="tbd">待家長會確認</span><span class="more">汰換範圍與時程，待家長會確認後公告。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button></div>
+        <p class="s-kicker"><span class="s-no">03</span><span class="s-special">特別支援</span><span class="s-tag">目標 52.5 萬</span></p>
+        <h2 class="s-title"><small class="s-pre">特別任務</small><span class="mark">校園 iPad 汰換計畫</span></h2>
+        <p class="s-copy">這次要換木棉班和欒樹班的教學 iPad。總經費約 105 萬，家長會協助募其中一半。</p>
+        <p class="s-meta"><span class="s-goal">目標 NT$525,000</span><span class="more">獨立於年度募款之外的特別任務。</span></p>
+        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn btn-ghost s-more" data-detail="ipad" aria-label="了解詳情：特別任務 校園 iPad 汰換計畫" aria-haspopup="dialog" aria-controls="detail-ipad"><span>了解詳情</span><span class="arrow" aria-hidden="true">›</span></button></div>
       </div>
     </section>
   </div>
@@ -1281,28 +1325,119 @@
       <span class="goal-sample" data-goal-sample>範例數字</span>
     </header>
     <h2 class="gv-title" id="gvTitle">115 學年度家長會<br>募款進度</h2>
-    <div class="gv-hero">
-      <p class="gv-label">已確認入帳／募款目標</p>
-      <p class="gv-big"><b data-goal-confirmed>NT$0</b><span>/ <span data-goal-target>NT$0</span></span></p>
-      <div class="goal-track big" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-goal-pb><i data-goal-bar></i><span class="goal-tree" data-goal-tree aria-hidden="true">🌳</span></div>
-      <p class="gv-pct">已達成 <b data-goal-pct>0%</b></p>
+    <div class="gv-hero" data-gi="annual">
+      <p class="gv-label">年度募款：教師支援費＋校園共好基金</p>
+      <p class="gv-big"><b data-f="confirmed">NT$0</b><span>/ <span data-f="target">NT$0</span></span></p>
+      <div class="goal-track big" role="progressbar" aria-label="年度募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i><span class="goal-tree" data-tree aria-hidden="true">🌳</span></div>
+      <p class="gv-pct">已達成 <b data-f="pct">0%</b><small>還差 <span data-f="left">NT$0</span></small></p>
     </div>
-    <div class="gv-grid">
-      <div class="gv-stat"><span>募款目標</span><b data-goal-target>NT$0</b></div>
-      <div class="gv-stat"><span>家長已回報</span><b data-goal-reported>NT$0</b><small>含尚未對帳</small></div>
-      <div class="gv-stat is-ok"><span>已確認入帳</span><b data-goal-confirmed>NT$0</b><small>家長會已對帳</small></div>
-      <div class="gv-stat"><span>還差多少</span><b data-goal-left>NT$0</b></div>
+    <h3 class="gv-sub">三項分別的進度</h3>
+    <div class="gv-items">
+      <div class="gv-item" data-gi="teacher">
+        <div class="gi-top"><b>教師支援費</b><em data-f="pct">0%</em></div>
+        <div class="goal-track" role="progressbar" aria-label="教師支援費募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div>
+        <p class="gi-nums">已確認 <b data-f="confirmed">NT$0</b> / 目標 <span data-f="target">NT$0</span><br><small>家長已回報 <span data-f="reported">NT$0</span>（含尚未對帳）・還差 <span data-f="left">NT$0</span></small></p>
+      </div>
+      <div class="gv-item" data-gi="common">
+        <div class="gi-top"><b>校園共好基金</b><em data-f="pct">0%</em></div>
+        <div class="goal-track" role="progressbar" aria-label="校園共好基金募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div>
+        <p class="gi-nums">已確認 <b data-f="confirmed">NT$0</b> / 目標 <span data-f="target">NT$0</span><br><small>家長已回報 <span data-f="reported">NT$0</span>（含尚未對帳）・還差 <span data-f="left">NT$0</span></small></p>
+      </div>
+      <div class="gv-item is-special" data-gi="ipad">
+        <div class="gi-top"><b>校園 iPad 汰換計畫</b><span class="s-special sm">特別支援</span><em data-f="pct">0%</em></div>
+        <div class="goal-track" role="progressbar" aria-label="校園 iPad 汰換計畫募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div>
+        <p class="gi-nums">已確認 <b data-f="confirmed">NT$0</b> / 目標 <span data-f="target">NT$0</span><br><small>家長已回報 <span data-f="reported">NT$0</span>（含尚未對帳）・還差 <span data-f="left">NT$0</span></small></p>
+      </div>
+      <p class="gv-aside">iPad 汰換是學校另外提出的特別任務，金額另列，不算在上方的年度募款裡。</p>
     </div>
-    <div class="gv-grid three">
-      <div class="gv-mini"><span>已確認筆數</span><b data-goal-count>0</b></div>
-      <div class="gv-mini is-wait"><span>待確認入帳</span><b data-goal-pending>0</b></div>
-      <div class="gv-mini"><span>支持家庭</span><b data-goal-donors>0</b></div>
+    <div class="gv-grid three" data-gi="all">
+      <div class="gv-mini"><span>已確認筆數</span><b data-f="count">0</b></div>
+      <div class="gv-mini is-wait"><span>待確認入帳</span><b data-f="pending">0</b></div>
+      <div class="gv-mini"><span>支持家庭</span><b data-f="donors">0</b></div>
     </div>
     <div class="gv-note">
       <b>這些數字怎麼來的？</b>
       <p>家長匯款後填寫回報，家長會對完帳才算「已確認入帳」，進度條只算已確認的金額。本頁只顯示總數，不會公開任何家長的姓名或金額。<span data-goal-updated>每天更新</span>。</p>
     </div>
     <button type="button" class="btn gv-cta" data-goal-close data-goal-donate><span>我也要支持</span><span class="arrow" aria-hidden="true">→</span></button>
+  </div>
+</section>
+<!-- 了解詳情：教師支援費 -->
+<section class="goal-view detail-view" id="detail-teacher" role="dialog" aria-modal="true" aria-labelledby="dvTitle-teacher" hidden>
+  <div class="gv-wrap">
+    <header class="gv-top"><button type="button" class="gv-back dv-back" aria-label="返回上一頁"><span aria-hidden="true">‹</span>返回</button></header>
+    <h2 class="gv-title" id="dvTitle-teacher">教師支援費</h2>
+    <div class="dv-hero"><p>募款目標</p><b>NT$518,000</b></div>
+    <p class="dv-intro">和平實小是實驗教育學校，老師的備課與教學負擔比一般公立學校重。這筆經費用來實際支持、感謝老師，讓老師能安心把心力放在孩子身上。</p>
+    <div class="dv-group">
+      <h3>明細<span class="amt">共 6 項</span></h3>
+      <ul class="dv-list">
+        <li><span class="nm">導師費支援</span><span class="amt">NT$156,000</span><span class="dv-how">「師生比高」是和平實驗教育的關鍵，但學校人事費比照一般公立學校，有四位老師擔任導師卻領不到每月 3,000 元的導師費。家長會補上，讓他們同工同酬（4 人次 × 3,000 元 × 13 個月）。</span></li>
+        <li><span class="nm">假期備課支援</span><span class="amt">NT$96,000</span><span class="dv-how">老師一年有四次利用假期備課，家長會準備餐點替老師加油（400 元 × 60 人次 × 4 次）。</span></li>
+        <li><span class="nm">十周年歲末謝師活動</span><span class="amt">NT$36,000</span><span class="dv-how">600 元 × 60 人次。</span></li>
+        <li><span class="nm">教師節禮物</span><span class="amt">NT$30,000</span><span class="dv-how">每人 500 元，共 60 人。</span></li>
+        <li><span class="nm">教師增能補助</span><span class="amt">NT$100,000</span><span class="dv-how">支持老師的研習與增能。</span></li>
+        <li><span class="nm">教師校外教學及場勘業務支出</span><span class="amt">NT$100,000</span><span class="dv-how">老師帶孩子校外教學，以及事前場勘的相關支出。</span></li>
+      </ul>
+    </div>
+    <p class="dv-total"><span>合計</span><span>NT$518,000</span></p>
+    <p class="dv-foot">自由樂捐，不強迫捐款。金額以家長會公告為準。</p>
+    <button type="button" class="btn gv-cta" data-detail-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
+  </div>
+</section>
+<!-- 了解詳情：校園共好基金 -->
+<section class="goal-view detail-view" id="detail-common" role="dialog" aria-modal="true" aria-labelledby="dvTitle-common" hidden>
+  <div class="gv-wrap">
+    <header class="gv-top"><button type="button" class="gv-back dv-back" aria-label="返回上一頁"><span aria-hidden="true">‹</span>返回</button></header>
+    <h2 class="gv-title" id="dvTitle-common">校園共好基金</h2>
+    <div class="dv-hero"><p>募款目標</p><b>NT$336,800</b><small>圖書館與情緒教育 80,800＋環境 128,000＋十周年與志工 128,000</small></div>
+    <p class="dv-intro">原本的三個募款任務合成一個基金：圖書館與情緒教育、校園環境、十周年應援與志工。每一項都是直接照顧孩子每天的學習與生活。</p>
+    <div class="dv-group">
+      <h3>圖書館支援與情緒教育志工支援<span class="amt">NT$80,800</span></h3>
+      <p>和平實小不使用教科書，「班書閱讀」是孩子最重要的學習養分。老師設計課程時會開出搭配該學季的「願望書單」，圖書館有的就由館內支援，沒有的由家長會採購。SEL 情緒教育由學校志工負責，志工要先到外面受訓取得認證，每季再一起備課、自編教材與教具。</p>
+      <ul class="dv-list">
+        <li><span class="nm">購書</span><span class="amt">NT$60,000</span><span class="dv-how">孩子與老師增能用書，300 元 × 200 本。</span></li>
+        <li><span class="nm">圖書館四季活動與說書支援</span><span class="amt">NT$20,800</span><span class="dv-how">2,000 元 × 8 次＝16,000 元，加上 300 元 × 16 次＝4,800 元。</span></li>
+        <li><span class="nm">情緒教育志工培訓補助與教材製作</span><span class="amt">NT$15,000</span><span class="dv-how">培訓 500 元 × 10 人次，教材 100 元 × 100 人。</span></li>
+      </ul>
+      <p class="dv-warn"><span class="tbd">待家長會確認</span> 上面三項加起來是 95,800 元，跟這個方向的小計 80,800 元對不起來，正確金額等家長會確認。</p>
+    </div>
+    <div class="dv-group">
+      <h3>環境支援<span class="amt">NT$128,000</span></h3>
+      <p>持續外聘清潔服務補強校園廁所清潔，學季假期之間也請專業團隊消毒，維持校園衛生。和平被綠意環繞，四季都有不同的動植物陪孩子學習，接下來還要繼續推動宮脇式森林與螢火蟲復育。</p>
+      <ul class="dv-list">
+        <li><span class="nm">環境維護</span><span class="amt">NT$48,000</span><span class="dv-how">4,000 元 × 12 個月。</span></li>
+        <li><span class="nm">生態復育</span><span class="amt">NT$30,000</span></li>
+        <li><span class="nm">生態環境照顧</span><span class="amt">NT$50,000</span></li>
+      </ul>
+    </div>
+    <div class="dv-group">
+      <h3>十周年應援與志工支援<span class="amt">NT$128,000</span></h3>
+      <p>和平十周年了。這十年是一群家長和夥伴一起成長，除了志工們無私的付出，也有家長們的增能支持，期待我們一起走向下一個十年。</p>
+    </div>
+    <p class="dv-total"><span>合計</span><span>NT$336,800</span></p>
+    <p class="dv-foot">自由樂捐，不強迫捐款。金額以家長會公告為準。</p>
+    <button type="button" class="btn gv-cta" data-detail-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
+  </div>
+</section>
+<!-- 了解詳情：特別任務<br>校園 iPad 汰換計畫 -->
+<section class="goal-view detail-view" id="detail-ipad" role="dialog" aria-modal="true" aria-labelledby="dvTitle-ipad" hidden>
+  <div class="gv-wrap">
+    <header class="gv-top"><button type="button" class="gv-back dv-back" aria-label="返回上一頁"><span aria-hidden="true">‹</span>返回</button><span class="s-special">特別支援</span></header>
+    <h2 class="gv-title" id="dvTitle-ipad">特別任務<br>校園 iPad 汰換計畫</h2>
+    <div class="dv-hero"><p>家長會募款目標</p><b>NT$525,000</b><small>總經費約 105 萬元，家長會協助其中一半</small></div>
+    <p class="dv-intro">學校預計汰換一批教學用平板，並請家長會協助。去年已經陸續換了楓香班的 iPad，這次輪到木棉班和欒樹班。</p>
+    <div class="dv-group">
+      <h3>經費怎麼分<span class="amt">總經費約 NT$1,050,000</span></h3>
+      <ul class="dv-list">
+        <li><span class="nm">家長會協助募款</span><span class="amt">NT$525,000</span><span class="dv-how">學校請家長會共同籌資，這是本頁的募款目標。</span></li>
+        <li><span class="nm">汰換班級</span><span class="amt">木棉班・欒樹班</span><span class="dv-how">去年已更換楓香班。</span></li>
+      </ul>
+      <p>這是學校另外提出的特別任務，金額另列，不算在年度募款（教師支援費＋校園共好基金）裡。</p>
+    </div>
+    <p class="dv-total"><span>家長會募款目標</span><span>NT$525,000</span></p>
+    <p class="dv-foot">自由樂捐，不強迫捐款。金額以家長會公告為準。</p>
+    <button type="button" class="btn gv-cta" data-detail-pick="2"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button>
   </div>
 </section>
 <!-- =====================================================
@@ -1338,9 +1473,12 @@
 
     <section class="goal-card" aria-labelledby="goalTitle">
       <h2 id="goalTitle">115 學年度家長會募款進度 <span class="goal-sample" data-goal-sample>範例數字</span></h2>
-      <p class="gc-nums"><b data-goal-confirmed>NT$0</b><span> / 目標 <span data-goal-target>NT$0</span></span></p>
-      <div class="goal-track big" role="progressbar" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-goal-pb><i data-goal-bar></i><span class="goal-tree" data-goal-tree aria-hidden="true">🌳</span></div>
-      <p class="gc-foot">已達成 <b data-goal-pct>0%</b>・<span data-goal-count>0</span> 筆捐款<br><small>只計算家長會已確認入帳的金額，<span data-goal-updated>每天更新</span>。</small></p>
+      <div class="gc-rows">
+        <div class="gc-row" data-gi="teacher"><div class="gc-row-top"><b>教師支援費</b><span><em data-f="pct">0%</em><small><span data-f="confirmed-wan">0</span> / <span data-f="target-wan">0</span></small></span></div><div class="goal-track" role="progressbar" aria-label="教師支援費募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div></div>
+        <div class="gc-row" data-gi="common"><div class="gc-row-top"><b>校園共好基金</b><span><em data-f="pct">0%</em><small><span data-f="confirmed-wan">0</span> / <span data-f="target-wan">0</span></small></span></div><div class="goal-track" role="progressbar" aria-label="校園共好基金募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div></div>
+        <div class="gc-row" data-gi="ipad"><div class="gc-row-top"><b>iPad 特別任務</b><span><em data-f="pct">0%</em><small><span data-f="confirmed-wan">0</span> / <span data-f="target-wan">0</span></small></span></div><div class="goal-track" role="progressbar" aria-label="iPad 特別任務募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div></div>
+      </div>
+      <p class="gc-foot"><small>年度募款（教師支援費＋校園共好基金）目標 NT$854,800，iPad 特別任務另列。只計算家長會已確認入帳的金額，<span data-goal-updated>每天更新</span>。</small></p>
       <button type="button" class="gc-link" data-goal-open>看完整募款進度 ›</button>
     </section>
 
@@ -1394,11 +1532,12 @@
           <legend><i>A</i>捐款用途</legend>
           <div class="field" data-field>
             <label class="lbl" for="purpose">捐款指定用途<span class="req">必填</span></label>
-            <select id="purpose" name="purpose" required data-name="捐款指定用途" data-msg-required="請選擇捐款指定用途" aria-describedby="purposeHint">
-              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準，新增用途時改該陣列並同步此處與投影片。name 與選項值是送出欄位，不要改。 -->
-              <option value="不指定（由家長會統籌運用）" selected>不指定（由家長會統籌運用）</option>
+            <select id="purpose" name="purpose" required data-name="捐款指定用途" data-msg-required="請選擇這筆捐款要支持的項目" aria-describedby="purposeHint">
+              <!-- 無 JS 時仍可選這三項。正式清單以腳本 PURPOSE_OPTIONS 為準；value 是送出欄位，改動前要先跟 Sheet 對應。 -->
+              <option value="" selected disabled>請選擇捐款用途</option>
               <option value="教師支援費">教師支援費</option>
-              <option value="校園 iPad 汰換計畫">校園 iPad 汰換計畫</option>
+              <option value="校園共好基金">校園共好基金</option>
+              <option value="校園 iPad 汰換計畫">特別任務：校園 iPad 汰換計畫</option>
             </select>
             <span class="hint" id="purposeHint">已依您看的項目帶入，可以改選。</span>
           </div>
@@ -1662,13 +1801,19 @@
    * ========================================================= */
   var ACCOUNT_NUMBER = ''; // 待填
 
-  /* 捐款指定用途。本次活動確定為以下三項，第一個為預設。
+  /* 捐款指定用途（115 學年度新架構，三項，沒有預設值）。
+   * 用途值變更紀錄（日後對應 Google Sheet）：
+   *   - 移除「不指定（由家長會統籌運用）」
+   *   - 「教師支援費」維持不變（原任務一）
+   *   - 新增「校園共好基金」（原任務二、三、四合併）
+   *   - 「校園 iPad 汰換計畫」值不變（原任務五），選單顯示為「特別任務：校園 iPad 汰換計畫」
+   * 沒有帶入卡片時選單停在空白的「請選擇」，必填。
    * 之後若要新增或調整，只要改這個陣列（並同步更新上方 <select> 的 fallback 選項與投影片）即可。
    * 投影片「我要捐這項」以 data-pick 索引對應本陣列。 */
   var PURPOSE_OPTIONS = [
-    { value: '不指定（由家長會統籌運用）', label: '不指定（由家長會統籌運用）', selected: true },
     { value: '教師支援費', label: '教師支援費' },
-    { value: '校園 iPad 汰換計畫', label: '校園 iPad 汰換計畫' }
+    { value: '校園共好基金', label: '校園共好基金' },
+    { value: '校園 iPad 汰換計畫', label: '特別任務：校園 iPad 汰換計畫' }
   ];
 
   function renderPurposeOptions() {
@@ -1676,6 +1821,9 @@
     if (!sel) return;
     var current = sel.value;
     sel.innerHTML = '';
+    var ph = document.createElement('option');
+    ph.value = ''; ph.textContent = '請選擇捐款用途'; ph.disabled = true; ph.defaultSelected = true;
+    sel.appendChild(ph);
     PURPOSE_OPTIONS.forEach(function (opt) {
       var o = document.createElement('option');
       o.value = opt.value;
@@ -1684,22 +1832,18 @@
     });
     var mini = $('purposeMini');
     if (mini) {
-      mini.innerHTML = '';
+      mini.innerHTML = '<option value="" disabled>請選擇捐款用途</option>';
       PURPOSE_OPTIONS.forEach(function (opt) {
         var o = document.createElement('option');
         o.value = opt.value; o.textContent = opt.label; mini.appendChild(o);
       });
     }
     var match = PURPOSE_OPTIONS.some(function (opt) { return opt.value === current; });
-    if (match) sel.value = current;
-    else {
-      var def = PURPOSE_OPTIONS.filter(function (opt) { return opt.selected; })[0] || PURPOSE_OPTIONS[0];
-      if (def) sel.value = def.value;
-    }
+    sel.value = match ? current : '';
     if (mini) mini.value = sel.value;
   }
-  function defaultPurpose() { return (PURPOSE_OPTIONS.filter(function (opt) { return opt.selected; })[0] || PURPOSE_OPTIONS[0]).value; }
-  function purposeLabel(v) { var o = PURPOSE_OPTIONS.filter(function (opt) { return opt.value === v; })[0]; return o ? o.label : v; }
+  function defaultPurpose() { return ''; } // 沒有預設：停在「請選擇」
+  function purposeLabel(v) { if (!v) return ''; var o = PURPOSE_OPTIONS.filter(function (opt) { return opt.value === v; })[0]; return o ? o.label : v; }
 
   /* ---------- 細項頁的瀏覽紀錄：開啟時 pushState，返回一律走 history.back()，避免退兩次或直接離開網站 ---------- */
   if ('scrollRestoration' in history) history.scrollRestoration = 'manual';
@@ -2141,6 +2285,8 @@
   function syncToHistory() {
     var st = ptaState();
     if (drawerOpen && st !== 'info') closeDrawerNow();
+    if (openDetailEl && st !== 'detail') closeDetailNow();
+    else if (!openDetailEl && st === 'detail' && history.state.key) openDetail(history.state.key, true);
     if (switching) { setTimeout(syncToHistory, motionMs(FADE_MS) + 40); return; }
     if (mode === 'report' && st !== 'report' && st !== 'progress' && st !== 'info') showSlides();
     else if (mode === 'slides' && st === 'report') showReport({ fromPop: true });
@@ -2151,9 +2297,10 @@
   var lastPick = null;
   var presetText = $('presetText'), purposeMini = $('purposeMini'), purposeHint = $('purposeHint');
   function syncPurposeUI(show) {
-    presetText.textContent = '已帶入「' + purposeLabel(purposeSel.value) + '」，下方表單可隨時改選。';
+    presetText.textContent = purposeSel.value ? '已帶入「' + purposeLabel(purposeSel.value) + '」，下方表單可隨時改選。' : '還沒選擇捐款用途，請在這裡或下方表單選一項。';
     if (purposeMini.value !== purposeSel.value) purposeMini.value = purposeSel.value;
-    purposeHint.textContent = lastPick === null ? '預設為「' + purposeLabel(defaultPurpose()) + '」，可以改選。' : '已依您看的項目帶入，可以改選。';
+    purposeMini.classList.toggle('is-empty', !purposeSel.value);
+    purposeHint.textContent = lastPick === null ? '請選擇這筆捐款要支持的項目（必填）。' : '已依您看的項目帶入，可以改選。';
     if (show !== undefined) presetNote.hidden = !show;
   }
   purposeMini.addEventListener('change', function () {
@@ -2176,6 +2323,46 @@
     showReport({ anchor: $('c3').hidden ? 'c2' : 'c3' }); // 表單已打開就直接捲到表單
   }
 
+  /* ---------- 了解詳情分頁：左上「‹ 返回」、history、左緣右滑（與募款進度同一套） ---------- */
+  var DETAIL_KEYS = ['teacher', 'common', 'ipad'];
+  var openDetailEl = null, detailFocus = null;
+  function openDetail(key, fromPop) {
+    var el = $('detail-' + key);
+    if (!el) return;
+    if (openDetailEl && openDetailEl !== el) closeDetailNow(true);
+    if (!openDetailEl) detailFocus = document.activeElement;
+    el.hidden = false; el.scrollTop = 0; openDetailEl = el;
+    document.body.classList.add('gv-open');
+    if (!fromPop && ptaState() !== 'detail') history.pushState({ pta: 'detail', key: key }, '', '#detail-' + key);
+    focusEl(el.querySelector('.dv-back'));
+  }
+  function closeDetailNow(keepFocus) {
+    if (!openDetailEl) return;
+    openDetailEl.hidden = true; openDetailEl = null;
+    if ($('goalView').hidden) document.body.classList.remove('gv-open');
+    if (!keepFocus && detailFocus && detailFocus.focus) focusEl(detailFocus);
+  }
+  function closeDetail() {
+    if (!openDetailEl) return;
+    if (ptaState() === 'detail') { ptaHistoryBack(); return; }
+    closeDetailNow();
+    history.replaceState(null, '', location.pathname + location.search);
+  }
+  document.addEventListener('click', function (e) {
+    var t = e.target.closest && e.target.closest('[data-detail], .dv-back, [data-detail-pick]');
+    if (!t) return;
+    if (t.hasAttribute('data-detail')) { openDetail(t.getAttribute('data-detail')); return; }
+    if (t.classList.contains('dv-back')) { closeDetail(); return; }
+    // 分頁底部的「我要捐這項」：把分頁那筆紀錄換成回報頁，返回時回到投影片
+    var i = Number(t.getAttribute('data-detail-pick'));
+    closeDetailNow(true);
+    if (ptaState() === 'detail') history.replaceState({ pta: 'report' }, '', '#report');
+    if (cur !== i && slides[i]) { cur = i; renderSlides(false); }
+    pickPurpose(i);
+  });
+  document.addEventListener('keydown', function (e) { if (openDetailEl && (e.key === 'Escape' || e.key === 'Esc')) closeDetail(); });
+  window.__ptaDetail = { current: function () { return openDetailEl; } };
+
   /* =========================================================
    * 投影片
    * ========================================================= */
@@ -2183,7 +2370,7 @@
   var pagerBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-go]'));
   var stepBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-step]'));
   var slideStatus = $('slideStatus'), pageNow = $('pageNow'), swipeHint = $('swipeHint');
-  var N = slides.length, cur = 1; // 預覽頁：預設打開第 2 頁（教師支援費），由 renderSlides 同步狀態
+  var N = slides.length, cur = 0; // 第 1 頁：教師支援費（三位變裝老師），由 renderSlides 同步狀態
   // 控件：點擊／滑動起點落在這些元素上時，不切頁
   var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav], .ix';
 
@@ -2224,6 +2411,7 @@
       b.disabled = target < 0 || target >= N;
     });
     pageNow.textContent = String(cur + 1);
+    if (window.ptaGoalMini) window.ptaGoalMini(slides[cur].getAttribute('data-key'));
     stage.classList.toggle('at-first', cur === 0);
     stage.classList.toggle('at-last', cur === N - 1);
     if (announce) {
@@ -2439,6 +2627,13 @@
   /* ---------- 初始狀態 ---------- */
   unlockScroll();
   renderSlides(false);
+  // 以 #detail-xxx 連結進入時，直接打開該項說明（先補一筆投影片紀錄，返回不會離開網站）
+  var dm = /^#detail-(teacher|common|ipad)$/.exec(location.hash);
+  if (dm) {
+    cur = DETAIL_KEYS.indexOf(dm[1]); renderSlides(false);
+    if (ptaState() !== 'detail') { history.replaceState(null, '', location.pathname + location.search); history.pushState({ pta: 'detail', key: dm[1] }, '', '#detail-' + dm[1]); }
+    openDetail(dm[1], true);
+  }
   // 以 #report / #c3 連結進入時，直接顯示回報表單
   if (location.hash === '#report' || location.hash === '#c3') {
     stage.hidden = true;
@@ -2447,7 +2642,7 @@
     mode = 'report';
     // 直連時先補一筆「投影片」紀錄，按返回／Android 返回鍵會回到投影片而不是離開網站
     if (ptaState() !== 'report') { var h0 = location.hash; history.replaceState(null, '', location.pathname + location.search); history.pushState({ pta: 'report' }, '', h0); }
-    purposeSel.value = defaultPurpose(); syncPurposeUI(false); // 直連：用途預設「不指定」
+    purposeSel.value = defaultPurpose(); syncPurposeUI(false); // 直連：用途停在「請選擇」，必填
     if (location.hash === '#c3') openStep2(false);
   }
 })();
@@ -2462,7 +2657,7 @@
 
   // 主視覺小彩蛋：點一下（不是滑動）才播放；電腦版點這些區塊不會換頁
   (function(){
-    var hint = document.querySelector('#slide-1 .tap-hint');
+    var hint = document.querySelector('#gatePlate .tap-hint');
     document.addEventListener('click', function (e) {
       var g = e.target.closest && e.target.closest('.ix');
       if (!g) return;
@@ -2621,30 +2816,74 @@
 </script>
 
 <script>
-  /* 募款進度：接上 Apps Script 後，把 GOAL_STATS_URL 填上；它回傳 {"confirmed":數字,"target":數字,"count":數字,"updated":"文字"}，只含總數，不含任何家長資料。 */
+  /* 募款進度（三項分開算）：接上 Apps Script 後，把 GOAL_STATS_URL 填上。
+   * 回傳格式：{"items":{"teacher":{confirmed,reported,target,count,pending},"common":{...},"ipad":{...}},"donors":數字,"updated":"文字"}
+   * 只含總數，不含任何家長資料。target 沒給時用下方 TARGETS。
+   * 年度募款＝教師支援費＋校園共好基金（854,800）；iPad 特別任務另列，不加進年度總目標。 */
   (function(){
-    var GOAL_STATS_URL = ''; // 待填：Apps Script 網址（GET），回傳 {confirmed, reported, target, count, pending, donors, updated}
-    var SAMPLE = { confirmed:133700, reported:142700, target:500000, count:42, pending:5, donors:45, updated:'' }; // 範例數字，未接上前顯示
+    var GOAL_STATS_URL = ''; // 待填：Apps Script 網址（GET）
+    var TARGETS = { teacher: 518000, common: 336800, ipad: 525000 };
+    var NAMES = { teacher: '教師支援費', common: '校園共好基金', ipad: 'iPad 特別任務' };
+    var SAMPLE = { items: { // 範例數字，未接上前顯示
+      teacher: { confirmed: 186500, reported: 196500, count: 41, pending: 3 },
+      common:  { confirmed: 98200,  reported: 104200, count: 28, pending: 2 },
+      ipad:    { confirmed: 131300, reported: 146300, count: 22, pending: 4 } }, donors: 63, updated: '' };
     var fmt = function(n){ return 'NT$' + Math.round(n).toLocaleString('en-US'); };
+    var wan = function(n){ return (Math.round(n / 100) / 100).toString() + ' 萬'; };
+    var pctOf = function(x){ return x.target > 0 ? Math.min(100, x.confirmed / x.target * 100) : 0; };
+    var pctTxt = function(p){ return (Math.round(p * 10) / 10) + '%'; };
+    var last = null;
+    function norm(d){
+      var it = (d && d.items) || {}, o = {}, all = { count: 0, pending: 0 };
+      ['teacher', 'common', 'ipad'].forEach(function(k){
+        var x = it[k] || {};
+        o[k] = { confirmed: +x.confirmed || 0, reported: x.reported != null ? +x.reported : (+x.confirmed || 0), target: x.target > 0 ? +x.target : TARGETS[k], count: +x.count || 0, pending: +x.pending || 0 };
+        all.count += o[k].count; all.pending += o[k].pending;
+      });
+      o.annual = { confirmed: o.teacher.confirmed + o.common.confirmed, reported: o.teacher.reported + o.common.reported, target: o.teacher.target + o.common.target };
+      all.donors = d && d.donors != null ? d.donors : all.count;
+      o.all = all;
+      return o;
+    }
+    function fill(el, x){
+      if (!x) return;
+      var p = x.target != null ? pctOf(x) : 0;
+      el.querySelectorAll('[data-f]').forEach(function(f){
+        var k = f.getAttribute('data-f'), v = '';
+        if (k === 'pct') v = pctTxt(p);
+        else if (k === 'left') v = fmt(Math.max(0, x.target - x.confirmed));
+        else if (k === 'confirmed-wan') v = wan(x.confirmed);
+        else if (k === 'target-wan') v = wan(x.target);
+        else if (k === 'count' || k === 'pending' || k === 'donors') v = String(x[k]);
+        else v = fmt(x[k]);
+        f.textContent = v;
+      });
+      el.querySelectorAll('[data-pb]').forEach(function(e){ e.setAttribute('aria-valuenow', Math.round(p)); e.setAttribute('aria-valuetext', '已達成 ' + pctTxt(p)); });
+      el.__pct = p;
+    }
+    function bars(){
+      document.querySelectorAll('[data-gi]').forEach(function(el){
+        var p = el.__pct || 0;
+        el.querySelectorAll('[data-bar]').forEach(function(e){ e.style.width = Math.max(p, 2) + '%'; });
+        el.querySelectorAll('[data-tree]').forEach(function(e){ e.style.left = Math.min(Math.max(p, 4), 96) + '%'; });
+      });
+    }
+    // 投影片上方的小進度條：跟著目前這張卡顯示那一項
+    window.ptaGoalMini = function(key){
+      if (!last || !last[key]) return;
+      var p = pctOf(last[key]);
+      document.querySelectorAll('[data-gm-label]').forEach(function(e){ e.textContent = NAMES[key] + '進度'; });
+      document.querySelectorAll('[data-gm-pct]').forEach(function(e){ e.textContent = pctTxt(p); });
+      document.querySelectorAll('[data-gm-bar]').forEach(function(e){ e.style.width = Math.max(p, 2) + '%'; });
+    };
     function render(d, isSample){
-      var pct = d.target > 0 ? Math.min(100, d.confirmed / d.target * 100) : 0;
-      var pctTxt = (Math.round(pct*10)/10) + '%';
-      document.querySelectorAll('[data-goal-pct]').forEach(function(e){ e.textContent = pctTxt; });
-      document.querySelectorAll('[data-goal-confirmed]').forEach(function(e){ e.textContent = fmt(d.confirmed); });
-      document.querySelectorAll('[data-goal-target]').forEach(function(e){ e.textContent = fmt(d.target); });
-      document.querySelectorAll('[data-goal-count]').forEach(function(e){ e.textContent = d.count; });
-      var setT = function(sel, v){ document.querySelectorAll(sel).forEach(function(e){ e.textContent = v; }); };
-      setT('[data-goal-reported]', fmt(d.reported != null ? d.reported : d.confirmed));
-      setT('[data-goal-left]', fmt(Math.max(0, d.target - d.confirmed)));
-      setT('[data-goal-pending]', d.pending != null ? d.pending : 0);
-      setT('[data-goal-donors]', d.donors != null ? d.donors : d.count);
+      last = norm(d);
+      document.querySelectorAll('[data-gi]').forEach(function(el){ fill(el, last[el.getAttribute('data-gi')]); });
       document.querySelectorAll('[data-goal-sample]').forEach(function(e){ e.hidden = !isSample; });
       if (d.updated) document.querySelectorAll('[data-goal-updated]').forEach(function(e){ e.textContent = '更新於 ' + d.updated; });
-      document.querySelectorAll('[data-goal-pb]').forEach(function(e){ e.setAttribute('aria-valuenow', Math.round(pct)); e.setAttribute('aria-valuetext', '已達成 ' + pctTxt); });
-      requestAnimationFrame(function(){ requestAnimationFrame(function(){
-        document.querySelectorAll('[data-goal-bar]').forEach(function(e){ e.style.width = Math.max(pct, 2) + '%'; });
-        document.querySelectorAll('[data-goal-tree]').forEach(function(e){ e.style.left = Math.min(Math.max(pct, 4), 96) + '%'; });
-      }); });
+      var act = document.querySelector('.slide.is-active');
+      window.ptaGoalMini(act ? act.getAttribute('data-key') : 'teacher');
+      requestAnimationFrame(function(){ requestAnimationFrame(bars); });
     }
     window.__goalData = { d: SAMPLE, sample: true };
     render(SAMPLE, true);
@@ -2652,10 +2891,10 @@
     function openGoal(){
       lastFocus = document.activeElement;
       view.hidden = false; document.body.classList.add('gv-open'); view.scrollTop = 0;
-      document.querySelectorAll('#goalView [data-goal-bar]').forEach(function(e){ e.style.transition='none'; e.style.width='0'; });
-      document.querySelectorAll('#goalView [data-goal-tree]').forEach(function(e){ e.style.transition='none'; e.style.left='0'; });
+      document.querySelectorAll('#goalView [data-bar]').forEach(function(e){ e.style.transition='none'; e.style.width='0'; });
+      document.querySelectorAll('#goalView [data-tree]').forEach(function(e){ e.style.transition='none'; e.style.left='0'; });
       void view.offsetWidth;
-      document.querySelectorAll('#goalView [data-goal-bar], #goalView [data-goal-tree]').forEach(function(e){ e.style.transition=''; });
+      document.querySelectorAll('#goalView [data-bar], #goalView [data-tree]').forEach(function(e){ e.style.transition=''; });
       render(window.__goalData.d, window.__goalData.sample);
       var b = view.querySelector('.gv-back'); if (b) b.focus({preventScroll:true});
       if (window.ptaState && ptaState() !== 'progress') {
@@ -2665,7 +2904,7 @@
     }
     function closeGoal(fromPop){
       if (view.hidden) return;
-      view.hidden = true; document.body.classList.remove('gv-open');
+      view.hidden = true; if (!document.querySelector('.detail-view:not([hidden])')) document.body.classList.remove('gv-open');
       if (!fromPop && window.ptaState && ptaState() === 'progress') ptaHistoryBack();
       if (lastFocus && lastFocus.focus) lastFocus.focus({preventScroll:true});
     }
@@ -2680,7 +2919,7 @@
     if (location.hash === '#progress') openGoal();
     if (GOAL_STATS_URL) {
       fetch(GOAL_STATS_URL).then(function(r){ return r.json(); }).then(function(d){
-        if (d && typeof d.confirmed === 'number' && typeof d.target === 'number') { window.__goalData = { d: d, sample: false }; render(d, false); }
+        if (d && d.items && typeof d.items === 'object') { window.__goalData = { d: d, sample: false }; render(d, false); }
       }).catch(function(){});
     }
   })();
@@ -2693,6 +2932,8 @@
     function layer(){
       var g = window.__ptaGoal;
       if (g && g.isOpen()) return { el: g.view, back: g.view.querySelector('.gv-back') };
+      var dv = window.__ptaDetail && window.__ptaDetail.current();
+      if (dv) return { el: dv, back: dv.querySelector('.dv-back') };
       var dr = document.getElementById('drawer'); if (dr && !dr.hidden) return null;
       var rp = document.getElementById('report'), bar = document.getElementById('reportBar'), rb = document.getElementById('reportBack');
       if (rp && !rp.hidden && bar && !bar.hidden) return { el: rp, back: rb };
