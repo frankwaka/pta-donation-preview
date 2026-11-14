@@ -1580,8 +1580,8 @@
         </div>
         <div class="ac-row">
           <span class="ac-k">戶名</span>
-          <span class="ac-v"><span class="ac-name">臺北市和平實驗國民小學學生家長會蘇珮儀</span></span>
-          <button type="button" class="ac-copy" data-copy="臺北市和平實驗國民小學學生家長會蘇珮儀" data-what="戶名" aria-label="複製戶名"><span data-copy-label>複製</span></button>
+          <span class="ac-v"><span class="ac-name">臺北市和平實驗國民小學學生家長會林愷昕</span></span>
+          <button type="button" class="ac-copy" data-copy="臺北市和平實驗國民小學學生家長會林愷昕" data-what="戶名" aria-label="複製戶名"><span data-copy-label>複製</span></button>
         </div>
         <p class="ac-toast" role="status" aria-live="polite"></p>
       </div>
@@ -1816,8 +1816,8 @@
       </div>
       <div class="ac-row">
         <span class="ac-k">戶名</span>
-        <span class="ac-v"><span class="ac-name">臺北市和平實驗國民小學學生家長會蘇珮儀</span></span>
-        <button type="button" class="ac-copy" data-copy="臺北市和平實驗國民小學學生家長會蘇珮儀" data-what="戶名" aria-label="複製戶名"><span data-copy-label>複製</span></button>
+        <span class="ac-v"><span class="ac-name">臺北市和平實驗國民小學學生家長會林愷昕</span></span>
+        <button type="button" class="ac-copy" data-copy="臺北市和平實驗國民小學學生家長會林愷昕" data-what="戶名" aria-label="複製戶名"><span data-copy-label>複製</span></button>
       </div>
       <p class="ac-toast" role="status" aria-live="polite"></p>
     </div>
@@ -1854,10 +1854,10 @@
 
   /* =========================================================
    * 專戶帳號設定
-   * 帳號照抄家長會 Google 表單（Lin 同意公開）。第一步與「捐款資訊」抽屜各有一張同樣的帳號卡（HTML），
+   * 帳號與戶名照會長最終版募款信（Canva，Lin 同意公開）。第一步與「捐款資訊」抽屜各有一張同樣的帳號卡（HTML），
    * 改帳號時兩張卡與這裡一起改；複製時代碼只取 013、帳號只取數字。
    * ========================================================= */
-  var ACCOUNT_NUMBER = '212-03-500424-3'; // 照抄家長會 Google 表單：國泰世華銀行敦化分行(013)，戶名「臺北市和平實驗國民小學學生家長會蘇珮儀」
+  var ACCOUNT_NUMBER = '212-03-500424-3'; // 照會長最終版募款信（Canva）：國泰世華銀行敦化分行(013)，戶名「臺北市和平實驗國民小學學生家長會林愷昕」
 
   /* 捐款指定用途（115 學年度新架構，三項，沒有預設值）。
    * 用途值變更紀錄（日後對應 Google Sheet）：
@@ -1957,7 +1957,7 @@
     });
   });
 
-  /* ---------- 聯絡家長會：複製 LINE ID（照 Google 表單原文，沒有公開網址就不組連結） ---------- */
+  /* ---------- 聯絡家長會：複製 LINE ID（加好友按鈕用會長提供的正式連結 line.me/ti/p/pyfy2VZG0S，ID 當備用） ---------- */
   (function () {
     var b = $('lineCopy'), msg = $('lineMsg'); if (!b) return;
     var lbl = b.querySelector('[data-copy-label]'), t;
