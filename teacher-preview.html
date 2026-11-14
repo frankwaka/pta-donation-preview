@@ -840,11 +840,12 @@
   /* 募款進度條 */
   .goal-track{position:relative; display:block; height:10px; background:#F3E6CF; border:2px solid var(--ink); border-radius:999px; overflow:hidden}
   .goal-track i{position:absolute; inset:0 auto 0 0; width:0; background:linear-gradient(90deg,#4FB37A,#8EDB5A); border-right:2px solid var(--ink); border-radius:999px; transition:width 1.2s cubic-bezier(.2,.8,.2,1)}
+  .goal-track i[style*="width: 0%"], .goal-track i[style*="width:0"]{border-right-width:0} /* 歸零時不畫末端線，長度真的是 0 */
   .goal-track.big{height:18px; overflow:visible}
   .goal-track.big i{border-radius:999px}
   .goal-tree{position:absolute; top:50%; left:0; transform:translate(-50%,-55%); font-size:20px; transition:left 1.2s cubic-bezier(.2,.8,.2,1); filter:drop-shadow(0 1px 0 #fff)}
-  .goal-sample{display:inline-block; margin-left:6px; padding:0 6px; font-size:10.5px; font-weight:700; line-height:1.6; color:var(--red-d); background:var(--sun-l); border:1.5px dashed var(--red-d); border-radius:8px; vertical-align:1px; white-space:nowrap}
-  .goal-sample[hidden]{display:none}
+  .goal-soon{display:inline-block; margin-left:6px; padding:0 6px; font-size:10.5px; font-weight:700; line-height:1.6; color:var(--sea-d); background:var(--sea-l); border:1.5px solid var(--sea-d); border-radius:8px; vertical-align:1px; white-space:nowrap}
+  .goal-soon[hidden]{display:none}
   .goal-mini{display:block; margin:8px 0 0; padding:6px 10px 8px; color:var(--ink); text-decoration:none; background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px}
   .gm-top{display:flex; justify-content:space-between; align-items:center; margin-bottom:4px; font-size:12.5px}
   .gm-top em{font-style:normal; font-weight:900; color:#2F8F74}
@@ -984,7 +985,7 @@
       </div>
     </div>
         <button type="button" class="goal-mini" data-goal-open aria-label="看三項募款進度詳情">
-        <span class="gm-top"><b data-gm-label>校園共好基金進度</b><span class="gm-more">看詳情 ›</span><span><em data-gm-pct>0%</em><span class="goal-sample" data-goal-sample>範例</span></span></span>
+        <span class="gm-top"><b data-gm-label>校園共好基金進度</b><span class="gm-more">看詳情 ›</span><span><em data-gm-pct>0%</em><span class="goal-soon" data-goal-soon>募款即將開始</span></span></span>
         <span class="goal-track" aria-hidden="true"><i data-gm-bar></i></span>
       </button>
   </header>
@@ -1383,7 +1384,7 @@
   <div class="gv-wrap">
     <header class="gv-top">
       <button type="button" class="gv-back sub-back-inline" data-goal-close aria-label="返回上一頁"><span aria-hidden="true">‹</span>返回</button>
-      <span class="goal-sample" data-goal-sample>範例數字</span>
+      <span class="goal-soon" data-goal-soon>募款即將開始</span>
     </header>
     <h2 class="gv-title" id="gvTitle">115 學年度家長會<br>募款進度</h2>
     <div class="gv-hero" data-gi="annual">
@@ -1537,7 +1538,7 @@
 
 
     <section class="goal-card" aria-labelledby="goalTitle">
-      <h2 id="goalTitle">115 學年度家長會募款進度 <span class="goal-sample" data-goal-sample>範例數字</span></h2>
+      <h2 id="goalTitle">115 學年度家長會募款進度 <span class="goal-soon" data-goal-soon>募款即將開始</span></h2>
       <div class="gc-rows">
         <div class="gc-row" data-gi="teacher"><div class="gc-row-top"><b>教師支援費</b><span><em data-f="pct">0%</em><small><span data-f="confirmed-wan">0</span> / <span data-f="target-wan">0</span></small></span></div><div class="goal-track" role="progressbar" aria-label="教師支援費募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div></div>
         <div class="gc-row" data-gi="common"><div class="gc-row-top"><b>校園共好基金</b><span><em data-f="pct">0%</em><small><span data-f="confirmed-wan">0</span> / <span data-f="target-wan">0</span></small></span></div><div class="goal-track" role="progressbar" aria-label="校園共好基金募款進度" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0" data-pb><i data-bar></i></div></div>
@@ -2842,10 +2843,10 @@
     var GOAL_STATS_URL = ''; // 待填：Apps Script 網址（GET）
     var TARGETS = { teacher: 518000, common: 339600, ipad: 525000 };
     var NAMES = { teacher: '教師支援費', common: '校園共好基金', ipad: 'iPad 特別任務' };
-    var SAMPLE = { items: { // 範例數字，未接上前顯示
-      teacher: { confirmed: 186500, reported: 196500, count: 41, pending: 3 },
-      common:  { confirmed: 98200,  reported: 104200, count: 28, pending: 2 },
-      ipad:    { confirmed: 131300, reported: 146300, count: 22, pending: 4 } }, donors: 63, updated: '' };
+    var ZERO = { items: { // 預設全部歸零；填上 GOAL_STATS_URL（Apps Script /exec）後改顯示真實金額
+      teacher: { confirmed: 0, reported: 0, count: 0, pending: 0 },
+      common:  { confirmed: 0, reported: 0, count: 0, pending: 0 },
+      ipad:    { confirmed: 0, reported: 0, count: 0, pending: 0 } }, donors: 0, updated: '' };
     var fmt = function(n){ return 'NT$' + Math.round(n).toLocaleString('en-US'); };
     var wan = function(n){ return (Math.round(n / 100) / 100).toString() + ' 萬'; };
     var pctOf = function(x){ return x.target > 0 ? Math.min(100, x.confirmed / x.target * 100) : 0; };
@@ -2882,7 +2883,7 @@
     function bars(){
       document.querySelectorAll('[data-gi]').forEach(function(el){
         var p = el.__pct || 0;
-        el.querySelectorAll('[data-bar]').forEach(function(e){ e.style.width = Math.max(p, 2) + '%'; });
+        el.querySelectorAll('[data-bar]').forEach(function(e){ e.style.width = p + '%'; });
         el.querySelectorAll('[data-tree]').forEach(function(e){ e.style.left = Math.min(Math.max(p, 4), 96) + '%'; });
       });
     }
@@ -2892,19 +2893,20 @@
       var p = pctOf(last[key]);
       document.querySelectorAll('[data-gm-label]').forEach(function(e){ e.textContent = NAMES[key] + '進度'; });
       document.querySelectorAll('[data-gm-pct]').forEach(function(e){ e.textContent = pctTxt(p); });
-      document.querySelectorAll('[data-gm-bar]').forEach(function(e){ e.style.width = Math.max(p, 2) + '%'; });
+      document.querySelectorAll('[data-gm-bar]').forEach(function(e){ e.style.width = p + '%'; });
     };
-    function render(d, isSample){
+    function render(d){
       last = norm(d);
       document.querySelectorAll('[data-gi]').forEach(function(el){ fill(el, last[el.getAttribute('data-gi')]); });
-      document.querySelectorAll('[data-goal-sample]').forEach(function(e){ e.hidden = !isSample; });
+      var started = ['teacher', 'common', 'ipad'].some(function(k){ return last[k].confirmed > 0 || last[k].reported > 0; });
+      document.querySelectorAll('[data-goal-soon]').forEach(function(e){ e.hidden = started; }); // 還沒有任何金額時顯示「募款即將開始」
       if (d.updated) document.querySelectorAll('[data-goal-updated]').forEach(function(e){ e.textContent = '更新於 ' + d.updated; });
       var act = document.querySelector('.slide.is-active');
       window.ptaGoalMini(act ? act.getAttribute('data-key') : 'common');
       requestAnimationFrame(function(){ requestAnimationFrame(bars); });
     }
-    window.__goalData = { d: SAMPLE, sample: true };
-    render(SAMPLE, true);
+    window.__goalData = { d: ZERO };
+    render(ZERO);
     var view = document.getElementById('goalView'), lastFocus = null;
     function openGoal(){
       lastFocus = document.activeElement;
@@ -2913,7 +2915,7 @@
       document.querySelectorAll('#goalView [data-tree]').forEach(function(e){ e.style.transition='none'; e.style.left='0'; });
       void view.offsetWidth;
       document.querySelectorAll('#goalView [data-bar], #goalView [data-tree]').forEach(function(e){ e.style.transition=''; });
-      render(window.__goalData.d, window.__goalData.sample);
+      render(window.__goalData.d);
       var b = view.querySelector('.gv-back'); if (b) b.focus({preventScroll:true});
       if (window.ptaState && ptaState() !== 'progress') {
         if (!history.state && location.hash === '#progress') history.replaceState(null, '', location.pathname + location.search); // 直連 #progress：先補底層紀錄
@@ -2937,7 +2939,7 @@
     if (location.hash === '#progress') openGoal();
     if (GOAL_STATS_URL) {
       fetch(GOAL_STATS_URL).then(function(r){ return r.json(); }).then(function(d){
-        if (d && d.items && typeof d.items === 'object') { window.__goalData = { d: d, sample: false }; render(d, false); }
+        if (d && d.items && typeof d.items === 'object') { window.__goalData = { d: d }; render(d); }
       }).catch(function(){});
     }
   })();
