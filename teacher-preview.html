@@ -414,6 +414,10 @@
   .summary{margin:0 0 18px; padding:10px 16px; background:var(--cream); border-radius:var(--wobble-2); text-align:left}
   .summary div{display:flex; justify-content:space-between; gap:12px; padding:5px 0; font-size:15px}
   .summary dt{color:var(--ink-2)} .summary dd{margin:0; font-weight:700; text-align:right; font-variant-numeric:tabular-nums}
+  .summary .sum-email{display:block; margin-top:4px; padding-top:9px; border-top:1.5px dashed var(--line)}
+  .summary .sum-email dd{margin-top:4px; text-align:left}
+  .summary .sum-email b{display:block; padding:6px 10px; font-size:16px; font-weight:900; color:var(--sea-d); background:var(--sea-l); border-radius:10px 8px 10px 8px; overflow-wrap:anywhere}
+  .summary .sum-email small{display:block; margin-top:6px; font-size:12.5px; font-weight:500; line-height:1.6; color:var(--ink-2)}
   .demo{margin:14px 0 0 !important; padding:10px 12px; border:1.5px dashed var(--field); border-radius:14px; font-size:12.5px !important; color:var(--ink-2) !important; line-height:1.6; text-align:center !important}
 
   /* FAQ */
@@ -1754,6 +1758,7 @@
           <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
           <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
           <div><dt>捐款用途</dt><dd id="sumPurpose">—</dd></div>
+          <div class="sum-email"><dt>電子收據將寄至</dt><dd><b id="sumEmail">—</b><small>若 Email 有誤，請按「再填一筆」重新回報。</small></dd></div>
         </dl>
         <button type="button" class="btn btn-ghost" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
       </div>
@@ -2199,6 +2204,7 @@
     $('sumAmount').textContent = 'NT$ ' + Number(data.get('amount')).toLocaleString('zh-TW');
     $('sumLast5').textContent = String(data.get('last5') || '—');
     $('sumPurpose').textContent = purposeLabel(String(data.get('purpose') || '')) || '—';
+    $('sumEmail').textContent = String(data.get('email') || '').trim() || '—'; // textContent 不解析 HTML，等同跳脫
 
     form.hidden = true;
     presetNote.hidden = true;
