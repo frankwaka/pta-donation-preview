@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="theme-color" content="#FBF4E6">
 <meta name="robots" content="noindex, nofollow">
-<title>愛心捐款回報｜和平實驗小學家長會（尚未上線）（教師支援費插畫預覽）</title>
+<title>愛心捐款｜和平實小家長會</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+TC:wght@400;500;700;900&display=swap" rel="stylesheet">
@@ -446,6 +446,14 @@
   .line-msg{flex-basis:100%; font-size:12.5px; color:var(--ink-3); min-height:0}
   .line-msg:empty{display:none}
 
+  /* 開場引言（首屏卡片下方）與結語（頁尾上方） */
+  .intro{padding:28px 0 calc(var(--tri-h, 56px) + var(--safe-b) + 40px)}
+  #stage[hidden] + .intro{display:none}
+  .intro-title{margin:0; font-size:22px; font-weight:900; line-height:1.45; letter-spacing:.02em}
+  .intro p{margin:12px 0 0; font-size:15px; line-height:1.8; color:var(--ink-2)}
+  .outro{margin-top:44px; padding:16px 18px; background:var(--paper); border:2px solid var(--ink); border-radius:var(--wobble-2); box-shadow:3px 4px 0 var(--sun)}
+  .outro p{margin:0; font-size:15.5px; font-weight:700; line-height:1.8; color:var(--ink)}
+  .outro p + p{margin-top:6px; font-weight:500; color:var(--ink-2)}
   footer{margin-top:52px; padding:20px 0 0; text-align:center; font-size:13px; color:var(--ink-2); line-height:1.8}
   footer svg{display:block; margin:0 auto 8px}
   footer b{display:block; font-size:15px; color:var(--ink)}
@@ -530,7 +538,7 @@
   .tap-hint.is-gone{opacity:0}
   @keyframes hintpulse{0%,100%{transform:translateY(0)}50%{transform:translateY(-3px)}}
   @media (prefers-reduced-motion:reduce){ .play-sky *, .play-tree .tree, .play-sea *, .tap-hint{animation:none !important} .play-land .tuft{animation:none; transform:scale(1)} }
-  /* 第 2 張（預覽）v4：中秋 Q 版老師「真分層」＋「點誰動誰」
+  /* 第 2 張 v4：中秋 Q 版老師「真分層」＋「點誰動誰」
      背景（無老師）＋三位老師各自的去背精靈圖，全部依 assets/teachers-moon-layers.json 的 1000×750 座標絕對定位；
      整個 4:3 .teacher-frame 完整放進格子（contain），空位用接近原圖夜空的深藍；疊圖 SVG 一律 viewBox="0 0 1000 750"。
      背景圖永遠靜止：任何點擊動畫都只套在角色層或發光／星星／玉兔上。 */
@@ -632,7 +640,7 @@
     .t-layer, .t-layer *, .teacher-glow, .teacher-sky *, #teacherPlate .tap-hint{animation:none !important}
   }
 
-  /* 第 3 張（預覽）v5：校園 iPad 教室「真分層」＋「點誰動誰」
+  /* 第 3 張 v5：校園 iPad 教室「真分層」＋「點誰動誰」
      背景（無小孩／平板）＋各精靈圖依 assets/ipad-class-layers.json?v=6f8807c 的 1000×750 座標絕對定位（x/10%、y/7.5%）；
      z-order：背景 → 左小孩 → 男孩身體 → 右小孩 → 新 iPad → 男孩雙手 → 壞平板 → 點擊區。
      4:3 #ipadFrame 完整放進格子（contain），空位用教室牆面米色；背景圖永遠靜止，動畫只套在精靈層與特效上。 */
@@ -726,7 +734,7 @@
     #slide-3 .edge svg{width:17px; height:17px}
   }
 
-  /* 第 1 張（預覽）v1：和平校門 Q 版「真分層」＋「點誰動誰」
+  /* 第 1 張 v1：和平校門 Q 版「真分層」＋「點誰動誰」
      背景（小孩位置已補成地面／樹叢，其餘都是原圖像素）＋各精靈圖依 assets/gate-layers.json?v=f0557a6 的 1000×750 座標絕對定位（x/10%、y/7.5%）；
      z-order：背景 → 左女孩（身體＋揮手的手）→ 兩個牽手男生（同一張圖，一起跳）→ 右女孩（身體＋馬尾）→ 飄葉 → 點擊區。
      待機：每人輕輕走路搖擺、左女孩一直揮手、右女孩馬尾晃；點擊：被點的人（男生是兩個一起）跳起來冒愛心星星。 */
@@ -971,7 +979,7 @@
       <div class="brand-l">
         <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
         <div>
-          <div class="brand-name"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+          <div class="brand-name"><span>和平實小家長會</span></div>
           <h1 class="stage-h" id="stageTitle">愛心捐款・捐款項目介紹</h1>
         </div>
       </div>
@@ -1378,6 +1386,15 @@
   <p class="sr-only" id="slideStatus" aria-live="polite" aria-atomic="true"></p>
 </section>
 
+<!-- 開場引言（會長募款信開頭，照 Canva 原文精簡）：在首屏卡片下方，往下滑才看到，不佔首屏；回報頁時跟著卡片一起隱藏 -->
+<section class="intro" id="intro" aria-labelledby="introTitle">
+  <div class="wrap">
+    <h2 class="intro-title" id="introTitle">和平家長是家長會的合夥人，<br>也是學校的共同經營者。</h2>
+    <p>和平實小是公辦公營的實驗教育學校，學費、教學資源與教師人力都比照一般公小規範。要用有限資源完成豐富多元的課程與校園維護，需要家長的理解與支持，一起開源支應。</p>
+    <p>315 個家庭共組溫馨校園，家長會每年經費僅來自每戶 240 元會費，約 7 萬 5 千元，支付一般會務、親職講座與志工活動後已無餘力，因此提出這次的募款任務。</p>
+  </div>
+</section>
+
 
 <!-- 募款進度分頁 -->
 <section class="goal-view" id="goalView" role="dialog" aria-modal="true" aria-labelledby="gvTitle" hidden>
@@ -1515,7 +1532,7 @@
       <div class="brand">
         <div class="brand-l">
           <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
-          <div class="brand-name"><span>和平實驗小學家長會</span><span class="status">尚未上線</span></div>
+          <div class="brand-name"><span>和平實小家長會</span></div>
         </div>
       </div>
       <div class="r-hero">
@@ -1723,7 +1740,6 @@
 
         <p class="form-err" id="formErr" role="alert" hidden></p>
         <button type="submit" class="btn submit"><span>送出回報</span><span class="arrow" aria-hidden="true">→</span></button>
-        <p class="submit-note">本頁尚未上線：送出僅為前端示意，資料不會傳送或儲存。</p>
       </form>
 
       <div class="thanks" id="thanks" tabindex="-1" hidden>
@@ -1740,7 +1756,6 @@
           <div><dt>捐款用途</dt><dd id="sumPurpose">—</dd></div>
         </dl>
         <button type="button" class="btn btn-ghost" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
-        <p class="demo">本頁尚未上線：這筆回報僅為前端示意，未傳送、也未儲存任何資料。</p>
       </div>
     </section>
 
@@ -1759,11 +1774,16 @@
       <p class="hint">若無法開啟，請複製 ID 到 LINE 用 ID 搜尋加好友。</p>
     </section>
 
+    <!-- 結語（會長募款信結尾，照 Canva 原文） -->
+    <aside class="outro" aria-label="家長會的話">
+      <p>在和平，家長不是教育服務的消費者，我們是學校和孩子最強的後援、最佳的啦啦隊。</p>
+      <p>所有為老師和志工團隊做的事，最終都會回到孩子身上。</p>
+    </aside>
+
     <footer>
       <svg width="60" height="14" viewBox="0 0 60 14" aria-hidden="true"><path d="M2 8c6-6 10 4 16 0s10-6 16 0 10 4 16 0 6-4 8-2" fill="none" stroke="#2F8F74" stroke-width="2.4" stroke-linecap="round"/></svg>
-      <b>和平實驗小學家長會</b>
-      臺北市大安區和平實驗國民小學 家長會
-      <p>本頁尚未上線，內容請以家長會正式公告為準。本頁不提供付款功能，請自行匯款至家長會專戶後再回報。</p>
+      <b>和平實小家長會</b>
+      <p>本頁不提供付款功能，請自行匯款至家長會專戶後再回報。</p>
     </footer>
   </div>
 </main>
@@ -1786,7 +1806,7 @@
 
 <!-- 捐款資訊抽屜 -->
 <div class="scrim" id="scrim" hidden></div>
-<section class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" aria-describedby="drawerWarn" hidden>
+<section class="drawer" id="drawer" role="dialog" aria-modal="true" aria-labelledby="drawerTitle" hidden>
   <div class="drawer-head">
     <span class="drawer-grip" aria-hidden="true"></span>
     <div class="drawer-title-row">
@@ -1795,14 +1815,6 @@
     </div>
   </div>
   <div class="drawer-body" id="drawerBody">
-    <aside class="notice" id="drawerWarn">
-      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><circle cx="13" cy="13" r="11" fill="#FBEBC0" stroke="#C23B30" stroke-width="2"/><path d="M13 7v7" stroke="#C23B30" stroke-width="2.6" stroke-linecap="round"/><circle cx="13" cy="18.5" r="1.6" fill="#C23B30"/></svg>
-      <div>
-        <b>尚未上線</b>
-        <p>本頁為預覽版，匯款帳號照家長會 Google 表單公告。</p>
-      </div>
-    </aside>
-
     <div class="acct-card" id="drawerAcct" aria-labelledby="drawerAcctTitle">
       <p class="ac-title" id="drawerAcctTitle">匯款帳號</p>
       <div class="ac-row">
@@ -2694,7 +2706,7 @@
     });
   })();
 
-  // 第 2 張（預覽）「點誰動誰」：點哪位老師只播那位；點月亮／背景播滿月。
+  // 第 2 張「點誰動誰」：點哪位老師只播那位；點月亮／背景播滿月。
   // 不擋 .edge 箭頭（箭頭不在插畫裡），滑動超過 10px 不觸發，電腦版點插畫也不換頁。
   // 點擊區用 role="button" 而非 <button>，避免被舞台的 CONTROL_SEL 排除，手機在照片上仍可左右滑動換頁。
   (function(){
@@ -2739,7 +2751,7 @@
     });
   })();
 
-  // 第 3 張（預覽 v5）校園 iPad 教室「點誰動誰」：只播被點到的那一個；點空白教室不播。
+  // 第 3 張（v5）校園 iPad 教室「點誰動誰」：只播被點到的那一個；點空白教室不播。
   // 寫法比照第 2 張：滑動超過 10px 不觸發、攔下 click 不讓舞台換頁；點擊區用 role="button" 讓手機在插畫上仍可滑動換頁。
   (function(){
     var plate = document.getElementById('ipadPlate'), scene = document.getElementById('ipadScene'), frame = document.getElementById('ipadFrame');
@@ -2782,7 +2794,7 @@
       if (!e.repeat) play(hit.getAttribute('data-who'));
     });
   })();
-  // 第 1 張（預覽 v1）校門「點誰動誰」：點哪個小朋友只播那一個（兩個牽手的男生一起跳）；點空白不播。
+  // 第 1 張（v1）校門「點誰動誰」：點哪個小朋友只播那一個（兩個牽手的男生一起跳）；點空白不播。
   (function(){
     var plate = document.getElementById('gatePlate'), scene = document.getElementById('gateScene'), frame = document.getElementById('gateFrame');
     if (!plate || !scene || !frame) return;
