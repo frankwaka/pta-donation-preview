@@ -434,9 +434,11 @@
   .contact dd .tbd{margin-left:0}
   .line-dd{display:flex; flex-wrap:wrap; align-items:center; gap:8px 12px}
   .line-id{font-size:17px; font-weight:900; letter-spacing:.02em; user-select:all; -webkit-user-select:all}
-  .line-copy{min-height:44px; padding:0 14px; font:inherit; font-size:14.5px; font-weight:900; color:#fff; background:#06C755; border:2px solid var(--ink); border-radius:12px 9px 12px 9px; box-shadow:2px 2px 0 var(--ink); cursor:pointer}
+  .line-add{flex-basis:100%; display:inline-flex; align-items:center; justify-content:center; gap:6px; min-height:48px; padding:0 16px; font-size:16px; font-weight:900; color:#fff; text-decoration:none; background:#06C755; border:2px solid var(--ink); border-radius:12px 9px 12px 9px; box-shadow:2px 3px 0 var(--ink)}
+  .line-add:active{transform:translate(2px,2px); box-shadow:0 1px 0 var(--ink)}
+  .line-copy{min-height:44px; padding:0 14px; font:inherit; font-size:14.5px; font-weight:900; color:var(--ink); background:var(--paper); border:2px solid var(--ink); border-radius:12px 9px 12px 9px; box-shadow:2px 2px 0 var(--ink); cursor:pointer}
   .line-copy:active{transform:translate(2px,2px); box-shadow:0 0 0 var(--ink)}
-  .line-copy.is-done{background:#2F8F74}
+  .line-copy.is-done{background:#BFE7CF}
   .line-msg{flex-basis:100%; font-size:12.5px; color:var(--ink-3); min-height:0}
   .line-msg:empty{display:none}
 
@@ -1718,10 +1720,10 @@
       <svg class="squiggle" viewBox="0 0 120 10" aria-hidden="true"><path d="M2 6c10-6 18 4 28 0s18-6 28 0 18 4 28 0 18-6 30 0" fill="none" stroke="#F0C84A" stroke-width="3" stroke-linecap="round"/></svg>
       <dl class="contact">
         <div><dt>聯絡窗口</dt><dd>會長 林愷昕</dd></div>
-        <div><dt>LINE</dt><dd class="line-dd"><span class="line-id">kathylin_0707</span><button type="button" class="line-copy" id="lineCopy" data-copy="kathylin_0707" aria-label="複製 LINE ID kathylin_0707"><span data-copy-label>複製 LINE ID</span></button><span class="line-msg" id="lineMsg" role="status" aria-live="polite"></span></dd></div>
+        <div><dt>LINE</dt><dd class="line-dd"><a class="line-add" href="https://line.me/ti/p/~kathylin_0707" target="_blank" rel="noopener" aria-label="加會長 LINE 好友（另開新視窗）">加會長 LINE 好友<span aria-hidden="true">↗</span></a><span class="line-id">kathylin_0707</span><button type="button" class="line-copy" id="lineCopy" data-copy="kathylin_0707" aria-label="複製 LINE ID kathylin_0707"><span data-copy-label>複製 LINE ID</span></button><span class="line-msg" id="lineMsg" role="status" aria-live="polite"></span></dd></div>
         <div><dt>可聯絡時段</dt><dd>盡可能白天聯絡，<br>工作以及假日家庭日繁忙，回覆慢請見諒</dd></div>
       </dl>
-      <p class="hint">複製 LINE ID 後，到 LINE「加入好友」用 ID 搜尋。</p>
+      <p class="hint">若無法開啟，請複製 ID 到 LINE 用 ID 搜尋加好友。</p>
     </section>
 
     <footer>
@@ -1990,7 +1992,7 @@
         clearTimeout(t);
         lbl.textContent = ok ? '已複製' : '複製 LINE ID';
         b.classList.toggle('is-done', ok);
-        msg.textContent = ok ? '已複製 LINE ID，到 LINE 加入好友用 ID 搜尋。' : '無法自動複製，請長按 ID 自行拷貝。';
+        msg.textContent = ok ? '已複製 LINE ID，可到 LINE 用 ID 搜尋加好友。' : '無法自動複製，請長按 ID 自行拷貝。';
         t = setTimeout(function () { lbl.textContent = '複製 LINE ID'; b.classList.remove('is-done'); msg.textContent = ''; }, ok ? 1500 : 3000);
       });
     });
