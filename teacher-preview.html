@@ -64,7 +64,7 @@
   /* 共用：校名列 */
   .brand{display:flex; align-items:center; justify-content:space-between; gap:10px}
   .brand-l{display:flex; align-items:center; gap:10px; min-width:0}
-  .logo{flex:none; width:50px; height:50px}
+  .logo{flex:none; width:50px; height:50px; object-fit:contain; background:#fff; border:1px solid rgba(59,42,32,.18); border-radius:10px}
   .brand-name{display:flex; flex-wrap:wrap; align-items:center; gap:2px 8px; font-size:12.5px; font-weight:700; line-height:1.45; color:var(--ink-2); letter-spacing:.03em}
   .status{display:inline-block; padding:0 8px; font-size:11px; font-weight:700; line-height:1.7; color:#fff; background:var(--red-d); border-radius:10px 6px 11px 7px; white-space:nowrap; transform:rotate(-2deg)}
 
@@ -115,6 +115,20 @@
   #slide-1{--accent:var(--sea-d); --accent-l:var(--sea-l); --accent-d:var(--sea-d)} /* 教師支援費 */
   #slide-2{--accent:var(--red-d); --accent-l:var(--red-l); --accent-d:var(--red-d)} /* 校園共好基金（校門） */
   #slide-3{--accent:var(--sky-d); --accent-l:var(--sky-l); --accent-d:var(--sky-d)}
+  /* 第 1 頁：年度預算募款（兩項並列） */
+  .slide-duo .duo-h{font-size:clamp(22px, 6.4vw, 34px); margin-top:0}
+  .slide-duo .duo-sum{margin-top:2px}
+  .slide-duo .duo-sum b{color:var(--ink); font-weight:900}
+  .duo{display:grid; gap:10px; margin-top:8px}
+  .duo-item{padding:10px 12px 12px; background:var(--paper, #FFFBF3); border:2px solid var(--ink, #3B2A20); border-radius:14px 10px 14px 10px}
+  .duo-teacher{--accent:var(--sea-d); --accent-l:var(--sea-l); --accent-d:var(--sea-d)}
+  .duo-common{--accent:var(--red-d); --accent-l:var(--red-l); --accent-d:var(--red-d)}
+  .duo-top{display:flex; align-items:center; flex-wrap:wrap; gap:4px 8px}
+  .duo-title{margin:0; font-size:20px; font-weight:900; line-height:1.3; letter-spacing:.02em}
+  .duo-goal{margin-left:auto; font-size:13px; font-weight:800; color:var(--accent-d)}
+  .duo-copy{margin:4px 0 0; font-size:13.5px; line-height:1.6; color:var(--ink-2)}
+  .duo-item .cta-row{margin-top:8px}
+  .duo-item .cta-row .btn{min-height:44px}
 
   /* 大主視覺：佔滿剩餘高度，至少 30% 可見高度 */
   .s-fig{position:relative; flex:1 1 auto; display:flex; min-height:var(--fig-min); margin:0}
@@ -1002,22 +1016,6 @@
       <stop offset=".55" stop-color="#2F8F74" stop-opacity=".88"/>
       <stop offset="1" stop-color="#236E59" stop-opacity=".95"/>
     </linearGradient>
-    <clipPath id="logoClip"><circle cx="24" cy="24" r="21"/></clipPath>
-    <symbol id="logoSym" viewBox="0 0 48 48">
-      <circle cx="24" cy="24" r="22" fill="#FFF8E7"/>
-      <g transform="translate(24 24) scale(1.07) translate(-23.2 -23.8)" stroke="#3B2A20" stroke-width="1.2" stroke-linejoin="round">
-        <circle cx="30.7" cy="24.4" r="6.9" fill="none" stroke-width="6.2"/>
-        <circle cx="30.7" cy="24.4" r="6.9" fill="none" stroke="#2457B8" stroke-width="3.8"/>
-        <rect x="5.5" y="13" width="16.1" height="3.4" rx="1.4" fill="#2457B8"/>
-        <rect x="5.5" y="21.7" width="20" height="3.5" rx="1.4" fill="#2457B8"/>
-        <rect x="6.8" y="26" width="3.4" height="8.6" rx="1.4" fill="#2457B8"/>
-        <rect x="11.9" y="16" width="3.4" height="18.6" rx="1.4" fill="#2457B8"/>
-        <rect x="17" y="26" width="3.4" height="8.6" rx="1.4" fill="#2457B8"/>
-        <circle cx="8.4" cy="19.1" r="1.9" fill="#E07A2E"/>
-        <circle cx="18.9" cy="19.1" r="1.9" fill="#6FD04A"/>
-      </g>
-      <circle cx="24" cy="24" r="22" fill="none" stroke="#3B2A20" stroke-width="2.6"/>
-    </symbol>
   </defs>
 </svg>
 
@@ -1034,11 +1032,11 @@
 <!-- =====================================================
      區塊 1：滿版投影片（捐款項目介紹）
      ===================================================== -->
-<section class="stage" id="stage" data-cur="common" aria-roledescription="carousel" aria-labelledby="stageTitle">
+<section class="stage at-first" id="stage" data-cur="annual" aria-roledescription="carousel" aria-labelledby="stageTitle">
   <header class="stage-top">
     <div class="brand">
       <div class="brand-l">
-        <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
+        <img class="logo" src="assets/heping-logo.webp" alt="" width="50" height="50" decoding="async">
         <div>
           <div class="brand-name"><span>和平實小家長會</span></div>
           <h1 class="stage-h" id="stageTitle">愛心捐款・捐款項目介紹</h1>
@@ -1046,199 +1044,22 @@
       </div>
       <div class="pager" role="group" aria-label="切換捐款項目">
         <div class="dots">
-          <button type="button" class="dot" data-go="0" aria-controls="slide-1" aria-label="第 1 頁，共 3 頁：教師支援費"><i></i></button>
-          <button type="button" class="dot" data-go="1" aria-controls="slide-2" aria-label="第 2 頁，共 3 頁：校園共好基金" aria-current="true"><i></i></button>
-          <button type="button" class="dot" data-go="2" aria-controls="slide-3" aria-label="第 3 頁，共 3 頁：特別任務 校園 iPad 汰換計畫"><i></i></button>
+          <button type="button" class="dot" data-go="0" aria-controls="slide-2" aria-label="第 1 頁，共 2 頁：年度預算募款" aria-current="true"><i></i></button>
+          <button type="button" class="dot" data-go="1" aria-controls="slide-3" aria-label="第 2 頁，共 2 頁：特別任務 校園 iPad 汰換計畫"><i></i></button>
         </div>
-        <span class="count" aria-hidden="true"><b id="pageNow">2</b> / 3</span>
+        <span class="count" aria-hidden="true"><b id="pageNow">1</b> / 2</span>
       </div>
     </div>
-        <button type="button" class="goal-mini" data-goal-open aria-label="看三項募款進度詳情">
-        <span class="gm-top"><b data-gm-label>校園共好基金進度</b><span class="gm-more">看詳情 ›</span><span><em data-gm-pct>0%</em><span class="goal-soon" data-goal-soon>募款即將開始</span></span></span>
+        <button type="button" class="goal-mini" data-goal-open aria-label="看募款進度詳情">
+        <span class="gm-top"><b data-gm-label>年度預算募款進度</b><span class="gm-more">看詳情 ›</span><span><em data-gm-pct>0%</em><span class="goal-soon" data-goal-soon>募款即將開始</span></span></span>
         <span class="goal-track" aria-hidden="true"><i data-gm-bar></i></span>
       </button>
   </header>
 
   <div class="slides">
 
-    <!-- 01 教師支援費 -->
-    <section class="slide" id="slide-1" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 3 頁：教師支援費" data-title="教師支援費" data-key="teacher" tabindex="-1" aria-hidden="true">
-      <figure class="s-fig">
-        <div class="s-plate" id="teacherPlate">
-          <div class="teacher-scene" id="teacherScene">
-            <div class="teacher-frame" id="teacherFrame">
-              <!-- 背景（沒有老師）：永遠靜止，不套任何動畫 -->
-              <img class="teacher-bg" src="assets/teachers-moon-bg.webp" alt="插畫・非實景：三位老師中秋晚會裝扮的 Q 版插畫，背景是滿月與鳥居" width="1000" height="750" draggable="false">
-              <div class="teacher-glow" aria-hidden="true"></div>
-              <svg class="teacher-fx teacher-sky" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                <!-- 月亮／背景：小星星（手繪四角星）分佈在月亮四周的夜空，不疊在臉上 -->
-                <g fill="#F0C84A" stroke="#3B2A20" stroke-width="2.2" stroke-linejoin="round">
-                  <g transform="translate(70 62) scale(1.8)"><path class="tstar" style="--d:150ms" d="M0-17l5 12 12 5-12 5-5 12-5-12-12-5 12-5z"/></g>
-                  <g transform="translate(858 34) scale(1.8)"><path class="tstar" style="--d:420ms" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z"/></g>
-                  <g transform="translate(36 222) scale(1.8)"><path class="tstar" style="--d:700ms" d="M0-13l4 9 9 4-9 4-4 9-4-9-9-4 9-4z"/></g>
-                  <g transform="translate(215 36) scale(1.8)"><path class="tstar" style="--d:950ms" d="M0-12l3.5 8.5 8.5 3.5-8.5 3.5-3.5 8.5-3.5-8.5-8.5-3.5 8.5-3.5z"/></g>
-                  <g transform="translate(160 152) scale(1.8)"><path class="tstar" style="--d:1250ms" d="M0-15l4.5 10.5 10.5 4.5-10.5 4.5-4.5 10.5-4.5-10.5-10.5-4.5 10.5-4.5z"/></g>
-                </g>
-                <!-- 小玉兔（簡筆手繪）：放在右上夜空空白處（原圖約 x 870–980、y 30–177），不擋任何老師 -->
-                <g transform="translate(870 30) scale(1.35) translate(-293 -281)">
-                  <g class="tbunny" stroke="#3B2A20" stroke-width="2.6" stroke-linejoin="round" stroke-linecap="round">
-                    <path d="M303 322c-8-22-6-40 3-41 8-1 11 16 9 37z" fill="#FFFBF3"/>
-                    <path d="M316 318c2-23 10-38 18-35 8 3 2 20-9 37z" fill="#FFFBF3"/>
-                    <path d="M306 300c-1-7 0-12 2-13M326 296c2-5 4-8 6-8" fill="none" stroke="#E79A8E" stroke-width="3"/>
-                    <ellipse cx="337" cy="362" rx="31" ry="24" fill="#FFFBF3"/>
-                    <circle cx="367" cy="364" r="7.5" fill="#FFFBF3"/>
-                    <circle cx="313" cy="336" r="19" fill="#FFFBF3"/>
-                    <ellipse cx="348" cy="385" rx="13" ry="5" fill="#FFFBF3"/>
-                    <ellipse cx="315" cy="382" rx="8" ry="5" fill="#FFFBF3"/>
-                    <circle cx="305" cy="333" r="2.3" fill="#3B2A20" stroke="none"/>
-                    <ellipse cx="309" cy="342" rx="4" ry="2.4" fill="#F3B6A8" stroke="none" opacity=".85"/>
-                    <path d="M295 338l3 2.5" fill="none" stroke-width="2.2"/>
-                  </g>
-                </g>
-              </svg>
-
-              <!-- 觀音層：精靈圖＋手繪柳枝＋水滴（一起跳，背景不跳） -->
-              <div class="t-layer t-guanyin" aria-hidden="true">
-                <img class="t-sprite-guanyin" src="assets/teachers-moon-guanyin.webp" alt="" width="359" height="606" draggable="false">
-                <img class="t-sprite-guanyin t-sprite-play" src="assets/teachers-moon-guanyin-nowillow.webp" alt="" width="359" height="606" draggable="false">
-                <svg class="teacher-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" focusable="false">
-                  <g class="t-cover">
-                    <g class="willow-arm" transform="translate(211 478)">
-                      <g class="willow-spin">
-                        <g transform="translate(-211 -478)">
-                          <!-- 枝幹：深色描邊＋橄欖綠填充，粗細接近原圖 -->
-                          <path fill="none" stroke="#2c3210" stroke-width="12" stroke-linecap="round" stroke-linejoin="round" d="M211 478 C208 455 204 435 199 415 C196 404 192 398 178 389 C160 376 140 366 118 378"/>
-                          <path fill="none" stroke="#556024" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" d="M211 478 C208 455 204 435 199 415 C196 404 192 398 178 389 C160 376 140 366 118 378"/>
-                          <path fill="none" stroke="#8a9440" stroke-width="2.2" stroke-linecap="round" opacity=".55" d="M208 476 C205 454 201 434 196 416 C193 406 188 400 176 390"/>
-                          <!-- 上側小分枝 -->
-                          <path fill="none" stroke="#2c3210" stroke-width="6" stroke-linecap="round" d="M194 404 C197 388 198 372 199 360"/>
-                          <path fill="none" stroke="#556024" stroke-width="3.6" stroke-linecap="round" d="M194 404 C197 388 198 372 199 360"/>
-                          <!-- 三綹下垂柳枝 -->
-                          <path fill="none" stroke="#2c3210" stroke-width="5.5" stroke-linecap="round" d="M158 380 C154 400 150 422 150 446"/>
-                          <path fill="none" stroke="#556024" stroke-width="3.2" stroke-linecap="round" d="M158 380 C154 400 150 422 150 446"/>
-                          <path fill="none" stroke="#2c3210" stroke-width="5.5" stroke-linecap="round" d="M138 372 C132 400 128 440 128 475 C130 495 134 512 138 522"/>
-                          <path fill="none" stroke="#556024" stroke-width="3.2" stroke-linecap="round" d="M138 372 C132 400 128 440 128 475 C130 495 134 512 138 522"/>
-                          <path fill="none" stroke="#2c3210" stroke-width="5.5" stroke-linecap="round" d="M118 378 C105 395 96 430 90 465 C88 490 96 525 110 555"/>
-                          <path fill="none" stroke="#556024" stroke-width="3.2" stroke-linecap="round" d="M118 378 C105 395 96 430 90 465 C88 490 96 525 110 555"/>
-                          <g stroke="#3a4216" stroke-width="1.8" stroke-linejoin="round">
-            <path class="wleaf" fill="#c5c86a" transform="translate(199.0 358.0) rotate(-8)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(206.0 378.0) rotate(18)" d="M0,-9.0 Q4.2,0 0,9.0 Q-4.2,0 0,-9.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(214.0 396.0) rotate(40)" d="M0,-8.0 Q4.2,0 0,8.0 Q-4.2,0 0,-8.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(193.0 378.0) rotate(-25)" d="M0,-8.0 Q4.2,0 0,8.0 Q-4.2,0 0,-8.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(204.0 430.0) rotate(-55)" d="M0,-13.0 Q4.9,0 0,13.0 Q-4.9,0 0,-13.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(198.0 414.0) rotate(-20)" d="M0,-9.0 Q4.2,0 0,9.0 Q-4.2,0 0,-9.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(188.0 400.0) rotate(15)" d="M0,-8.0 Q4.2,0 0,8.0 Q-4.2,0 0,-8.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(172.0 380.0) rotate(-50)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#c5c86a" transform="translate(158.0 368.0) rotate(-25)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(150.0 352.0) rotate(-5)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(140.0 360.0) rotate(-60)" d="M0,-10.0 Q4.2,0 0,10.0 Q-4.2,0 0,-10.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(126.0 372.0) rotate(-80)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(118.0 382.0) rotate(-100)" d="M0,-9.0 Q4.2,0 0,9.0 Q-4.2,0 0,-9.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(162.0 396.0) rotate(10)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(156.0 414.0) rotate(5)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(152.0 430.0) rotate(0)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#667428" transform="translate(150.0 448.0) rotate(5)" d="M0,-10.0 Q4.2,0 0,10.0 Q-4.2,0 0,-10.0Z"/>
-            <path class="wleaf" fill="#c5c86a" transform="translate(142.0 388.0) rotate(-5)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(136.0 406.0) rotate(8)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(132.0 424.0) rotate(4)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(129.0 444.0) rotate(2)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(128.0 464.0) rotate(0)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(130.0 484.0) rotate(8)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#667428" transform="translate(134.0 504.0) rotate(12)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(138.0 520.0) rotate(15)" d="M0,-9.0 Q4.2,0 0,9.0 Q-4.2,0 0,-9.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(112.0 390.0) rotate(-20)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(106.0 408.0) rotate(10)" d="M0,-13.0 Q4.9,0 0,13.0 Q-4.9,0 0,-13.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(100.0 426.0) rotate(8)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(95.0 446.0) rotate(5)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(91.0 466.0) rotate(2)" d="M0,-13.0 Q4.9,0 0,13.0 Q-4.9,0 0,-13.0Z"/>
-            <path class="wleaf" fill="#667428" transform="translate(90.0 486.0) rotate(0)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(94.0 506.0) rotate(10)" d="M0,-12.0 Q4.6,0 0,12.0 Q-4.6,0 0,-12.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(102.0 526.0) rotate(18)" d="M0,-13.0 Q4.9,0 0,13.0 Q-4.9,0 0,-13.0Z"/>
-            <path class="wleaf" fill="#667428" transform="translate(110.0 546.0) rotate(22)" d="M0,-11.0 Q4.2,0 0,11.0 Q-4.2,0 0,-11.0Z"/>
-            <path class="wleaf" fill="#a8b14c" transform="translate(88.0 448.0) rotate(-40)" d="M0,-9.0 Q4.2,0 0,9.0 Q-4.2,0 0,-9.0Z"/>
-            <path class="wleaf" fill="#7d8a32" transform="translate(84.0 500.0) rotate(-30)" d="M0,-9.0 Q4.2,0 0,9.0 Q-4.2,0 0,-9.0Z"/>
-                          </g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                <g class="willow-drops" fill="#3ea0d4" stroke="#163e62" stroke-width="2.2" stroke-linejoin="round">
-      <g transform="translate(213.4 365.2)"><g class="wdrop" style="--d:600ms;--fall:95px;--drift:18px"><g transform="scale(1.35)"><path d="M0,0 C6.5,7 8.8,16 0,26 C-8.8,16 -6.5,7 0,0Z"/><ellipse class="wflash" cx="0" cy="12" rx="4.2" ry="5" fill="#fff" stroke="none" opacity="0"/></g></g></g>
-      <g transform="translate(228.4 358.7)"><g class="wdrop" style="--d:640ms;--fall:110px;--drift:-10px"><g transform="scale(1.35)"><path d="M0,0 C6.5,7 8.8,16 0,26 C-8.8,16 -6.5,7 0,0Z"/><ellipse class="wflash" cx="0" cy="12" rx="4.2" ry="5" fill="#fff" stroke="none" opacity="0"/></g></g></g>
-      <g transform="translate(216.3 427.8)"><g class="wdrop" style="--d:620ms;--fall:88px;--drift:14px"><g transform="scale(1.35)"><path d="M0,0 C6.5,7 8.8,16 0,26 C-8.8,16 -6.5,7 0,0Z"/><ellipse class="wflash" cx="0" cy="12" rx="4.2" ry="5" fill="#fff" stroke="none" opacity="0"/></g></g></g>
-      <g transform="translate(200.0 350.0)"><g class="wdrop" style="--d:670ms;--fall:102px;--drift:8px"><g transform="scale(1.35)"><path d="M0,0 C5.5,6 7.5,14 0,22 C-7.5,14 -5.5,6 0,0Z"/><ellipse class="wflash" cx="0" cy="10" rx="3.6" ry="4.2" fill="#fff" stroke="none" opacity="0"/></g></g></g>
-      <g transform="translate(192.0 390.0)"><g class="wdrop" style="--d:700ms;--fall:92px;--drift:16px"><g transform="scale(1.35)"><path d="M0,0 C5.5,6 7.5,14 0,22 C-7.5,14 -5.5,6 0,0Z"/><ellipse class="wflash" cx="0" cy="10" rx="3.6" ry="4.2" fill="#fff" stroke="none" opacity="0"/></g></g></g>
-      <g transform="translate(208.0 400.0)"><g class="wdrop" style="--d:650ms;--fall:80px;--drift:-6px"><g transform="scale(1.35)"><path d="M0,0 C5.2,5.8 7,13 0,21 C-7,13 -5.2,5.8 0,0Z"/><ellipse class="wflash" cx="0" cy="10" rx="3.4" ry="4" fill="#fff" stroke="none" opacity="0"/></g></g></g>
-                </g>
-                </svg>
-              </div>
-
-              <!-- 熊熊層：精靈圖＋擺動的鍊子＋面具眼皮 -->
-              <div class="t-layer t-bear" aria-hidden="true">
-                <img class="t-sprite-bear" src="assets/teachers-moon-bear.webp" alt="" width="243" height="651" draggable="false">
-                <img class="t-sprite-bear t-sprite-play" src="assets/teachers-moon-bear-nochains.webp" alt="" width="243" height="651" draggable="false">
-                <svg class="teacher-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" focusable="false">
-                  <defs><clipPath id="cLidL"><polygon points="438,327 469,293 500,293 500,350 438,350"/></clipPath><clipPath id="cLidR"><polygon points="555,292 580,292 612,324 612,350 555,350"/></clipPath></defs>
-                  <g class="t-cover">
-                    <g class="chain" transform="translate(470 545)">
-                      <g class="chain-swing">
-                        <g transform="translate(-470 -545)">
-                          <rect class="lk-e" transform="translate(470.3 545.5) rotate(67)" x="-13" y="-3.6" width="26" height="7.2" rx="3.6"/>
-                          <g transform="translate(477.5 560.9) rotate(62)"><ellipse class="lk-o" rx="13" ry="8"/><ellipse class="lk-i" rx="13" ry="8"/></g>
-                          <rect class="lk-e" transform="translate(486.1 575.6) rotate(57)" x="-13" y="-3.6" width="26" height="7.2" rx="3.6"/>
-                          <g transform="translate(496.4 589.1) rotate(52)"><ellipse class="lk-o" rx="13" ry="8"/><ellipse class="lk-i" rx="13" ry="8"/></g>
-                          <rect class="lk-e" transform="translate(505.4 603.5) rotate(65)" x="-13" y="-3.6" width="26" height="7.2" rx="3.6"/>
-                          <g transform="translate(512.5 618.9) rotate(63)"><ellipse class="lk-o" rx="13" ry="8"/><ellipse class="lk-i" rx="13" ry="8"/></g>
-                          <rect class="lk-e" transform="translate(520.9 633.6) rotate(53)" x="-13" y="-3.6" width="26" height="7.2" rx="3.6"/>
-                          <g transform="translate(532.3 646.3) rotate(43)"><ellipse class="lk-o" rx="13" ry="8"/><ellipse class="lk-i" rx="13" ry="8"/></g>
-                          <rect class="lk-e" transform="translate(547.1 653.5) rotate(-1)" x="-13" y="-3.6" width="26" height="7.2" rx="3.6"/>
-                          <g transform="translate(561.8 646.0) rotate(-50)"><ellipse class="lk-o" rx="13" ry="8"/><ellipse class="lk-i" rx="13" ry="8"/></g>
-                          <rect class="lk-e" transform="translate(572.2 632.5) rotate(-54)" x="-13" y="-3.6" width="26" height="7.2" rx="3.6"/>
-                          <g transform="translate(581.5 619.5) rotate(-56)"><ellipse class="lk-o" rx="13" ry="8"/><ellipse class="lk-i" rx="13" ry="8"/></g>
-                        </g>
-                      </g>
-                    </g>
-                  </g>
-                  <g class="blink">
-                    <g clip-path="url(#cLidL)"><ellipse class="lid" cx="470" cy="322" rx="25" ry="25" fill="#EE8330"/></g>
-                    <g clip-path="url(#cLidR)"><ellipse class="lid" cx="585" cy="321" rx="21.5" ry="24" fill="#EE8330"/></g>
-                    <g fill="none" stroke="#2A1E18" stroke-width="4" stroke-linecap="round">
-                      <path class="lash" d="M452 325Q470 337 488 325"/>
-                      <path class="lash" d="M569 324Q585 335 601 323"/>
-                    </g>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- 白帽層：身體＋帽子一起跳；只有帽子左右晃；帽頂冒愛心 -->
-              <div class="t-layer t-hat-teacher" aria-hidden="true">
-                <img class="t-body" src="assets/teachers-moon-hat-body.webp" alt="" width="240" height="424" draggable="false">
-                <img class="t-hat" src="assets/teachers-moon-hat.webp" alt="" width="212" height="306" draggable="false">
-                <svg class="teacher-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" focusable="false">
-                  <g transform="translate(785 96)"><g class="theart">
-                  <path d="M0 20C-36-4-28-36 0-16C28-36 36-4 0 20Z" fill="#F06A7A" stroke="#3B2A20" stroke-width="4" stroke-linejoin="round"/>
-                  <path d="M-17-21c-6 1-9 6-8 11" fill="none" stroke="#FFFBF3" stroke-width="4" stroke-linecap="round" opacity=".85"/>
-                </g></g>
-                </svg>
-              </div>
-              <!-- 插圖改為靜態：已移除點擊區與「點點看」提示 -->
-            </div>
-          </div>
-        </div>
-        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-        <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：校園共好基金"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
-      </figure>
-      <div class="s-text">
-        <p class="s-kicker"><span class="s-no">01</span><span class="s-cat">年度預算募款</span><span class="s-tag">目標 51.8 萬</span></p>
-        <h2 class="s-title"><span class="mark">教師支援費</span></h2>
-        <p class="s-copy">補足全校四位導師的導師費、假期備課餐點、謝師心意，以及老師的增能與移地教學場勘。</p>
-        <p class="s-meta"><span class="s-goal">目標 NT$518,000</span><span class="more">共 6 個項目，明細請看「了解詳情」。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn btn-ghost s-more" data-detail="teacher" aria-label="了解詳情：教師支援費" aria-haspopup="dialog" aria-controls="detail-teacher"><span>了解詳情</span><span class="arrow" aria-hidden="true">›</span></button></div>
-      </div>
-    </section>
-
-    <!-- 02 校園共好基金 -->
-    <section class="slide is-active" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 3 頁：校園共好基金" data-title="校園共好基金" data-key="common" tabindex="-1">
+    <!-- 第 1 頁：年度預算募款（會長 11/16：教師支援費＋校園共好基金合併成同一頁，一打開就同時看到兩項；id 沿用 slide-2 以保留校門插圖樣式） -->
+    <section class="slide is-active slide-duo" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 2 頁：年度預算募款（教師支援費、校園共好基金）" data-title="年度預算募款（教師支援費、校園共好基金）" data-key="annual" tabindex="-1">
       <figure class="s-fig">
         <div class="s-plate" id="gatePlate">
           <div class="gate-scene" id="gateScene">
@@ -1313,20 +1134,29 @@
       <span>左右滑動看更多</span>
     </p>
         </div>
-        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：教師支援費"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁（已是第一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁：特別任務 校園 iPad 汰換計畫"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </figure>
       <div class="s-text">
-        <p class="s-kicker"><span class="s-no">02</span><span class="s-cat">年度預算募款</span><span class="s-tag">目標 33.96 萬</span></p>
-        <h2 class="s-title"><span class="mark">校園共好基金</span></h2>
-        <p class="s-copy">圖書館與情緒教育、校園環境與生態、志工支援與增能，一起把校園照顧好。</p>
-        <p class="s-meta"><span class="s-goal">目標 NT$339,600</span><span class="more">共 3 個方向，明細請看「了解詳情」。</span></p>
-        <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn btn-ghost s-more" data-detail="common" aria-label="了解詳情：校園共好基金" aria-haspopup="dialog" aria-controls="detail-common"><span>了解詳情</span><span class="arrow" aria-hidden="true">›</span></button></div>
+        <h2 class="s-title duo-h"><span class="mark">年度預算募款</span></h2>
+        <p class="s-meta duo-sum">教師支援費＋校園共好基金，年度目標 <b>NT$857,600</b></p>
+        <div class="duo">
+          <article class="duo-item duo-teacher" aria-labelledby="duoTeacher">
+            <div class="duo-top"><span class="s-no">01</span><h3 class="duo-title" id="duoTeacher">教師支援費</h3><span class="duo-goal">目標 NT$518,000</span></div>
+            <p class="duo-copy">補足全校四位導師的導師費、假期備課餐點、謝師心意，以及老師的增能與移地教學場勘。</p>
+            <div class="cta-row"><button type="button" class="btn s-cta" data-pick="0"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn btn-ghost s-more" data-detail="teacher" aria-label="了解詳情：教師支援費" aria-haspopup="dialog" aria-controls="detail-teacher"><span>了解詳情</span><span class="arrow" aria-hidden="true">›</span></button></div>
+          </article>
+          <article class="duo-item duo-common" aria-labelledby="duoCommon">
+            <div class="duo-top"><span class="s-no">02</span><h3 class="duo-title" id="duoCommon">校園共好基金</h3><span class="duo-goal">目標 NT$339,600</span></div>
+            <p class="duo-copy">圖書館與情緒教育、校園環境與生態、志工支援與增能，一起把校園照顧好。</p>
+            <div class="cta-row"><button type="button" class="btn s-cta" data-pick="1"><span>我要捐這項</span><span class="arrow" aria-hidden="true">→</span></button><button type="button" class="btn btn-ghost s-more" data-detail="common" aria-label="了解詳情：校園共好基金" aria-haspopup="dialog" aria-controls="detail-common"><span>了解詳情</span><span class="arrow" aria-hidden="true">›</span></button></div>
+          </article>
+        </div>
       </div>
     </section>
 
     <!-- 03 校園 iPad 汰換計畫 -->
-    <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 3 頁，共 3 頁：特別任務 校園 iPad 汰換計畫" data-title="特別任務 校園 iPad 汰換計畫" data-key="ipad" tabindex="-1" aria-hidden="true">
+    <section class="slide" id="slide-3" role="group" aria-roledescription="投影片" aria-label="第 2 頁，共 2 頁：特別任務 校園 iPad 汰換計畫" data-title="特別任務 校園 iPad 汰換計畫" data-key="ipad" tabindex="-1" aria-hidden="true">
       <figure class="s-fig">
         <div class="s-plate" id="ipadPlate">
           <span class="ribbon" aria-hidden="true">特別任務</span>
@@ -1415,7 +1245,7 @@
             </div>
           </div>
         </div>
-        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：校園共好基金"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
+        <button type="button" class="edge edge-prev" data-step="-1" aria-label="上一頁：年度預算募款"><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M13 3l-7 7 7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
         <button type="button" class="edge edge-next" data-step="1" aria-label="下一頁（已是最後一頁）" disabled><svg viewBox="0 0 20 20" aria-hidden="true"><path d="M7 3l7 7-7 7" fill="none" stroke="currentColor" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/></svg></button>
       </figure>
       <div class="s-text">
@@ -1517,7 +1347,7 @@
       <ul class="dv-list">
         <li><span class="nm">購書</span><span class="amt">NT$60,000</span><span class="dv-how">和平實小不使用教科書，「班書閱讀」是孩子最重要的學習養分。老師設計課程時會開出搭配該學季的「願望書單」，圖書館有的由館內支援，沒有的由家長會採購。孩子與老師增能用書，300 元 × 200 本。</span></li>
         <li><span class="nm">圖書館四季活動</span><span class="amt">NT$16,000</span><span class="dv-how">2,000 元 × 8 次。</span></li>
-        <li><span class="nm">說書活動</span><span class="amt">NT$4,800</span><span class="dv-how">300 元 × 16 次。</span></li>
+        <li><span class="nm">說書人活動</span><span class="amt">NT$4,800</span><span class="dv-how">300 元 × 16 次。</span></li>
         <li><span class="nm">情緒教育志工培訓與教材</span><span class="amt">NT$15,000</span><span class="dv-how">SEL 情緒教育由學校志工負責，志工要先到外面受訓取得認證，每季再一起備課、自編教材與教具。培訓 500 元 × 10 人次，教材 100 元 × 100 人。</span></li>
       </ul>
     </div>
@@ -1525,8 +1355,8 @@
       <h3>環境支援<span class="amt">NT$128,000</span></h3>
       <ul class="dv-list">
         <li><span class="nm">環境維護</span><span class="amt">NT$48,000</span><span class="dv-how">持續外聘清潔服務補強校園廁所清潔，學季假期之間也請專業團隊消毒，維持校園衛生。4,000 元 × 12 個月。</span></li>
-        <li><span class="nm">生態環境照顧</span><span class="amt">NT$50,000</span><span class="dv-how">和平被綠意環繞，四季都有不同的動植物陪孩子學習。這筆經費用在日常照顧這片綠意，例如校園樹木與植栽的修剪養護、颱風過後的倒木與落枝清理、孩子觀察用的生態池與植物區整理。</span></li>
-        <li><span class="nm">生態復育</span><span class="amt">NT$30,000</span><span class="dv-how">接下來要繼續推動宮脇式森林與螢火蟲復育。</span></li>
+        <li><span class="nm">生態環境照顧</span><span class="amt">NT$50,000</span><span class="dv-how">和平被綠意環繞，四季都有不同的動植物陪孩子學習，也需要日常的環境照顧，例如廁所清潔、環境消毒。</span></li>
+        <li><span class="nm">生態復育</span><span class="amt">NT$30,000</span><span class="dv-how">例如螢火蟲復育計畫、宮脇式森林 2.0 繼續推動。</span></li>
       </ul>
     </div>
     <div class="dv-group">
@@ -1570,7 +1400,7 @@
     <header class="mast">
       <div class="brand">
         <div class="brand-l">
-          <svg class="logo" aria-hidden="true" focusable="false"><use href="#logoSym"/></svg>
+          <img class="logo" src="assets/heping-logo.webp" alt="" width="50" height="50" decoding="async">
           <div class="brand-name"><span>和平實小家長會</span></div>
         </div>
       </div>
@@ -1762,6 +1592,15 @@
             </div>
             <span class="hint" id="receiptNote">家長會確認款項入帳後，會將電子收據寄到您填的 Email。</span>
           </div>
+          <!-- 會長 11/16：紙本收據（需要／不需要），送到孩子班上，不收地址；選「需要」時須有孩子班級與姓名 -->
+          <fieldset class="field" data-field>
+            <legend>是否需要紙本收據<span class="req">必填</span></legend>
+            <div class="opts">
+              <label><input type="radio" name="paperReceipt" value="需要" required data-msg-required="請選擇是否需要紙本收據"><span>需要</span></label>
+              <label><input type="radio" name="paperReceipt" value="不需要"><span>不需要</span></label>
+            </div>
+            <span class="hint">紙本收據將送到孩子班上，由孩子帶回；不需要填地址。電子收據一律寄到您的 Email。</span>
+          </fieldset>
           <fieldset class="field" data-field>
             <legend>公開徵信<span class="req">必填</span></legend>
             <div class="opts">
@@ -1805,6 +1644,7 @@
           <div><dt>金額</dt><dd id="sumAmount">—</dd></div>
           <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
           <div><dt>捐款用途</dt><dd id="sumPurpose">—</dd></div>
+          <div><dt>紙本收據</dt><dd id="sumPaper">—</dd></div>
           <div class="sum-email"><dt>電子收據將寄至</dt><dd><b id="sumEmail">—</b><small>若 Email 有誤，請按「再填一筆」重新回報。</small></dd></div>
         </dl>
         <button type="button" class="btn btn-ghost" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
@@ -1834,7 +1674,7 @@
 
     <footer>
       <svg width="60" height="14" viewBox="0 0 60 14" aria-hidden="true"><path d="M2 8c6-6 10 4 16 0s10-6 16 0 10 4 16 0 6-4 8-2" fill="none" stroke="#2F8F74" stroke-width="2.4" stroke-linecap="round"/></svg>
-      <b>和平實小家長會</b>
+      <b>115和平實小家長會</b>
       <p>本頁不提供付款功能，請自行匯款至家長會專戶後再回報。</p>
     </footer>
   </div>
@@ -2133,6 +1973,13 @@
   /* ---------- 自訂規則（JS 補強） ---------- */
   function customCheck(el) {
     var v = el.value;
+    // 紙本收據選「需要」：須有孩子班級與姓名（紙本收據送到班上）
+    if (el.name === 'paperReceipt') {
+      if (el.checked && v === '需要' && (!$('childClass').value || !String($('childName').value || '').trim())) {
+        return '選擇需要紙本收據時，請填寫孩子的班級與姓名';
+      }
+      return '';
+    }
     switch (el.id) {
       case 'donorName':
       case 'childName':
@@ -2269,9 +2116,9 @@
   // 送出欄位 → Sheet 欄位對照（name 不要改，改了 Apps Script／Sheet 要一起改）：
   //   purpose 捐款指定用途｜donorName 捐款人姓名｜phone 電話｜email Email（寄電子收據）｜childClass 年級班別｜childSeat 座號｜
   //   childName 子女姓名｜amount 金額｜last5 轉出帳號後五碼｜receipt 收據（固定「電子收據」）｜receiptTitle 收據抬頭｜
-  //   taxId 統一編號｜disclose 公開徵信方式｜agree 確認勾選｜proof 轉帳截圖（選填，{ name, type, data(base64) }）
+  //   taxId 統一編號｜paperReceipt 紙本收據（需要／不需要）｜disclose 公開徵信方式｜agree 確認勾選｜proof 轉帳截圖（選填，{ name, type, data(base64) }）
   // Sheet 會自動記錄送出時間（時間戳記），不必另外送。Content-Type 用 text/plain，避免瀏覽器先送 CORS 預檢（Apps Script 不支援）。
-  var PAYLOAD_FIELDS = ['purpose', 'donorName', 'phone', 'email', 'childClass', 'childSeat', 'childName', 'amount', 'last5', 'receipt', 'receiptTitle', 'taxId', 'disclose', 'agree'];
+  var PAYLOAD_FIELDS = ['purpose', 'donorName', 'phone', 'email', 'childClass', 'childSeat', 'childName', 'amount', 'last5', 'receipt', 'receiptTitle', 'taxId', 'paperReceipt', 'disclose', 'agree'];
   var SUBMIT_TIMEOUT_MS = 30000;
   var MSG_NETWORK = '網路連線不穩，資料尚未送出，請稍後再試。如持續失敗請聯絡家長會。';
   var submitBtn = form.querySelector('button[type="submit"]');
@@ -2350,6 +2197,7 @@
     $('sumAmount').textContent = 'NT$ ' + Number(payload.amount).toLocaleString('zh-TW');
     $('sumLast5').textContent = payload.last5 || '—';
     $('sumPurpose').textContent = purposeLabel(payload.purpose) || '—';
+    $('sumPaper').textContent = payload.paperReceipt || '—';
     $('sumEmail').textContent = payload.email || '—'; // textContent 不解析 HTML，等同跳脫
     var idText = id == null ? '' : String(id).trim();
     $('sumId').textContent = idText || '—';
@@ -2565,7 +2413,7 @@
   var pagerBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-go]'));
   var stepBtns = Array.prototype.slice.call(stage.querySelectorAll('[data-step]'));
   var slideStatus = $('slideStatus'), pageNow = $('pageNow'), swipeHint = $('swipeHint');
-  var N = slides.length, cur = 1; // 一進來停在第 2 頁：校園共好基金（校門口），HTML 也預先標好，不會先閃第 1 頁；只是停在這張，不代表選了這一項
+  var N = slides.length, cur = 0; // 一進來停在第 1 頁：年度預算募款（教師支援費＋校園共好基金同一頁）；只是停在這張，不代表選了這一項
   // 控件：點擊／滑動起點落在這些元素上時，不切頁
   var CONTROL_SEL = 'button, a, input, select, textarea, label, summary, [data-no-nav], .ix';
 
@@ -2907,7 +2755,7 @@
   (function(){
     var GOAL_STATS_URL = WEB_APP_URL; // 與回報同一個 Apps Script 網址（GET）；測試時一樣可用 window.__GAS_URL__ 覆寫
     var TARGETS = { teacher: 518000, common: 339600, ipad: 525000 };
-    var NAMES = { teacher: '教師支援費', common: '校園共好基金', ipad: '校園 iPad 汰換計畫' };
+    var NAMES = { annual: '年度預算募款', teacher: '教師支援費', common: '校園共好基金', ipad: '校園 iPad 汰換計畫' };
     var ZERO = { items: { // 預設全部歸零；GET 成功後改顯示 Apps Script 回傳的真實總數
       teacher: { confirmed: 0, reported: 0, count: 0, pending: 0 },
       common:  { confirmed: 0, reported: 0, count: 0, pending: 0 },
@@ -2967,7 +2815,7 @@
       document.querySelectorAll('[data-goal-soon]').forEach(function(e){ e.hidden = started; }); // 還沒有任何金額時顯示「募款即將開始」
       if (d.updated) document.querySelectorAll('[data-goal-updated]').forEach(function(e){ e.textContent = '更新時間 ' + String(d.updated); });
       var act = document.querySelector('.slide.is-active');
-      window.ptaGoalMini(act ? act.getAttribute('data-key') : 'common');
+      window.ptaGoalMini(act ? act.getAttribute('data-key') : 'annual');
       requestAnimationFrame(function(){ requestAnimationFrame(bars); });
     }
     window.__goalData = { d: ZERO };
