@@ -189,6 +189,9 @@
     .slide{position:relative; flex-direction:row; align-items:stretch; gap:56px; padding:16px 96px 0}
     .s-fig{position:static; flex:1.15 1 0; min-height:320px}
     .s-text{flex:1 1 0; align-self:center; max-width:440px}
+    /* 首頁照片為橫幅：寬螢幕時維持原比例置中，不裁掉兩側人物 */
+    #slide-2 .s-fig{align-items:center}
+    #homePlate{flex:1 1 auto; aspect-ratio:1100 / 780; max-height:100%}
     .edge-prev{left:28px} .edge-next{right:28px}
     .s-copy{font-size:16.5px}
   }
@@ -762,7 +765,9 @@
      背景（小孩位置已補成地面／樹叢，其餘都是原圖像素）＋各精靈圖依 assets/gate-layers.json?v=f0557a6 的 1000×750 座標絕對定位（x/10%、y/7.5%）；
      z-order：背景 → 左女孩（身體＋揮手的手）→ 兩個牽手男生（同一張圖，一起跳）→ 右女孩（身體＋馬尾）→ 飄葉 → 點擊區。
      待機：每人輕輕走路搖擺、左女孩一直揮手、右女孩馬尾晃；點擊：被點的人（男生是兩個一起）跳起來冒愛心星星。 */
-  #gatePlate{background:#BD9984} /* 滿版（cover），正常情況看不到底色 */
+  #gatePlate{background:#BD9984}
+  #homePlate{background:#E9DCC6}
+  .home-photo{position:absolute; inset:0; display:block; width:100%; height:100%; object-fit:cover; object-position:50% 62%} /* 滿版（cover），正常情況看不到底色 */
   .gate-scene{position:absolute; inset:0; z-index:0; display:flex; align-items:center; justify-content:center; overflow:hidden; container-type:size;
     cursor:pointer; -webkit-tap-highlight-color:transparent; -webkit-user-select:none; user-select:none}
   /* 滿版（像 object-fit:cover）：4:3 框放大到蓋滿格子，多出來的裁掉；裁切中心原圖約 x 46.5%、y 76%（保住右邊女孩的馬尾，也讓牆上的「和平」在最窄的框裡仍完整露出），
@@ -1061,67 +1066,9 @@
     <!-- 第 1 頁：年度預算募款（會長 11/16：教師支援費＋校園共好基金合併成同一頁，一打開就同時看到兩項；id 沿用 slide-2 以保留校門插圖樣式） -->
     <section class="slide is-active slide-duo" id="slide-2" role="group" aria-roledescription="投影片" aria-label="第 1 頁，共 2 頁：年度預算募款（教師支援費、校園共好基金）" data-title="年度預算募款（教師支援費、校園共好基金）" data-key="annual" tabindex="-1">
       <figure class="s-fig">
-        <div class="s-plate" id="gatePlate">
-          <div class="gate-scene" id="gateScene">
-            <div class="gate-frame" id="gateFrame">
-              <!-- 背景：原圖像素，只有小孩所在位置補成地面／樹叢；永遠靜止 -->
-              <img class="gate-bg" src="assets/gate-bg.webp?v=f0557a6" alt="校園共好基金插畫・非實景：臺北市和平實驗國民小學校門前，四個穿便服的小朋友放學，揹著書包手牽手開心地走出來，其中一個穿球衣的男生夾著足球；共好基金支持圖書館、情緒教育、校園環境與十週年志工" width="1000" height="750" draggable="false">
-
-              <!-- 左女孩：身體＋揮手的手（一起跳） -->
-              <div class="g-layer g-kid-girl-l" aria-hidden="true">
-                <div class="g-bob">
-                  <img class="g-sprite-girl-l" src="assets/gate-girl-l.webp?v=f0557a6" alt="" width="153" height="295" draggable="false">
-                  <img class="g-sprite-hand" src="assets/gate-girl-l-hand.webp?v=f0557a6" alt="" width="41" height="45" draggable="false">
-                </div>
-                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
-                    <g transform="translate(255 400) scale(1.35)"><path class="g-cheer" style="--d:0.1s;--r:-12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
-                    <g transform="translate(330 385) scale(2)"><path class="g-cheer" style="--d:0.26s;--r:18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                    <g transform="translate(230 430) scale(2)"><path class="g-cheer" style="--d:0.42s;--r:-20deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- 兩個牽手的男生（同一張圖：點任一個，兩個一起跳） -->
-              <div class="g-layer g-kid-boys" aria-hidden="true">
-                <div class="g-bob">
-                  <img class="g-sprite-boys" src="assets/gate-boys.webp?v=f0557a6" alt="" width="266" height="314" draggable="false">
-                  <img class="g-sprite-ball" src="assets/gate-ball.webp?v=f0557a6" alt="" width="57" height="58" draggable="false">
-                  <img class="g-sprite-boy-arm" src="assets/gate-boy-arm.webp?v=f0557a6" alt="" width="38" height="63" draggable="false">
-                </div>
-                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
-                    <g transform="translate(398 395) scale(2)"><path class="g-cheer" style="--d:0.1s;--r:-16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                    <g transform="translate(618 372) scale(2)"><path class="g-cheer" style="--d:0.34s;--r:16deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- 右女孩：身體＋馬尾 -->
-              <div class="g-layer g-kid-girl-r" aria-hidden="true">
-                <div class="g-bob">
-                  <img class="g-sprite-girl-r" src="assets/gate-girl-r.webp?v=f0557a6" alt="" width="159" height="291" draggable="false">
-                  <img class="g-sprite-pony" src="assets/gate-girl-r-pony.webp?v=f0557a6" alt="" width="51" height="97" draggable="false">
-                </div>
-                <svg class="gate-fx" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false">
-                  <g stroke="#3B2A20" stroke-width="3.5" stroke-linejoin="round">
-                    <g transform="translate(665 405) scale(1.35)"><path class="g-cheer" style="--d:0.1s;--r:12deg" d="M0 16C-29-3-22-29 0-13C22-29 29-3 0 16Z" fill="#F06A7A"/></g>
-                    <g transform="translate(745 392) scale(2)"><path class="g-cheer" style="--d:0.26s;--r:-18deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                    <g transform="translate(780 430) scale(2)"><path class="g-cheer" style="--d:0.42s;--r:20deg" stroke-width="2.2" d="M0-14l4 10 10 4-10 4-4 10-4-10-10-4 10-4z" fill="#F0C84A"/></g>
-                  </g>
-                </svg>
-              </div>
-
-              <!-- 飄葉（天空裡，只疊在上面） -->
-              <svg class="gate-fx g-leaves" viewBox="0 0 1000 750" preserveAspectRatio="xMidYMid meet" aria-hidden="true" focusable="false" style="z-index:2">
-                  <g transform="translate(250 190)"><path class="g-leaf" style="--d:0s;--t:9s;--dx:520px;--dy:240px;--dy1:110px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#8CC152" stroke="#3B2A20" stroke-width="2"/></g>
-                  <g transform="translate(150 260)"><path class="g-leaf" style="--d:3.5s;--t:11s;--dx:620px;--dy:300px;--dy1:150px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#A8D46F" stroke="#3B2A20" stroke-width="2"/></g>
-                  <g transform="translate(300 120)"><path class="g-leaf" style="--d:7s;--t:10s;--dx:560px;--dy:260px;--dy1:90px" d="M0-12C9-8 11 4 0 12C-11 4-9-8 0-12Z" fill="#6FAE3E" stroke="#3B2A20" stroke-width="2"/></g>
-              </svg>
-
-              <!-- 插圖改為靜態：已移除點擊區與「點點看」提示 -->
-            </div>
-          </div>
+        <div class="s-plate" id="homePlate">
+          <!-- 會長 11/16：第一頁照片換成「首頁新照片」（靜態，原圖 1489×1056 壓成 1100 寬 webp）；舊校門插圖檔案保留未刪 -->
+          <img class="home-photo" src="assets/home-photo-1116.webp" alt="和平實小校園活動照片（彩色鉛筆風格）：大人們在穿堂玩套圈圈遊戲" width="1100" height="780" decoding="async" draggable="false">
           <p class="swipe-hint" id="swipeHint" aria-hidden="true">
       <svg viewBox="0 0 52 26" focusable="false">
         <path class="ch-l" d="M7 8l-5 5 5 5" fill="none" stroke="#3B2A20" stroke-width="2.6" stroke-linecap="round" stroke-linejoin="round"/>
