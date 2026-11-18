@@ -377,14 +377,15 @@
   .nw{white-space:nowrap}
   .opt{margin-left:6px; font-size:12px; font-weight:400; color:var(--ink-2)}
   .hint{display:block; margin-top:5px; font-size:13px; color:var(--ink-2); line-height:1.6}
-  input[type=text],input[type=tel],input[type=email],input[type=number],input[type=datetime-local],select{
+  input[type=text],input[type=tel],input[type=email],input[type=number],input[type=datetime-local],select,textarea{
     display:block; width:100%; min-height:50px; padding:10px 14px; font:inherit; font-size:16px; line-height:1.5; color:var(--ink);
     background-color:#fff; border:2px solid var(--field); border-radius:14px 18px 12px 16px; appearance:none; -webkit-appearance:none; transition:border-color .2s, box-shadow .2s}
   input[type=number]{-moz-appearance:textfield}
   input[type=number]::-webkit-inner-spin-button,input[type=number]::-webkit-outer-spin-button{-webkit-appearance:none; margin:0}
   input[type=datetime-local]::-webkit-date-and-time-value{text-align:left}
-  input::placeholder{color:#A8957F}
-  input:focus,select:focus{outline:none; border-color:var(--sky-d); box-shadow:0 0 0 4px rgba(91,164,214,.35)}
+  textarea{display:block; height:auto; min-height:84px; resize:vertical; line-height:1.6}
+  textarea::placeholder,input::placeholder{color:#A8957F}
+  input:focus,select:focus,textarea:focus{outline:none; border-color:var(--sky-d); box-shadow:0 0 0 4px rgba(91,164,214,.35)}
   select{cursor:pointer; padding-right:40px; background-image:url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='14' height='9'%3E%3Cpath d='M1 1l6 6 6-6' fill='none' stroke='%233B2A20' stroke-width='2' stroke-linecap='round'/%3E%3C/svg%3E"); background-repeat:no-repeat; background-position:right 14px center}
   select:invalid{color:#A8957F}
   select option{color:var(--ink)}
@@ -1460,6 +1461,12 @@
             </select>
             <span class="hint" id="purposeHint">已依您看的項目帶入，可以改選。</span>
           </div>
+          <!-- 會長 11/18：校園共好基金加「備註」（選填），讓家長寫想指定的共好基金項目；送出鍵名 note，只有選校園共好基金時才顯示、才送值 -->
+          <div class="field" data-field id="noteField" hidden>
+            <label class="lbl" for="note">備註<span class="opt">選填</span></label>
+            <textarea id="note" name="note" rows="3" maxlength="200" placeholder="例如：希望用在圖書館與情緒教育" data-name="備註" aria-describedby="noteHint" disabled></textarea>
+            <span class="hint" id="noteHint">如果想指定捐款用在共好基金的哪個項目，可以寫在這裡（200 字內）。</span>
+          </div>
         </fieldset>
 
         <fieldset class="part">
@@ -1592,6 +1599,7 @@
           <div><dt>帳號後五碼</dt><dd id="sumLast5">—</dd></div>
           <div><dt>捐款用途</dt><dd id="sumPurpose">—</dd></div>
           <div><dt>紙本收據</dt><dd id="sumPaper">—</dd></div>
+          <div id="sumNoteRow" hidden><dt>備註</dt><dd id="sumNote">—</dd></div>
           <div class="sum-email"><dt>電子收據將寄至</dt><dd><b id="sumEmail">—</b><small>若 Email 有誤，請按「再填一筆」重新回報。</small></dd></div>
         </dl>
         <button type="button" class="btn btn-ghost" id="againBtn"><span>再填一筆</span><span class="arrow" aria-hidden="true">↺</span></button>
@@ -2063,9 +2071,9 @@
   // 送出欄位 → Sheet 欄位對照（name 不要改，改了 Apps Script／Sheet 要一起改）：
   //   purpose 捐款指定用途｜donorName 捐款人姓名｜phone 電話｜email Email（寄電子收據）｜childClass 年級班別｜childSeat 座號｜
   //   childName 子女姓名｜amount 金額｜last5 轉出帳號後五碼｜receipt 收據（固定「電子收據」）｜receiptTitle 收據抬頭｜
-  //   taxId 統一編號｜paperReceipt 紙本收據（需要／不需要）｜disclose 公開徵信方式｜agree 確認勾選｜proof 轉帳截圖（選填，{ name, type, data(base64) }）
+  //   taxId 統一編號｜paperReceipt 紙本收據（需要／不需要）｜disclose 公開徵信方式｜agree 確認勾選｜note 備註（選填，只有校園共好基金會有值，其餘為空字串）｜proof 轉帳截圖（選填，{ name, type, data(base64) }）
   // Sheet 會自動記錄送出時間（時間戳記），不必另外送。Content-Type 用 text/plain，避免瀏覽器先送 CORS 預檢（Apps Script 不支援）。
-  var PAYLOAD_FIELDS = ['purpose', 'donorName', 'phone', 'email', 'childClass', 'childSeat', 'childName', 'amount', 'last5', 'receipt', 'receiptTitle', 'taxId', 'paperReceipt', 'disclose', 'agree'];
+  var PAYLOAD_FIELDS = ['purpose', 'donorName', 'phone', 'email', 'childClass', 'childSeat', 'childName', 'amount', 'last5', 'receipt', 'receiptTitle', 'taxId', 'paperReceipt', 'disclose', 'agree', 'note'];
   var SUBMIT_TIMEOUT_MS = 30000;
   var MSG_NETWORK = '網路連線不穩，資料尚未送出，請稍後再試。如持續失敗請聯絡家長會。';
   var submitBtn = form.querySelector('button[type="submit"]');
@@ -2145,6 +2153,8 @@
     $('sumLast5').textContent = payload.last5 || '—';
     $('sumPurpose').textContent = purposeLabel(payload.purpose) || '—';
     $('sumPaper').textContent = payload.paperReceipt || '—';
+    $('sumNote').textContent = payload.note || '—';
+    $('sumNoteRow').hidden = !payload.note;
     $('sumEmail').textContent = payload.email || '—'; // textContent 不解析 HTML，等同跳脫
     var idText = id == null ? '' : String(id).trim();
     $('sumId').textContent = idText || '—';
@@ -2163,6 +2173,7 @@
     fields.forEach(clearField);
     formErr.hidden = true;
     syncReceipt();
+    syncNote();
     renderPurposeOptions();
     proofName.textContent = '尚未選擇檔案';
     presetNote.hidden = true;
@@ -2286,7 +2297,15 @@
   /* ---------- 「我要捐這項」：帶入用途（表單內與第一步都可改選） ---------- */
   var lastPick = null;
   var presetText = $('presetText'), purposeMini = $('purposeMini'), purposeHint = $('purposeHint');
+  function syncNote() {
+    var nf = document.getElementById('noteField'), nt = document.getElementById('note');
+    if (!nf || !nt) return;
+    var on = purposeSel.value === '校園共好基金';
+    nf.hidden = !on;
+    nt.disabled = !on;
+  }
   function syncPurposeUI(show) {
+    syncNote();
     presetText.textContent = purposeSel.value ? '已帶入「' + purposeLabel(purposeSel.value) + '」，下方表單可隨時改選。' : '還沒選擇捐款用途，請在這裡或下方表單選一項。';
     if (purposeMini.value !== purposeSel.value) purposeMini.value = purposeSel.value;
     purposeMini.classList.toggle('is-empty', !purposeSel.value);
